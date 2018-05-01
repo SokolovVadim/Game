@@ -19,12 +19,14 @@ enum ENGINE
 {
 	HEALTH = 100,
 	SPEED = 0,
-	POSITIONX = 495,
-	POSITIONY = 310
+	XPOS = 495,
+	YPOS = 310,
+	SETDIR = 10
 };
 
 
 #include "Engine.h"
+#include "Map.h"
 
 std::ofstream fout("LOG.txt");
 
