@@ -1,20 +1,35 @@
 #pragma once
+#include <iostream>
+#include <fstream>
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
+#include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Window.hpp>
-#include <SFML/System.hpp>
-#include <iostream>
 #include <vector>
-
-void DrawTexture(float x, float y);
-void DrawFunc();
-void UseThread();
-void DrawWindow();
-void DrawPict();
+#include <Windows.h>
+#include <Mmsystem.h>
+#pragma comment(lib, "winmm.lib")
 
 
-enum POSITIONS
+
+
+
+
+enum ENGINE
 {
-	XCOORD = 100,
-	YCOORD = 100
+	HEALTH = 100,
+	SPEED = 0,
+	POSITIONX = 495,
+	POSITIONY = 310
 };
+
+
+#include "Engine.h"
+
+std::ofstream fout("LOG.txt");
+
+#define asserted || fout << "WARNING! ASSERT WAS CALLED ON LINE %d\n" << __LINE__;
+
+
+void PlayKotik();
+
