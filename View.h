@@ -26,12 +26,12 @@ sf::View MyView::GetCoordView(float xcoord, float ycoord)
 
 	if (xcoord < 320)
 		cur_x = 320;
-	if (ycoord < 140)
-		cur_y = 140;
-	/*if (xcoord > 320)
-		cur_x = 320;*/
-	/*if (ycoord > 240)
-		cur_y = 240;*/
+	if (ycoord < 240)
+		cur_y = 240;
+	if (xcoord > 736)
+		cur_x = 736;
+	if (ycoord > 464)
+		cur_y = 464;
 
 
 
