@@ -10,17 +10,19 @@ void PlayKotik()
 }
 
 
-
-
-
-
-
 int main()
 {
 
 	PlayKotik();
 
-	sf::RenderWindow window(sf::VideoMode(1080, 720), "OSM");
+	sf::RenderWindow window(sf::VideoMode(W, H), "OSM");
+
+	MyView View;
+	
+
+	View.view.reset(sf::FloatRect(XPOS - SETCAMX/2, YPOS - SETCAMY/2, SETCAMX, SETCAMY));
+
+
 
 	sf::Image map_image;
 	if (!map_image.loadFromFile("images/map.png"))
@@ -32,15 +34,17 @@ int main()
 	sf::Sprite map_sprite;
 	map_sprite.setTexture(map);
 
-	Engine Hero("sheet2.png", HEALTH, 0, 200, 90, 100);
+	Engine Hero("sheet2.png", HEALTH, 0, SETBEGIN, HEROX, HEROY);
 
 
 
 
-	sf::Vector2f VLeft	(float(-0.1),  float( 0.0 ));
+	/*sf::Vector2f VLeft	(float(-0.1),  float( 0.0 ));
 	sf::Vector2f VRight	(float(0.1),   float( 0.0 ));
 	sf::Vector2f VUp	(float(0),	   float( -0.1));
-	sf::Vector2f VDown	(float(0),	   float( 0.1 ));
+	sf::Vector2f VDown	(float(0),	   float( 0.1 ));*/
+
+
 	double CurFrame(0.0);
 	sf::Clock clock;
 	while (window.isOpen())
@@ -56,96 +60,78 @@ int main()
 			if (event.type == sf::Event::Closed)
 				window.close();
 		}
-
-
-		/*VLeft.x *= time;
-		VLeft.y *= time;
-		VRight.x *= time;
-		VRight.y *= time;
-		VUp.x *= time;
-		VUp.y *= time;
-		VDown.x *= time;
-		VDown.y *= time;*/
-
-
-		
-
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
 		{
-			Hero.Dir = 0;
-			Hero.Speed = 0.2;
+			Hero.SetDir(0);
+			Hero.SetSpeed(Hero.n_speed);
 			CurFrame += 0.0052 * time;
 			if (CurFrame > 9)
 			{
 				CurFrame -= 9;
 			}
-			Hero.sprite.setTextureRect(sf::IntRect(93 * int(CurFrame), 100, 93, 100));
+			Hero.sprite.setTextureRect(sf::IntRect(HEROX * int(CurFrame), HEROY, HEROX, HEROY));
+			View.GetCoordView(Hero.GetCoordX(), Hero.GetCoordY());
 		}
-
-
-
 		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
 		{
-			Hero.Dir = 1;
-			Hero.Speed = 0.2;
+			Hero.SetDir(1);
+			Hero.SetSpeed(Hero.n_speed);
 			CurFrame += 0.0052 * time;
 			if (CurFrame > 9)
 			{
 				CurFrame -= 9;
 			}
-			Hero.sprite.setTextureRect(sf::IntRect(93 * int(CurFrame), 300, 93, 100));
-		}
-
-		
+			Hero.sprite.setTextureRect(sf::IntRect(HEROX * int(CurFrame), 3 * HEROY, HEROX, HEROY));
+			View.GetCoordView(Hero.GetCoordX(), Hero.GetCoordY());
+		}		
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
 		{
-			Hero.Dir = 2;
-			Hero.Speed = 0.2;
+			Hero.SetDir(2);
+			Hero.SetSpeed(Hero.n_speed);
 			CurFrame += 0.0052 * time;
 			std::cout << "CurFr: " << CurFrame << std::endl;
 			if (CurFrame > 9)
 			{
 			CurFrame -= 9;
 			}
-			Hero.sprite.setTextureRect(sf::IntRect(93 * int(CurFrame), 0, 93, 100));
-
+			Hero.sprite.setTextureRect(sf::IntRect(93 * int(CurFrame), 0, HEROX, HEROY));
+			View.GetCoordView(Hero.GetCoordX(), Hero.GetCoordY());
 		}
 
 
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
 		{
-			Hero.Dir = 3;
-			Hero.Speed = 0.2;
+			Hero.SetDir(3);
+			Hero.SetSpeed(Hero.n_speed);
 			CurFrame += 0.0052 * time;
 			std::cout << "CurFr: " << CurFrame << std::endl;
 			if (CurFrame > 9)
 			{
 				CurFrame -= 9;
 			}
-			Hero.sprite.setTextureRect(sf::IntRect(93 * int(CurFrame), 200, 93, 100));
-
+			Hero.sprite.setTextureRect(sf::IntRect(93 * int(CurFrame), 2 * HEROY, HEROX, HEROY));
+			View.GetCoordView(Hero.GetCoordX(), Hero.GetCoordY());
 		}
 
-	
-
 		Hero.Update(time);
-
-		window.clear();
+		View.ScrollMap(time);
+		window.setView(View.view);
+		window.clear(sf::Color(175, 140, 90, 0));
 
 		for (int i(0); i < HEIGHT; ++i)
 		{
 			for (int j(0); j < WIDTH; ++j)
 			{
 				if (TileMap[i][j] == ' ')
-					map_sprite.setTextureRect(sf::IntRect(0, 0, 48, 64));
+					map_sprite.setTextureRect(sf::IntRect(0, 0, WGRASS, HGRASS));
 				if (TileMap[i][j] == '0')
-					map_sprite.setTextureRect(sf::IntRect(48, 0, 48, 64));
+					map_sprite.setTextureRect(sf::IntRect(WGRASS, 0, WGRASS, HGRASS));
 				if (TileMap[i][j] == 's')
-					map_sprite.setTextureRect(sf::IntRect(96, 0, 48, 64));
+					map_sprite.setTextureRect(sf::IntRect(WGRASS * 2, 0, WGRASS, HGRASS));
 				if (TileMap[i][j] == 'w')
-					map_sprite.setTextureRect(sf::IntRect(134, 0, 48, 64));
+					map_sprite.setTextureRect(sf::IntRect(WGRASS * 3 + 4, 0, WGRASS, HGRASS));
 
-				map_sprite.setPosition(j * 48, i * 64);
+				map_sprite.setPosition(j * WGRASS, i * HGRASS);
 				window.draw(map_sprite);
 			}
 		}

@@ -1,12 +1,14 @@
 #pragma once
-//#include "Game.h"
 
 class Engine
 {
 private:
-
+	int Dir;
+	float Xcoord;
+	float Ycoord;
 	double Heatpoints; 
-	//double Speed;
+	double Speed = 0;
+	
 	//double Xcoord;
 	//double Ycoord;
 	double Width;
@@ -22,20 +24,22 @@ private:
 
 
 public:
-	int Dir;
 	double dx;
 	double dy;
-	double Speed =0;
-	double Xcoord;
-	double Ycoord;
+	
+	const double n_speed = 0.2;
 	sf::Sprite sprite;
 
-	Engine(std::string Str, double HP, double x, double y, double w, double h);
+	Engine(std::string Str, double HP, float x, float y, double w, double h);
 	~Engine()
 	{
 		std::cout << "Engine Destructor was called!" << std::endl;
 	}
 	bool Update(float time);
+	float GetCoordX();
+	float GetCoordY();
+	void SetDir(int dir);
+	void SetSpeed(double speed);
 	//bool		DrawEngine			(Engine* engine);
 	//bool		CollideEngine		(Engine* engine);
 	
@@ -44,25 +48,36 @@ public:
 
 };
 
-#define SPEED(sign)\
-float(time * 0.1 * sign)
+
+
+float Engine::GetCoordX()
+{
+	return Engine::Xcoord;
+}
+
+
+float Engine::GetCoordY()
+{
+	return Engine::Ycoord;
+}
 
 
 
-Engine::Engine(std::string file, double HP, double x, double y, double w, double h) :
+
+Engine::Engine(std::string file, double HP, float x, float y, double w, double h) :
 	Heatpoints(HP),
 	Width(w),
 	Height(h),
 	File(file)
 {
 	Speed = 0;
-	Dir = SETDIR;
-	Xcoord = x, Ycoord = y;
-	image.loadFromFile("Images/" + File);
-	texture.loadFromImage(image);
-	sprite.setTexture(texture);
-	sprite.setTextureRect(sf::IntRect(x, y, Width, Height));
-	sprite.setPosition(XPOS, YPOS);
+	Engine::Dir = SETDIR;
+	Xcoord = XPOS, Ycoord = YPOS;
+	image.loadFromFile           ("Images/" + File);
+	texture.loadFromImage		 (image);
+	sprite.setTexture		     (texture);
+	sprite.setTextureRect	     (sf::IntRect(x, y, Width, Height));
+	sprite.setPosition           (XPOS, YPOS);
 	
 	std::cout << "Engine constructor was called!" << std::endl;
 }
@@ -102,4 +117,13 @@ bool Engine::Update(float time)
 	sprite.setPosition(Xcoord, Ycoord);
 
 	return true;
+}
+
+void Engine::SetDir(int dir)
+{
+	Engine::Dir = dir;
+}
+void Engine::SetSpeed(double speed)
+{
+	Engine::Speed = speed;
 }
