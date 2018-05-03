@@ -8,6 +8,14 @@ enum VIEW
 	SETCAMY = 480
 };
 
+enum WALLS
+{
+	LEFTWALL = 320,
+	UPWALL = 240,
+	RIGHTWALL = W - LEFTWALL,
+	DOWNWALL = H - UPWALL
+};
+
 class MyView
 {
 public:
@@ -24,14 +32,14 @@ sf::View MyView::GetCoordView(float xcoord, float ycoord)
 	float cur_x = xcoord;
 	float cur_y = ycoord;
 
-	if (xcoord < 320)
-		cur_x = 320;
-	if (ycoord < 240)
-		cur_y = 240;
-	if (xcoord > 736)
-		cur_x = 736;
-	if (ycoord > 464)
-		cur_y = 464;
+	if (xcoord < LEFTWALL)
+		cur_x = LEFTWALL;
+	if (ycoord < UPWALL)
+		cur_y = UPWALL;
+	if (xcoord > RIGHTWALL)
+		cur_x = RIGHTWALL;
+	if (ycoord > DOWNWALL)
+		cur_y = DOWNWALL;
 
 
 

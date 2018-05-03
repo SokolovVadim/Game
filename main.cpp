@@ -5,15 +5,16 @@
 
 void PlayKotik()
 {
-	PlaySoundA("laba.wav", NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
-	//PlaySoundA("vapa.wav", NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
+	PlaySoundA("Music/laba.wav", NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
+	PlaySoundA("Music/vapa.wav", NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
+	PlaySoundA("Music/hentai.wav", NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
 }
 
 
 int main()
 {
 
-	PlayKotik();
+	//PlayKotik();
 
 	sf::RenderWindow window(sf::VideoMode(W, H), "OSM");
 
@@ -63,7 +64,10 @@ int main()
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
 		{
 			Hero.SetDir(0);
-			Hero.SetSpeed(Hero.n_speed);
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift))
+				Hero.SetSpeed(Hero.n_speed * 2);
+			else
+				Hero.SetSpeed(Hero.n_speed);
 			CurFrame += 0.0052 * time;
 			if (CurFrame > 9)
 			{
@@ -75,7 +79,10 @@ int main()
 		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
 		{
 			Hero.SetDir(1);
-			Hero.SetSpeed(Hero.n_speed);
+			if(sf::Keyboard::isKeyPressed(sf::Keyboard::LShift))
+				Hero.SetSpeed(Hero.n_speed * 2);
+			else
+				Hero.SetSpeed(Hero.n_speed);
 			CurFrame += 0.0052 * time;
 			if (CurFrame > 9)
 			{
@@ -83,11 +90,15 @@ int main()
 			}
 			Hero.sprite.setTextureRect(sf::IntRect(HEROX * int(CurFrame), 3 * HEROY, HEROX, HEROY));
 			View.GetCoordView(Hero.GetCoordX(), Hero.GetCoordY());
-		}		
+		}	
+		
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
 		{
 			Hero.SetDir(2);
-			Hero.SetSpeed(Hero.n_speed);
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift))
+				Hero.SetSpeed(Hero.n_speed * 2);
+			else
+				Hero.SetSpeed(Hero.n_speed);
 			CurFrame += 0.0052 * time;
 			std::cout << "CurFr: " << CurFrame << std::endl;
 			if (CurFrame > 9)
@@ -102,7 +113,10 @@ int main()
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
 		{
 			Hero.SetDir(3);
-			Hero.SetSpeed(Hero.n_speed);
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift))
+				Hero.SetSpeed(Hero.n_speed * 2);
+			else
+				Hero.SetSpeed(Hero.n_speed);
 			CurFrame += 0.0052 * time;
 			std::cout << "CurFr: " << CurFrame << std::endl;
 			if (CurFrame > 9)
@@ -130,6 +144,8 @@ int main()
 					map_sprite.setTextureRect(sf::IntRect(WGRASS * 2, 0, WGRASS, HGRASS));
 				if (TileMap[i][j] == 'w')
 					map_sprite.setTextureRect(sf::IntRect(WGRASS * 3 + 4, 0, WGRASS, HGRASS));
+				if (TileMap[i][j] == 'R')
+					map_sprite.setTextureRect(sf::IntRect(WGRASS * 4 + 5, 0, WGRASS, HGRASS));
 
 				map_sprite.setPosition(j * WGRASS, i * HGRASS);
 				window.draw(map_sprite);

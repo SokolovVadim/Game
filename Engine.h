@@ -40,6 +40,7 @@ public:
 	float GetCoordY();
 	void SetDir(int dir);
 	void SetSpeed(double speed);
+	void InterractMap();
 	//bool		DrawEngine			(Engine* engine);
 	//bool		CollideEngine		(Engine* engine);
 	
@@ -47,6 +48,38 @@ public:
 
 
 };
+
+void Engine::InterractMap()
+{
+	for (int i(Ycoord / HGRASS); i < (Ycoord + Height)/HGRASS; i++)
+	{
+		for (int j(Xcoord / WGRASS); j < (Xcoord + Width) / WGRASS; j++)
+		{
+			if ((i >= 0) && (i < HEIGHT) && (j >= 0) && (j < WIDTH))
+			{
+				if (TileMap[i][j] == '0')
+				{
+					if (dy > 0)
+						Ycoord = i*HGRASS - Height;
+					if (dy < 0)
+						Ycoord = i*HGRASS + Height/2 + 18;
+					if (dx > 0)
+						Xcoord = j*WGRASS - Width;
+					if (dx < 0)
+						Xcoord = j*WGRASS + Width/2 + 1;
+
+				}
+					
+				
+			}
+			else
+			{
+				std::cout << "i = " << i << std::ends << "j = " << j << std::endl;
+
+			}
+		}
+	}
+}
 
 
 
@@ -115,6 +148,7 @@ bool Engine::Update(float time)
 
 	Speed = 0;
 	sprite.setPosition(Xcoord, Ycoord);
+	InterractMap();
 
 	return true;
 }
