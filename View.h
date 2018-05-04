@@ -21,7 +21,7 @@ class MyView
 public:
 	sf::View view;
 	sf::View GetCoordView(float xcoord, float ycoord);
-	sf::View ScrollMap(float time);
+	sf::View ScrollMap(sf::Int64 time);
 };
 
 
@@ -48,16 +48,16 @@ sf::View MyView::GetCoordView(float xcoord, float ycoord)
 	return view;
 }
 
-sf::View MyView::ScrollMap(float time)
+sf::View MyView::ScrollMap(sf::Int64 time)
 {
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
-		view.move(-0.1*time, 0);
+		view.move(-0.1f*time, 0);
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
-		view.move(0.1*time, 0);
+		view.move(0.1f*time, 0);
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
-		view.move(0, -0.1*time);
+		view.move(0, -0.1f*time);
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
-		view.move(0, 0.1*time);
+		view.move(0, 0.1f*time);
 	return view;
 }
 

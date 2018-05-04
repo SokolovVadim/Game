@@ -11,6 +11,9 @@
 #pragma comment(lib, "winmm.lib")
 
 
+std::ofstream fout("LOG.txt");
+
+
 
 enum MAP {
 	HEIGHT = 11,
@@ -28,14 +31,14 @@ enum SCREEN
 
 enum ENGINE
 {
-	HEALTH = 100,
-	BSPEED = 0,
-	XPOS = W/2,
-	YPOS = H/2,
-	SETDIR = 10,
-	HEROX = 95,
-	HEROY = 100,
-	SETBEGIN = 200
+	HEALTH   =	 100,
+	BSPEED   =	 0,
+	XPOS     =	 W/2,
+	YPOS     =	 H/2,
+	SETDIR   =	 10,
+	HEROX    =	 95,
+	HEROY    =	 100,
+	SETBEGIN =	 200
 };
 
 
@@ -46,7 +49,6 @@ enum ENGINE
 
 
 
-std::ofstream fout("LOG.txt");
 
 #define asserted || fout << "WARNING! ASSERT WAS CALLED ON LINE %d\n" << __LINE__;
 

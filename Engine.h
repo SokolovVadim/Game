@@ -6,13 +6,13 @@ private:
 	int Dir;
 	float Xcoord;
 	float Ycoord;
-	double Heatpoints; 
-	double Speed = 0;
+	float Heatpoints; 
+	float Speed = 0;
 	
-	//double Xcoord;
-	//double Ycoord;
-	double Width;
-	double Height;
+	//float Xcoord;
+	//float Ycoord;
+	float Width;
+	float Height;
 	sf::Image image;
 	sf::Texture texture;
 	//sf::Sprite sprite;
@@ -24,36 +24,34 @@ private:
 
 
 public:
-	double dx;
-	double dy;
+	float dx;
+	float dy;
 	
-	const double n_speed = 0.2;
+	const float n_speed = 0.2f;
 	sf::Sprite sprite;
 
-	Engine(std::string Str, double HP, float x, float y, double w, double h);
-	~Engine()
-	{
-		std::cout << "Engine Destructor was called!" << std::endl;
-	}
-	bool Update(float time);
+	Engine(std::string Str, float HP, float x, float y, float w, float h);
+	~Engine();
+	bool Update(sf::Int64 time);
 	float GetCoordX();
 	float GetCoordY();
 	void SetDir(int dir);
-	void SetSpeed(double speed);
+	void SetSpeed(float speed);
 	void InterractMap();
 	//bool		DrawEngine			(Engine* engine);
 	//bool		CollideEngine		(Engine* engine);
-	
-
-
-
 };
+
+Engine::~Engine()
+{
+	std::cout << "Engine Destructor was called!" << std::endl;
+}
 
 void Engine::InterractMap()
 {
-	for (int i(Ycoord / HGRASS); i < (Ycoord + Height)/HGRASS; i++)
+	for (int i(int(Ycoord / HGRASS)); i < (Ycoord + Height)/HGRASS; i++)
 	{
-		for (int j(Xcoord / WGRASS); j < (Xcoord + Width) / WGRASS; j++)
+		for (int j(int(Xcoord / WGRASS)); j < (Xcoord + Width) / WGRASS; j++)
 		{
 			if ((i >= 0) && (i < HEIGHT) && (j >= 0) && (j < WIDTH))
 			{
@@ -97,7 +95,7 @@ float Engine::GetCoordY()
 
 
 
-Engine::Engine(std::string file, double HP, float x, float y, double w, double h) :
+Engine::Engine(std::string file, float HP, float x, float y, float w, float h) :
 	Heatpoints(HP),
 	Width(w),
 	Height(h),
@@ -109,14 +107,14 @@ Engine::Engine(std::string file, double HP, float x, float y, double w, double h
 	image.loadFromFile           ("Images/" + File);
 	texture.loadFromImage		 (image);
 	sprite.setTexture		     (texture);
-	sprite.setTextureRect	     (sf::IntRect(x, y, Width, Height));
+	sprite.setTextureRect	     (sf::IntRect(int(x), int(y), int(Width), int(Height)));
 	sprite.setPosition           (XPOS, YPOS);
 	
 	std::cout << "Engine constructor was called!" << std::endl;
 }
 
 
-bool Engine::Update(float time)
+bool Engine::Update(sf::Int64 time)
 {
 	switch (Dir)
 	{
@@ -157,7 +155,7 @@ void Engine::SetDir(int dir)
 {
 	Engine::Dir = dir;
 }
-void Engine::SetSpeed(double speed)
+void Engine::SetSpeed(float speed)
 {
 	Engine::Speed = speed;
 }
