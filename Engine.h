@@ -8,14 +8,11 @@ private:
 	float Ycoord;
 	float Heatpoints; 
 	float Speed = 0;
-	
-	//float Xcoord;
-	//float Ycoord;
 	float Width;
 	float Height;
 	sf::Image image;
 	sf::Texture texture;
-	//sf::Sprite sprite;
+	sf::Vertex vertex;
 
 	
 	sf::Vector2f Posengine;
@@ -38,8 +35,6 @@ public:
 	void SetDir(int dir);
 	void SetSpeed(float speed);
 	void InterractMap();
-	//bool		DrawEngine			(Engine* engine);
-	//bool		CollideEngine		(Engine* engine);
 };
 
 Engine::~Engine()
@@ -67,13 +62,9 @@ void Engine::InterractMap()
 						Xcoord = j*WGRASS + Width/2 + 1;
 
 				}
-					
-				
 			}
-			else
-			{
+			else {
 				std::cout << "i = " << i << std::ends << "j = " << j << std::endl;
-
 			}
 		}
 	}
@@ -96,11 +87,12 @@ float Engine::GetCoordY()
 
 
 Engine::Engine(std::string file, float HP, float x, float y, float w, float h) :
-	Heatpoints(HP),
-	Width(w),
-	Height(h),
-	File(file)
+	Heatpoints	(HP),
+	Width		(w),
+	Height		(h),
+	File		(file)
 {
+	
 	Speed = 0;
 	Engine::Dir = SETDIR;
 	Xcoord = XPOS, Ycoord = YPOS;

@@ -8,17 +8,17 @@ class Map
 {
 
 	sf::String TileMap[HEIGHT] = {
-		"0000000000000000000000",
-		"0                    0",
-		"0               R    0",
-		"0                    0",
-		"0     R              0",
-		"0                    0",
-		"0       wwwwwwww     0",
-		"0      wwwWwwwwww    0",
-		"0       wwwwwwww     0",
-		"0                    0",
-		"0000000000000000000000",
+		"00000000000000000000000000000000",
+		"0  BBBB                        0",
+		"0         P     R              0",
+		"0                              0",
+		"0     R       P                0",
+		"0                              0",
+		"0       wwwwwwwNwwwww          0",
+		"0      wwwwwwwwwNwNww          0",
+		"0LL     wwwwwwwwwNwNw          0",
+		"0LLL   wwwwwwwwwwwwwR          0",
+		"00000000000000000000000000000000",
 	};
 
 	sf::Image			map_image;
@@ -67,6 +67,26 @@ void Map::DrawMap(sf::RenderWindow & window)
 			map_sprite.setTextureRect(sf::IntRect(WGRASS * 4 + 5, 0, WGRASS, HGRASS)); 
 			break;
 		}
+		case 'P':
+		{
+			map_sprite.setTextureRect(sf::IntRect(WGRASS * 5 + 5, 0, WGRASS, HGRASS));
+			break;
+		}
+		case 'N':
+		{
+			map_sprite.setTextureRect(sf::IntRect(WGRASS * 6 + 6, 0, WGRASS, HGRASS));
+			break;
+		}
+		case 'B':
+		{
+			map_sprite.setTextureRect(sf::IntRect(WGRASS * 7 + 6, 0, WGRASS, HGRASS));
+			break;
+		}
+		case 'L':
+		{
+			map_sprite.setTextureRect(sf::IntRect(0, HGRASS, WGRASS, HGRASS));
+			break;
+		}
 		}
 
 		map_sprite.setPosition(float(j * WGRASS), float(i * HGRASS));
@@ -77,13 +97,13 @@ void Map::DrawMap(sf::RenderWindow & window)
 
 
 Map::Map(sf::Image & image, sf::Texture & texture, sf::Sprite & sprite):
-	map_image(image),
-	map(texture),
-	map_sprite(sprite)
+	map_image	(image),
+	map			(texture),
+	map_sprite	(sprite)
 {
-	LoadIm();
-	LoadMap();
-	SetSprite();
+	LoadIm		();
+	LoadMap		();
+	SetSprite	();
 	std::cout << "Map was constructed!" << std::endl;
 	fout << "Map was constructed!" << std::endl;
 }
@@ -99,19 +119,15 @@ void Map::SetSprite()
 
 void Map::LoadMap()
 {
-	if (!map.loadFromImage(map_image))
-	{
-		std::cout << "Map was not loaded from Image!" << std::endl;
-		fout << "Map was not loaded from Image!" << std::endl;
+	if (!map.loadFromImage(map_image)) {
+		fout	  << "Map was not loaded from Image!" << std::endl;
 	}
 }
 
 
 void Map::LoadIm()
 {
-	if (!map_image.loadFromFile("images/map.png"))
-	{
-		std::cout << "Map was not loaded from file!" << std::endl;
+	if (!map_image.loadFromFile("images/map.png")) {
 		fout << "Map was not loaded from file!" << std::endl;
 	}
 }
@@ -119,17 +135,15 @@ void Map::LoadIm()
 
 
 sf::String TileMap[HEIGHT] = {
-	"0000000000000000000000",
-	"0                    0",
-	"0               R    0",
-	"0                    0",
-	"0     R              0",
-	"0                    0",
-	"0       wwwwwwww     0",
-	"0      wwwWwwwwww    0",
-	"0       wwwwwwww     0",
-	"0                    0",
-	"0000000000000000000000",
+	"00000000000000000000000000000000",
+	"0  BBBB                        0",
+	"0         P     R              0",
+	"0                              0",
+	"0     R       P                0",
+	"0                              0",
+	"0       wwwwwwwNwwwww          0",
+	"0      wwwwwwwwwNwNww          0",
+	"0LL     wwwwwwwwwNwNw          0",
+	"0LLL   wwwwwwwwwwwwwR          0",
+	"00000000000000000000000000000000",
 };
-
-
