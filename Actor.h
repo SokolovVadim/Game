@@ -4,15 +4,22 @@ class Actor
 {
 
 private:
-	int Dir;
-	float Xcoord;
-	float Ycoord;
-	float Heatpoints;
-	float Speed		= 0;
-	float Width;
-	float Height;
-	unsigned int Score;
-	float Air;
+
+	int				Dir;
+
+	unsigned int	health;
+	unsigned int	Score;
+
+	float			Xcoord;
+	float			Ycoord;
+	float			Heatpoints;
+	float			Speed;
+	float			Width;
+	float			Height;
+	float			Air;
+
+	bool			Alive;
+
 	sf::Image		Image;
 	sf::Texture		Texture;
 	sf::Vertex		vertex;
@@ -23,25 +30,24 @@ private:
 	//Map MyMap;
 
 
-
 public:
-	float dx;
-	float dy;
+	float			dx;
+	float			dy;
 	
-	const float n_speed = 0.2f;
-	sf::Sprite sprite;
+	const float		n_speed = 0.2f;
+	sf::Sprite		sprite;
 
-	Actor(std::string Str, float HP, float x, float y, float w, float h);
+	Actor							(std::string Str, float HP, float x, float y, float w, float h);
 	~Actor();
-	bool Update(sf::Int64 time);
-	float GetCoordX() const;
-	float GetCoordY() const;
-	void SetDir(int dir);
-	void SetSpeed(float speed);
-	void InterractMap(sf::Int64 time);
-	unsigned int GetScore();
-	void PushScore(std::ostringstream & ScoreString);
-	void GetAir(std::ostringstream & ScoreAir, sf::Int64 time);
+	bool			Update			(sf::Int64 time);
+	float			GetCoordX		() const;
+	float			GetCoordY		() const;
+	void			SetDir			(int dir);
+	void			SetSpeed		(float speed);
+	void			InterractMap	(sf::Int64 time);
+	unsigned int	GetScore		();
+	void			PushScore		(std::ostringstream & ScoreString);
+	void			GetAir			(std::ostringstream & ScoreAir, sf::Int64 time);
 };
 
 
@@ -131,6 +137,8 @@ float Actor::GetCoordY() const {
 
 Actor::Actor(std::string file, float HP, float x, float y, float w, float h) :
 	Heatpoints	(HP),
+	Speed		(0),
+	Alive       (true),
 	Score       (0),
 	Air         (10),
 	Width		(w),
