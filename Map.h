@@ -2,21 +2,19 @@
 
 
 
-
-
 class Map
 {
-
+	//sf::String TileMap;
 	sf::String TileMap[HEIGHT] = {
 		"00000000000000000000000000000000",
-		"0  BBBB                        0",
-		"0         P     R              0",
-		"0                              0",
-		"0     R       P                0",
+		"0  BBBB      0                 0",
+		"0         P  0  R              0",
+		"0      0000000                 0",
+		"0     R       P         H      0",
 		"0                              0",
 		"0       wwwwwwwNwwwww          0",
-		"0      wwwwwwwwwNwNww          0",
-		"0LL     wwwwwwwwwNwNw          0",
+		"0      wwwwwwwwwNwNww   00000000",
+		"0LL     wwwwwwwwwNwNw      D   0",
 		"0LLL   wwwwwwwwwwwwwR          0",
 		"00000000000000000000000000000000",
 	};
@@ -29,10 +27,17 @@ public:
 	void LoadMap		();
 	void SetSprite		();
 	void DrawMap        (sf::RenderWindow & window);
+	//sf::String InterMap(const Map & map);
 	Map(sf::Image & image, sf::Texture & texture, sf::Sprite & sprite);
+	~Map();
 
 
 };
+
+//sf::String Map::InterMap(const Map & map)
+//{
+//	return map.TileMap;
+//}
 
 
 
@@ -87,6 +92,14 @@ void Map::DrawMap(sf::RenderWindow & window)
 			map_sprite.setTextureRect(sf::IntRect(0, HGRASS, WGRASS, HGRASS));
 			break;
 		}
+		case 'H':
+		{
+			map_sprite.setTextureRect(sf::IntRect(WGRASS + 1, HGRASS, WGRASS, HGRASS));
+		}
+		case 'D':
+		{
+			map_sprite.setTextureRect(sf::IntRect(WGRASS * 3 + 1, HGRASS, WGRASS, HGRASS));
+		}
 		}
 
 		map_sprite.setPosition(float(j * WGRASS), float(i * HGRASS));
@@ -101,6 +114,7 @@ Map::Map(sf::Image & image, sf::Texture & texture, sf::Sprite & sprite):
 	map			(texture),
 	map_sprite	(sprite)
 {
+	TileMap;
 	LoadIm		();
 	LoadMap		();
 	SetSprite	();
@@ -108,7 +122,10 @@ Map::Map(sf::Image & image, sf::Texture & texture, sf::Sprite & sprite):
 	fout << "Map was constructed!" << std::endl;
 }
 
-
+Map::~Map()
+{
+	fout << "Map was destructed!" << std::endl;
+}
 
 void Map::SetSprite()
 {
@@ -133,17 +150,16 @@ void Map::LoadIm()
 }
 
 
-
 sf::String TileMap[HEIGHT] = {
 	"00000000000000000000000000000000",
-	"0  BBBB                        0",
-	"0         P     R              0",
-	"0                              0",
-	"0     R       P                0",
+	"0  BBBB      0                 0",
+	"0         P  0  R              0",
+	"0      0000000                 0",
+	"0     R       P         H      0",
 	"0                              0",
 	"0       wwwwwwwNwwwww          0",
-	"0      wwwwwwwwwNwNww          0",
-	"0LL     wwwwwwwwwNwNw          0",
+	"0      wwwwwwwwwNwNww   00000000",
+	"0LL     wwwwwwwwwNwNw      D   0",
 	"0LLL   wwwwwwwwwwwwwR          0",
 	"00000000000000000000000000000000",
 };

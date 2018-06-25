@@ -7,20 +7,18 @@
 #include <SFML/Window.hpp>
 #include <vector>
 #include <Windows.h>
+#include <sstream>
 #include <Mmsystem.h>
 #pragma comment(lib, "winmm.lib")
 
 
 std::ofstream fout("LOG.txt");
 
-
-
 enum MAP {
 	HEIGHT = 11,
 	WIDTH  = 32,
 	WGRASS = 48,
 	HGRASS = 64
-
 };
 
 enum SCREEN {
@@ -36,19 +34,17 @@ enum ENGINE {
 	SETDIR   =	 10,
 	HEROX    =	 95,
 	HEROY    =	 100,
-	SETBEGIN =	 200
+	SETBEGIN =	 200,
+	MAXSCORE =   3
 };
 
 
 #include "Map.h"
-#include "Engine.h"
+#include "Actor.h"
 #include "View.h"
-
-
 
 
 #define asserted || fout << "WARNING! ASSERT WAS CALLED ON LINE %d\n" << __LINE__;
 
 
 void PlayKotik();
-
