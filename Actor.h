@@ -7,12 +7,12 @@ private:
 
 	int				Dir;
 
-	unsigned int	health;
 	unsigned int	Score;
+	float	Heatpoints;
 
 	float			Xcoord;
 	float			Ycoord;
-	float			Heatpoints;
+
 	float			Speed;
 	float			Width;
 	float			Height;
@@ -37,18 +37,25 @@ public:
 	const float		n_speed = 0.2f;
 	sf::Sprite		sprite;
 
-	Actor							(std::string Str, float HP, float x, float y, float w, float h);
+	Actor							(std::string Str, unsigned int HP, float x, float y, float w, float h);
 	~Actor();
 	bool			Update			(sf::Int64 time);
+	bool GetAlive();
 	float			GetCoordX		() const;
 	float			GetCoordY		() const;
 	void			SetDir			(int dir);
 	void			SetSpeed		(float speed);
 	void			InterractMap	(sf::Int64 time);
 	unsigned int	GetScore		();
+	void			SetHP(std::ostringstream & HeatPoints);
 	void			PushScore		(std::ostringstream & ScoreString);
 	void			GetAir			(std::ostringstream & ScoreAir, sf::Int64 time);
 };
+
+void Actor::SetHP(std::ostringstream & HeatPoints)
+{
+	HeatPoints << int(Actor::Heatpoints);
+}
 
 
 void Actor::PushScore(std::ostringstream & ScoreString)
@@ -61,9 +68,15 @@ void Actor::GetAir(std::ostringstream & ScoreAir, sf::Int64 time)
 	ScoreAir << int(Actor::Air);
 }
 
+bool Actor::GetAlive()
+{
+	return Actor::Alive;
+}
+
 
 Actor::~Actor()
 {
+	fout << "Finished HP = " << Heatpoints << std::endl;
 	std::cout << "Actor Destructor was called!" << std::endl;
 }
 
@@ -98,13 +111,38 @@ void Actor::InterractMap(sf::Int64 time)
 				}
 				if (TileMap[i][j] == 'w')
 				{
-					fout << "Water on " << i << " " << j << "time: " << time << std::endl;
-					Air -= float(time)/5000;
+					if (Air <= 0) {
+						Heatpoints -= float(time) / 5000;
+						Air = 0;
+					}else
+						Air -= float(time) / 5000;
+					//fout << "Water on " << i << " " << j << "time: " << time << std::endl;
+					
 				}
 				else
 				{
 					if (Air <= 10)
 						Air += float(time)/5000;
+				}
+				if (TileMap[i][j] == 'H')
+				{
+					if(Heatpoints < 100)
+						Heatpoints += 10;
+					TileMap[i][j] = ' ';
+					fout << "Take HP bonus. Now HP = " << Heatpoints << std::endl;
+				}
+				if (TileMap[i][j] == 'D')
+				{
+					if (Heatpoints >= 30)
+						Heatpoints -= 30;
+					else
+					{
+						Heatpoints = 0;
+						Alive = false;
+					}
+					TileMap[i][j] = ' ';
+
+					fout << "Bourjua! Now HP = " << Heatpoints << std::endl;
 				}
 
 			}
@@ -135,8 +173,8 @@ float Actor::GetCoordY() const {
 
 
 
-Actor::Actor(std::string file, float HP, float x, float y, float w, float h) :
-	Heatpoints	(HP),
+Actor::Actor(std::string file, unsigned int HP, float x, float y, float w, float h) :
+	Heatpoints	(100),
 	Speed		(0),
 	Alive       (true),
 	Score       (0),
@@ -195,6 +233,12 @@ bool Actor::Update(sf::Int64 time)
 	Speed = 0;
 	sprite.setPosition(Xcoord, Ycoord);
 	InterractMap(time);
+
+	if (Heatpoints <= 0)
+	{
+		Alive = false;
+		Heatpoints = 0;
+	}
 
 	return true;
 }

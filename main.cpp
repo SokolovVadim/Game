@@ -9,11 +9,16 @@ void PlayKotik()
 
 
 void Process(sf::RenderWindow & window, Map & map, MyView & View, Actor & Hero,
-	sf::Clock & clock, double CurFrame, sf::Text & text, sf::Text & water)
+	sf::Clock & clock, sf::Clock & game_time_clock, int game_time, double CurFrame, sf::Text & text, sf::Text & water, sf::Text & hp)
 {
 	while (window.isOpen())
 	{
+
 		sf::Int64 time = clock.getElapsedTime().asMicroseconds();
+
+		if (Hero.GetAlive())
+			game_time = int(game_time_clock.getElapsedTime().asSeconds());
+
 		clock.restart();
 		time /= 800;
 
@@ -23,95 +28,108 @@ void Process(sf::RenderWindow & window, Map & map, MyView & View, Actor & Hero,
 			if (event.type == sf::Event::Closed)
 				window.close();
 		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-		{
-			Hero.SetDir(0);
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift))
-				Hero.SetSpeed(Hero.n_speed * 2);
-			else
-				Hero.SetSpeed(Hero.n_speed);
-			CurFrame += 0.0052 * time;
-			if (CurFrame > 9)
+
+		if (Hero.GetAlive()) {
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
 			{
-				CurFrame -= 9;
+				Hero.SetDir(0);
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift))
+					Hero.SetSpeed(Hero.n_speed * 2);
+				else
+					Hero.SetSpeed(Hero.n_speed);
+				CurFrame += 0.0052 * time;
+				if (CurFrame > 9)
+				{
+					CurFrame -= 9;
+				}
+				Hero.sprite.setTextureRect(sf::IntRect(HEROX * int(CurFrame), HEROY, HEROX, HEROY));
+				
 			}
-			Hero.sprite.setTextureRect(sf::IntRect(HEROX * int(CurFrame), HEROY, HEROX, HEROY));
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+			{
+				Hero.SetDir(1);
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift))
+					Hero.SetSpeed(Hero.n_speed * 2);
+				else
+					Hero.SetSpeed(Hero.n_speed);
+				CurFrame += 0.0052 * time;
+				if (CurFrame > 9)
+				{
+					CurFrame -= 9;
+				}
+				Hero.sprite.setTextureRect(sf::IntRect(HEROX * int(CurFrame), 3 * HEROY, HEROX, HEROY));
+				
+			}
+
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+			{
+				Hero.SetDir(2);
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift))
+					Hero.SetSpeed(Hero.n_speed * 2);
+				else
+					Hero.SetSpeed(Hero.n_speed);
+				CurFrame += 0.0052 * time;
+				std::cout << "CurFr: " << CurFrame << std::endl;
+				if (CurFrame > 9)
+				{
+					CurFrame -= 9;
+				}
+				Hero.sprite.setTextureRect(sf::IntRect(93 * int(CurFrame), 0, HEROX, HEROY));
+				
+			}
+
+
+			if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) && (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)))
+			{
+				Hero.SetDir(4);
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift))
+					Hero.SetSpeed(Hero.n_speed * 2);
+				else
+					Hero.SetSpeed(Hero.n_speed);
+				CurFrame += 0.0052 * time;
+				std::cout << "CurFr: " << CurFrame << std::endl;
+				if (CurFrame > 9)
+				{
+					CurFrame -= 9;
+				}
+				Hero.sprite.setTextureRect(sf::IntRect(93 * int(CurFrame), 0, HEROX, HEROY));
+				
+			}
+
+
+
+
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+			{
+				Hero.SetDir(3);
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift))
+					Hero.SetSpeed(Hero.n_speed * 2);
+				else
+					Hero.SetSpeed(Hero.n_speed);
+				CurFrame += 0.0052 * time;
+				std::cout << "CurFr: " << CurFrame << std::endl;
+				if (CurFrame > 9)
+				{
+					CurFrame -= 9;
+				}
+				Hero.sprite.setTextureRect(sf::IntRect(93 * int(CurFrame), 2 * HEROY, HEROX, HEROY));
+				
+			}
+
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+			{
+				window.close();
+			}
 			View.GetCoordView(Hero.GetCoordX(), Hero.GetCoordY());
 		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+		else
 		{
-			Hero.SetDir(1);
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift))
-				Hero.SetSpeed(Hero.n_speed * 2);
-			else
-				Hero.SetSpeed(Hero.n_speed);
-			CurFrame += 0.0052 * time;
-			if (CurFrame > 9)
+			if (View.view.getCenter().x < W - SETCAMX/2)
 			{
-				CurFrame -= 9;
+				View.view.move(0.5, 0);
+				fout << "CoordX: " << Hero.GetCoordX() << std::endl;
+				
 			}
-			Hero.sprite.setTextureRect(sf::IntRect(HEROX * int(CurFrame), 3 * HEROY, HEROX, HEROY));
-			View.GetCoordView(Hero.GetCoordX(), Hero.GetCoordY());
-		}
-
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
-		{
-			Hero.SetDir(2);
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift))
-				Hero.SetSpeed(Hero.n_speed * 2);
-			else
-				Hero.SetSpeed(Hero.n_speed);
-			CurFrame += 0.0052 * time;
-			std::cout << "CurFr: " << CurFrame << std::endl;
-			if (CurFrame > 9)
-			{
-				CurFrame -= 9;
-			}
-			Hero.sprite.setTextureRect(sf::IntRect(93 * int(CurFrame), 0, HEROX, HEROY));
-			View.GetCoordView(Hero.GetCoordX(), Hero.GetCoordY());
-		}
-
-
-		if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) && (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)))
-		{
-			Hero.SetDir(4);
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift))
-				Hero.SetSpeed(Hero.n_speed * 2);
-			else
-				Hero.SetSpeed(Hero.n_speed);
-			CurFrame += 0.0052 * time;
-			std::cout << "CurFr: " << CurFrame << std::endl;
-			if (CurFrame > 9)
-			{
-				CurFrame -= 9;
-			}
-			Hero.sprite.setTextureRect(sf::IntRect(93 * int(CurFrame), 0, HEROX, HEROY));
-			View.GetCoordView(Hero.GetCoordX(), Hero.GetCoordY());
-		}
-
-
-
-
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
-		{
-			Hero.SetDir(3);
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift))
-				Hero.SetSpeed(Hero.n_speed * 2);
-			else
-				Hero.SetSpeed(Hero.n_speed);
-			CurFrame += 0.0052 * time;
-			std::cout << "CurFr: " << CurFrame << std::endl;
-			if (CurFrame > 9)
-			{
-				CurFrame -= 9;
-			}
-			Hero.sprite.setTextureRect(sf::IntRect(93 * int(CurFrame), 2 * HEROY, HEROX, HEROY));
-			View.GetCoordView(Hero.GetCoordX(), Hero.GetCoordY());
-		}
-
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
-		{
-			window.close();
 		}
 
 		if (Hero.GetScore() == MAXSCORE)  // need redesign
@@ -126,20 +144,28 @@ void Process(sf::RenderWindow & window, Map & map, MyView & View, Actor & Hero,
 
 		map.DrawMap(window);
 
-
-
 		std::ostringstream ScoreString;
 		Hero.PushScore(ScoreString);
 		text.setString("Rubins: " + ScoreString.str());
 		text.setPosition(View.view.getCenter().x - TEXTX, View.view.getCenter().y - TEXTY);
 		window.draw(text);
-
-
+ 
 		std::ostringstream ScoreAir;
 		Hero.GetAir(ScoreAir, time);
 		water.setString("Air: " + ScoreAir.str());
 		water.setPosition(View.view.getCenter().x - TEXTX, View.view.getCenter().y - AIR);
 		window.draw(water);
+
+		std::ostringstream time_string;
+		time_string << game_time;
+
+		std::ostringstream HeatPoints;
+		Hero.SetHP(HeatPoints);
+		hp.setString("Health: " + HeatPoints.str() + "\nTime: " + time_string.str());
+		hp.setPosition(View.view.getCenter().x - TEXTX, View.view.getCenter().y - HPY);
+		window.draw(hp);
+
+
 
 
 		window.draw(Hero.sprite);
@@ -169,10 +195,13 @@ int main()
 
 	double CurFrame(0.0);
 	sf::Clock clock;
+	sf::Clock game_time_clock;
+	int game_time(0);
 
 	sf::Font font;
 	sf::Text text;
 	sf::Text water;
+	sf::Text hp;
 	font.loadFromFile("Text/ARIAL.TTF"); 
 	{
 		fout << "Text has loaded" << std::endl;
@@ -188,8 +217,17 @@ int main()
 		water.setFillColor			(sf::Color::Blue);
 		water.setStyle				(sf::Text::Bold);
 
+		hp.setFont(font);
+		hp.setString("Health: ");
+		hp.setCharacterSize(24);
+		hp.setFillColor(sf::Color::Red);
+		hp.setStyle(sf::Text::Bold);
+
+
+
+
 	}
 
-	Process(window, map, View, Hero, clock, CurFrame, text, water);
+	Process(window, map, View, Hero, clock, game_time_clock, game_time, CurFrame, text, water, hp);
 	return 0;
 }

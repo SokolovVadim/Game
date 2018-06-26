@@ -7,13 +7,13 @@ class Map
 	//sf::String TileMap;
 	sf::String TileMap[HEIGHT] = {
 		"00000000000000000000000000000000",
-		"0  BBBB      0                 0",
-		"0         P  0  R              0",
-		"0      0000000                 0",
-		"0     R       P         H      0",
+		"0  BBBB      0LLL              0",
+		"0         P  0L R        DD    0",
+		"0      0000000         HHHH    0",
+		"0     R       P                0",
 		"0                              0",
-		"0       wwwwwwwNwwwww          0",
-		"0      wwwwwwwwwNwNww   00000000",
+		"0       wwwwwwwNwwwww      D   0",
+		"0 DDDD wwwwwwwwwNwNww   00000000",
 		"0LL     wwwwwwwwwNwNw      D   0",
 		"0LLL   wwwwwwwwwwwwwR          0",
 		"00000000000000000000000000000000",
@@ -95,10 +95,12 @@ void Map::DrawMap(sf::RenderWindow & window)
 		case 'H':
 		{
 			map_sprite.setTextureRect(sf::IntRect(WGRASS + 1, HGRASS, WGRASS, HGRASS));
+			break;
 		}
 		case 'D':
 		{
 			map_sprite.setTextureRect(sf::IntRect(WGRASS * 3 + 1, HGRASS, WGRASS, HGRASS));
+			break;
 		}
 		}
 
@@ -152,13 +154,13 @@ void Map::LoadIm()
 
 sf::String TileMap[HEIGHT] = {
 	"00000000000000000000000000000000",
-	"0  BBBB      0                 0",
-	"0         P  0  R              0",
-	"0      0000000                 0",
-	"0     R       P         H      0",
+	"0  BBBB      0LLL              0",
+	"0         P  0L R        DD    0",
+	"0      0000000         HHHH    0",
+	"0     R       P                0",
 	"0                              0",
-	"0       wwwwwwwNwwwww          0",
-	"0      wwwwwwwwwNwNww   00000000",
+	"0       wwwwwwwNwwwww      D   0",
+	"0 DDDD wwwwwwwwwNwNww   00000000",
 	"0LL     wwwwwwwwwNwNw      D   0",
 	"0LLL   wwwwwwwwwwwwwR          0",
 	"00000000000000000000000000000000",
