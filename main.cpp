@@ -1,12 +1,14 @@
-#include "Game.h"
+п»ї#include "Game.h"
 
 void PlayKotik()
 {
-	PlaySoundA("Music/laba.wav",   NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
-	PlaySoundA("Music/vapa.wav",   NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
+	PlaySoundA("Music/laba.wav", NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
+	PlaySoundA("Music/vapa.wav", NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
 	PlaySoundA("Music/hentai.wav", NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
 }
 
+
+void ChooseAction(Actor & Hero, int dir, double * CurFrame, sf::Int64 time, int X, int Y);
 void LoadMission(bool show_mission_text);
 void LoadText(sf::Font & font, sf::Text & text, std::string str,
 	unsigned int size, sf::Color colour, sf::Text::Style style);
@@ -63,105 +65,30 @@ void Process(sf::RenderWindow & window, Map & map, MyView & View, Actor & Hero,
 
 
 		if (Hero.GetAlive()) {
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-			{
-				Hero.SetDir(0);
-				if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift))
-					Hero.SetSpeed(Hero.n_speed * 2);
-				else
-					Hero.SetSpeed(Hero.n_speed);
-				CurFrame += 0.0052 * time;
-				if (CurFrame > 9)
-				{
-					CurFrame -= 9;
-				}
-				Hero.sprite.setTextureRect(sf::IntRect(HEROX * int(CurFrame), HEROY, HEROX, HEROY));
-				
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))	{
+				ChooseAction(Hero, 0, &CurFrame, time, HEROX * int(CurFrame), HEROY); 
 			}
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-			{
-				Hero.SetDir(1);
-				if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift))
-					Hero.SetSpeed(Hero.n_speed * 2);
-				else
-					Hero.SetSpeed(Hero.n_speed);
-				CurFrame += 0.0052 * time;
-				if (CurFrame > 9)
-				{
-					CurFrame -= 9;
-				}
-				Hero.sprite.setTextureRect(sf::IntRect(HEROX * int(CurFrame), 3 * HEROY, HEROX, HEROY));
-				
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)){
+				ChooseAction(Hero, 1, &CurFrame, time, HEROX * int(CurFrame), 3 * HEROY);
 			}
-
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
-			{
-				Hero.SetDir(2);
-				if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift))
-					Hero.SetSpeed(Hero.n_speed * 2);
-				else
-					Hero.SetSpeed(Hero.n_speed);
-				CurFrame += 0.0052 * time;
-				std::cout << "CurFr: " << CurFrame << std::endl;
-				if (CurFrame > 9)
-				{
-					CurFrame -= 9;
-				}
-				Hero.sprite.setTextureRect(sf::IntRect(93 * int(CurFrame), 0, HEROX, HEROY));
-				
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)){
+				ChooseAction(Hero, 2, &CurFrame, time, 93 * int(CurFrame), 0);
 			}
-
-
-			if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) && (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)))
-			{
-				Hero.SetDir(4);
-				if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift))
-					Hero.SetSpeed(Hero.n_speed * 2);
-				else
-					Hero.SetSpeed(Hero.n_speed);
-				CurFrame += 0.0052 * time;
-				std::cout << "CurFr: " << CurFrame << std::endl;
-				if (CurFrame > 9)
-				{
-					CurFrame -= 9;
-				}
-				Hero.sprite.setTextureRect(sf::IntRect(93 * int(CurFrame), 0, HEROX, HEROY));
-				
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
+				ChooseAction(Hero, 3, &CurFrame, time, 93 * int(CurFrame), 2*HEROY);
 			}
-
-
-
-
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
-			{
-				Hero.SetDir(3);
-				if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift))
-					Hero.SetSpeed(Hero.n_speed * 2);
-				else
-					Hero.SetSpeed(Hero.n_speed);
-				CurFrame += 0.0052 * time;
-				std::cout << "CurFr: " << CurFrame << std::endl;
-				if (CurFrame > 9)
-				{
-					CurFrame -= 9;
-				}
-				Hero.sprite.setTextureRect(sf::IntRect(93 * int(CurFrame), 2 * HEROY, HEROX, HEROY));
-				
-			}
-
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
-			{
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)){
 				window.close();
 			}
 			View.GetCoordView(Hero.GetCoordX(), Hero.GetCoordY());
 		}
 		else
 		{
-			if (View.view.getCenter().x < W - SETCAMX/2)
+			if (View.view.getCenter().x < W - SETCAMX / 2)
 			{
 				View.view.move(0.5, 0);
 				fout << "CoordX: " << View.view.getCenter().x << std::endl;
-				
+
 			}
 		}
 
@@ -182,7 +109,7 @@ void Process(sf::RenderWindow & window, Map & map, MyView & View, Actor & Hero,
 		text.setString("Rubins: " + ScoreString.str());
 		text.setPosition(View.view.getCenter().x - TEXTX, View.view.getCenter().y - TEXTY);
 		window.draw(text);
- 
+
 		std::ostringstream ScoreAir;
 		Hero.GetAir(ScoreAir, time);
 		water.setString("Air: " + ScoreAir.str());
@@ -198,7 +125,7 @@ void Process(sf::RenderWindow & window, Map & map, MyView & View, Actor & Hero,
 		hp.setPosition(View.view.getCenter().x - TEXTX, View.view.getCenter().y - HPY);
 		window.draw(hp);
 
-		if((View.view.getCenter().x >= W - SETCAMX / 2) && (!Hero.GetAlive()))
+		if ((View.view.getCenter().x >= W - SETCAMX / 2) && (!Hero.GetAlive()))
 		{
 			//           COnstants below!
 			game_over.setPosition(View.view.getCenter().x - 180, View.view.getCenter().y - 50);
@@ -211,9 +138,26 @@ void Process(sf::RenderWindow & window, Map & map, MyView & View, Actor & Hero,
 	}
 }
 
-// наследовать Hero из Actor
-// переделать карту
-//
+
+
+
+void ChooseAction(Actor & Hero, int dir, double * CurFrame, sf::Int64 time, int X, int Y)
+{
+		Hero.SetDir(dir);
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift))
+			Hero.SetSpeed(Hero.n_speed * 2);
+		else
+			Hero.SetSpeed(Hero.n_speed);
+		*CurFrame += 0.0052 * time;
+		
+		if (*CurFrame > 9)
+		{
+			*CurFrame -= 9;
+		}
+		Hero.sprite.setTextureRect(sf::IntRect(X, Y, HEROX, HEROY));
+}
+
+
 
 int main()
 {
@@ -222,20 +166,20 @@ int main()
 
 	sf::RenderWindow window(sf::VideoMode(W, H), "Jeday");
 	MyView View;
-	View.view.reset(sf::FloatRect(XPOS - SETCAMX/2, YPOS - SETCAMY/2, SETCAMX, SETCAMY));
+	View.view.reset(sf::FloatRect(XPOS - SETCAMX / 2, YPOS - SETCAMY / 2, SETCAMX, SETCAMY));
 
 	sf::Image	map_image;
 	sf::Texture map_texture;
 	sf::Sprite	map_sprite;
 
-	Map    map		(map_image, map_texture, map_sprite);
-	Actor Hero		("sheet2.png", HEALTH, 0, SETBEGIN, HEROX, HEROY);
+	Map    map(map_image, map_texture, map_sprite);
+	Actor Hero("sheet2.png", HEALTH, 0, SETBEGIN, HEROX, HEROY);
 
-	double			CurFrame			(0.0);
+	double			CurFrame(0.0);
 	sf::Clock		clock;
 	sf::Clock		game_time_clock;
-	int				game_time			(0);
-	bool			show_mission_text	(true);
+	int				game_time(0);
+	bool			show_mission_text(true);
 
 	sf::Font font;
 	sf::Text text;
@@ -249,32 +193,32 @@ int main()
 
 	{
 		fout << "Text has loaded" << std::endl;
-		text.setFont				(font);
-		text.setString				("Rubins: ");
-		text.setCharacterSize		(24);     // PRETTY CONSTATNT
-		text.setFillColor			(sf::Color::Black);
-		text.setStyle				(sf::Text::Bold | sf::Text::Underlined);
+		text.setFont(font);
+		text.setString("Rubins: ");
+		text.setCharacterSize(24);     // PRETTY CONSTATNT
+		text.setFillColor(sf::Color::Black);
+		text.setStyle(sf::Text::Bold | sf::Text::Underlined);
 
 		LoadText(font, water, "Air: ", 24, sf::Color::Blue, sf::Text::Bold);
 
-		/*water.setFont				(font);
+		water.setFont				(font);
 		water.setString				("Air: ");
 		water.setCharacterSize		(24);
 		water.setFillColor			(sf::Color::Blue);
-		water.setStyle				(sf::Text::Bold);*/
+		water.setStyle				(sf::Text::Bold);
 
-		hp.setFont					(font);
-		hp.setString				("Health: ");
-		hp.setCharacterSize			(24);
-		hp.setFillColor				(sf::Color::Red);
-		hp.setStyle					(sf::Text::Bold);
+		hp.setFont(font);
+		hp.setString("Health: ");
+		hp.setCharacterSize(24);
+		hp.setFillColor(sf::Color::Red);
+		hp.setStyle(sf::Text::Bold);
 
 
-		game_over.setFont			(font);
-		game_over.setString			("Game over");
-		game_over.setCharacterSize	(64);
-		game_over.setFillColor		(sf::Color::Red);
-		game_over.setStyle			(sf::Text::Bold);
+		game_over.setFont(font);
+		game_over.setString("Game over");
+		game_over.setCharacterSize(64);
+		game_over.setFillColor(sf::Color::Red);
+		game_over.setStyle(sf::Text::Bold);
 
 
 	}
