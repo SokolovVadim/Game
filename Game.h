@@ -42,6 +42,7 @@ enum ENGINE {
 #include "Map.h"
 #include "Actor.h"
 #include "View.h"
+#include "Mission.h"
 
 
 #define asserted || fout << "WARNING! ASSERT WAS CALLED ON LINE %d\n" << __LINE__;

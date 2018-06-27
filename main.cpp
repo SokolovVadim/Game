@@ -7,9 +7,14 @@ void PlayKotik()
 	PlaySoundA("Music/hentai.wav", NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
 }
 
+void LoadMission(bool show_mission_text);
+void LoadText(sf::Font & font, sf::Text & text, std::string str,
+	unsigned int size, sf::Color colour, sf::Text::Style style);
 
 void Process(sf::RenderWindow & window, Map & map, MyView & View, Actor & Hero,
-	sf::Clock & clock, sf::Clock & game_time_clock, int game_time, double CurFrame, sf::Text & text, sf::Text & water, sf::Text & hp)
+	sf::Clock & clock, sf::Clock & game_time_clock, int game_time,
+	double CurFrame, sf::Text & text, sf::Text & water, sf::Text & hp,
+	sf::Text & game_over, bool show_mission_text)
 {
 	while (window.isOpen())
 	{
@@ -27,7 +32,35 @@ void Process(sf::RenderWindow & window, Map & map, MyView & View, Actor & Hero,
 		{
 			if (event.type == sf::Event::Closed)
 				window.close();
+
+			if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Tab)) {
+
+
+				switch (show_mission_text)
+				{
+				case true:
+				{
+					break;
+				}
+				case false:
+				{
+					break;
+				}
+				}
+
+			}
+
+
+
+
+
+
 		}
+
+		std::ostringstream GameOver;
+		GameOver << "Game over";
+		game_over.setString(GameOver.str());
+
 
 		if (Hero.GetAlive()) {
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
@@ -127,7 +160,7 @@ void Process(sf::RenderWindow & window, Map & map, MyView & View, Actor & Hero,
 			if (View.view.getCenter().x < W - SETCAMX/2)
 			{
 				View.view.move(0.5, 0);
-				fout << "CoordX: " << Hero.GetCoordX() << std::endl;
+				fout << "CoordX: " << View.view.getCenter().x << std::endl;
 				
 			}
 		}
@@ -165,7 +198,12 @@ void Process(sf::RenderWindow & window, Map & map, MyView & View, Actor & Hero,
 		hp.setPosition(View.view.getCenter().x - TEXTX, View.view.getCenter().y - HPY);
 		window.draw(hp);
 
-
+		if((View.view.getCenter().x >= W - SETCAMX / 2) && (!Hero.GetAlive()))
+		{
+			//           COnstants below!
+			game_over.setPosition(View.view.getCenter().x - 180, View.view.getCenter().y - 50);
+			window.draw(game_over);
+		}
 
 
 		window.draw(Hero.sprite);
@@ -190,19 +228,25 @@ int main()
 	sf::Texture map_texture;
 	sf::Sprite	map_sprite;
 
-	Map    map(map_image, map_texture, map_sprite);
-	Actor Hero("sheet2.png", HEALTH, 0, SETBEGIN, HEROX, HEROY);
+	Map    map		(map_image, map_texture, map_sprite);
+	Actor Hero		("sheet2.png", HEALTH, 0, SETBEGIN, HEROX, HEROY);
 
-	double CurFrame(0.0);
-	sf::Clock clock;
-	sf::Clock game_time_clock;
-	int game_time(0);
+	double			CurFrame			(0.0);
+	sf::Clock		clock;
+	sf::Clock		game_time_clock;
+	int				game_time			(0);
+	bool			show_mission_text	(true);
 
 	sf::Font font;
 	sf::Text text;
 	sf::Text water;
 	sf::Text hp;
-	font.loadFromFile("Text/ARIAL.TTF"); 
+	sf::Text game_over;
+
+
+	LoadMission(show_mission_text);
+	font.loadFromFile("Text/ARIAL.TTF");
+
 	{
 		fout << "Text has loaded" << std::endl;
 		text.setFont				(font);
@@ -211,23 +255,56 @@ int main()
 		text.setFillColor			(sf::Color::Black);
 		text.setStyle				(sf::Text::Bold | sf::Text::Underlined);
 
-		water.setFont				(font);
+		LoadText(font, water, "Air: ", 24, sf::Color::Blue, sf::Text::Bold);
+
+		/*water.setFont				(font);
 		water.setString				("Air: ");
 		water.setCharacterSize		(24);
 		water.setFillColor			(sf::Color::Blue);
-		water.setStyle				(sf::Text::Bold);
+		water.setStyle				(sf::Text::Bold);*/
 
-		hp.setFont(font);
-		hp.setString("Health: ");
-		hp.setCharacterSize(24);
-		hp.setFillColor(sf::Color::Red);
-		hp.setStyle(sf::Text::Bold);
+		hp.setFont					(font);
+		hp.setString				("Health: ");
+		hp.setCharacterSize			(24);
+		hp.setFillColor				(sf::Color::Red);
+		hp.setStyle					(sf::Text::Bold);
 
 
+		game_over.setFont			(font);
+		game_over.setString			("Game over");
+		game_over.setCharacterSize	(64);
+		game_over.setFillColor		(sf::Color::Red);
+		game_over.setStyle			(sf::Text::Bold);
 
 
 	}
 
-	Process(window, map, View, Hero, clock, game_time_clock, game_time, CurFrame, text, water, hp);
+	Process(window, map, View, Hero, clock, game_time_clock, game_time,
+		CurFrame, text, water, hp, game_over, show_mission_text);
 	return 0;
+}
+
+
+void LoadText(sf::Font & font, sf::Text & text, std::string str,
+	unsigned int size, sf::Color color, sf::Text::Style style)
+{
+	text.setFont(font);
+	text.setString(str);
+	text.setCharacterSize(size);
+	text.setFillColor(color);
+	text.setStyle(style);
+
+}
+
+void LoadMission(bool show_mission_text)
+{
+	sf::Image Kumach;
+	Kumach.loadFromFile("Images/Kumach.png");
+	Kumach.createMaskFromColor(sf::Color::Transparent);
+	sf::Texture Kumach_texture;
+	Kumach_texture.loadFromImage(Kumach);
+	sf::Sprite Kumach_s;
+	Kumach_s.setTexture(Kumach_texture);
+	Kumach_s.setTextureRect(sf::IntRect(0, 0, 320, 100));
+	//Kumach_s.setScale();
 }

@@ -6,10 +6,9 @@ class Actor
 private:
 
 	int				Dir;
-
 	unsigned int	Score;
-	float	Heatpoints;
 
+	float			Heatpoints;
 	float			Xcoord;
 	float			Ycoord;
 
