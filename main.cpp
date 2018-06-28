@@ -56,6 +56,9 @@ void Process(sf::RenderWindow & window, Map & map, MyView & View, Actor & Hero,
 
 
 		if (Hero.GetAlive()) {
+
+			
+
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))	{
 				ChooseAction(Hero, 0, &CurFrame, time, HEROX * int(CurFrame), HEROY); 
 			}
@@ -83,6 +86,9 @@ void Process(sf::RenderWindow & window, Map & map, MyView & View, Actor & Hero,
 			}
 		}
 
+
+		Hero.SetPower(time, Hero, sf::Keyboard::isKeyPressed(sf::Keyboard::LShift));
+
 		if (Hero.GetScore() == MAXSCORE)  // need redesign
 		{
 			window.close();
@@ -96,7 +102,9 @@ void Process(sf::RenderWindow & window, Map & map, MyView & View, Actor & Hero,
 		map.DrawMap(window);
 
 
-		std::ostringstream ScoreString, ScoreAir, time_string, HeatPoints, GameOver;
+		std::ostringstream ScoreString, ScoreAir, time_string, HeatPoints, GameOver, Power;
+
+
 
 		GameOver << "Game over";
 		game_over.setString(GameOver.str());
@@ -139,7 +147,9 @@ void ChooseAction(Actor & Hero, int dir, double * CurFrame, sf::Int64 time, int 
 {
 		Hero.SetDir(dir);
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift))
+		{
 			Hero.SetSpeed(Hero.n_speed * 2);
+		}
 		else
 			Hero.SetSpeed(Hero.n_speed);
 		*CurFrame += 0.0052 * time;

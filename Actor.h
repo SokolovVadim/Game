@@ -9,6 +9,7 @@ private:
 	unsigned int	Score;
 
 	float			Heatpoints;
+	float			Power;
 	float			Xcoord;
 	float			Ycoord;
 
@@ -46,14 +47,39 @@ public:
 	void			SetSpeed		(float speed);
 	void			InterractMap	(sf::Int64 time);
 	unsigned int	GetScore		();
-	void			SetHP(std::ostringstream & HeatPoints);
+	void			SetHP			(std::ostringstream & HeatPoints);
 	void			PushScore		(std::ostringstream & ScoreString);
 	void			GetAir			(std::ostringstream & ScoreAir, sf::Int64 time);
+	void			GetPower		(std::ostringstream & Power_str);
+	void			SetPower		(sf::Int64 time, Actor & Hero, bool is_pressed);
 };
+
+void Actor::SetPower(sf::Int64 time, Actor & Hero, bool is_pressed)
+{
+	if (Power <= 0) {
+		Hero.SetSpeed(n_speed * time);
+		Power = 0;
+	}
+	else
+	{
+		if(is_pressed)
+			Power -= float(time) / 3000;
+		else {
+			if (Power <= 10)
+				Power += float(time) / 3000;
+		}
+	}
+}
 
 void Actor::SetHP(std::ostringstream & HeatPoints)
 {
 	HeatPoints << int(Actor::Heatpoints);
+}
+
+
+void Actor::GetPower(std::ostringstream & Power_str)
+{
+	Power_str << int(Actor::Power);
 }
 
 
@@ -174,6 +200,7 @@ float Actor::GetCoordY() const {
 
 Actor::Actor(std::string file, unsigned int HP, float x, float y, float w, float h) :
 	Heatpoints	(100),
+	Power		(10),
 	Speed		(0),
 	Alive       (true),
 	Score       (0),
