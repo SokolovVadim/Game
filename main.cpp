@@ -87,51 +87,53 @@ void Process(sf::RenderWindow & window, Map & map, MyView & View, Actor & Hero,
 		}
 
 
-		Hero.SetPower(time, Hero, sf::Keyboard::isKeyPressed(sf::Keyboard::LShift));
-
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift))
+			fout << "Speed = " << Hero.GetSpeed() << std::endl;
 		if (Hero.GetScore() == MAXSCORE)  // need redesign
 		{
 			window.close();
 		}
 
-		Hero.Update(time);
-		View.ScrollMap(time);
-		window.setView(View.view);
-		window.clear(sf::Color(175, 140, 90, 0));
+		Hero.Update			(time);
+		View.ScrollMap		(time);
+		window.setView		(View.view);
+		window.clear		(sf::Color(175, 140, 90, 0));
 
 		map.DrawMap(window);
 
 
 		std::ostringstream ScoreString, ScoreAir, time_string, HeatPoints, GameOver, Power;
 
-
-
 		GameOver << "Game over";
 		game_over.setString(GameOver.str());
 
 
-		Hero.PushScore(ScoreString);
-		text.setString("Rubins: " + ScoreString.str());
-		text.setPosition(View.view.getCenter().x - TEXTX, View.view.getCenter().y - TEXTY);
-		window.draw(text);
+		
 
-		Hero.GetAir(ScoreAir, time);
-		water.setString("Air: " + ScoreAir.str());
-		water.setPosition(View.view.getCenter().x - TEXTX, View.view.getCenter().y - AIR);
-		window.draw(water);
+
+		Hero.PushScore		(ScoreString);
+		text.setString		("Rubins: " + ScoreString.str());
+		text.setPosition	(View.view.getCenter().x - TEXTX, View.view.getCenter().y - TEXTY);
+		window.draw			(text);
+
+		Hero.GetAir			(ScoreAir, time);
+		water.setString		("Air: " + ScoreAir.str());
+		water.setPosition	(View.view.getCenter().x - TEXTX, View.view.getCenter().y - AIR);
+		window.draw			(water);
 
 		time_string << game_time;
+		Hero.PushPower		(Power);
 
-		Hero.SetHP(HeatPoints);
-		hp.setString("Health: " + HeatPoints.str() + "\nTime: " + time_string.str());
-		hp.setPosition(View.view.getCenter().x - TEXTX, View.view.getCenter().y - HPY);
-		window.draw(hp);
+		Hero.SetHP			(HeatPoints);
+		hp.setString		("Health: " + HeatPoints.str() + "\nTime: " + time_string.str() + "\nPower: " + Power.str());
+		hp.setPosition		(View.view.getCenter().x - TEXTX, View.view.getCenter().y - HPY);
+		window.draw			(hp);
 
 		if ((View.view.getCenter().x >= W - SETCAMX / 2) && (!Hero.GetAlive()))
 		{
 			//           COnstants below!
 			game_over.setPosition(View.view.getCenter().x - 310, View.view.getCenter().y - 100);
-			window.draw(game_over);
+			window.draw			 (game_over);
 		}
 
 
@@ -148,10 +150,16 @@ void ChooseAction(Actor & Hero, int dir, double * CurFrame, sf::Int64 time, int 
 		Hero.SetDir(dir);
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift))
 		{
-			Hero.SetSpeed(Hero.n_speed * 2);
+			if (Hero.SetPower(time))
+				Hero.SetSpeed(Hero.n_speed * 2);
+			else
+				Hero.SetSpeed(Hero.n_speed);
 		}
 		else
+		{
 			Hero.SetSpeed(Hero.n_speed);
+			Hero.ReducePower(time);
+		}
 		*CurFrame += 0.0052 * time;
 		
 		if (*CurFrame > 9)

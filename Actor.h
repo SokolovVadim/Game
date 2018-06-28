@@ -43,6 +43,8 @@ public:
 	bool GetAlive();
 	float			GetCoordX		() const;
 	float			GetCoordY		() const;
+	float			GetSpeed		() const;
+	float			GetPower		() const;
 	void			SetDir			(int dir);
 	void			SetSpeed		(float speed);
 	void			InterractMap	(sf::Int64 time);
@@ -50,25 +52,43 @@ public:
 	void			SetHP			(std::ostringstream & HeatPoints);
 	void			PushScore		(std::ostringstream & ScoreString);
 	void			GetAir			(std::ostringstream & ScoreAir, sf::Int64 time);
-	void			GetPower		(std::ostringstream & Power_str);
-	void			SetPower		(sf::Int64 time, Actor & Hero, bool is_pressed);
+	void			PushPower		(std::ostringstream & Power_str);
+	bool			SetPower		(sf::Int64 time);
+	void ReducePower(sf::Int64 time);
 };
 
-void Actor::SetPower(sf::Int64 time, Actor & Hero, bool is_pressed)
+
+float Actor::GetPower() const
 {
+	return Power;
+}
+
+bool Actor::SetPower(sf::Int64 time)
+{
+	bool power_flag(true);
 	if (Power <= 0) {
-		Hero.SetSpeed(n_speed * time);
 		Power = 0;
+		power_flag = false;
 	}
 	else
-	{
-		if(is_pressed)
-			Power -= float(time) / 3000;
-		else {
-			if (Power <= 10)
-				Power += float(time) / 3000;
-		}
-	}
+		Power -= float(time) / 1000;
+	return power_flag;
+}
+
+void Actor::ReducePower(sf::Int64 time)
+{
+	if (Power <= 10)
+		Power += float(time) / 5000;
+}
+
+void Actor::PushPower(std::ostringstream & Power_str)
+{
+	Power_str << int(Actor::Power);
+}
+
+float Actor::GetSpeed()const
+{
+	return Speed;
 }
 
 void Actor::SetHP(std::ostringstream & HeatPoints)
@@ -76,11 +96,6 @@ void Actor::SetHP(std::ostringstream & HeatPoints)
 	HeatPoints << int(Actor::Heatpoints);
 }
 
-
-void Actor::GetPower(std::ostringstream & Power_str)
-{
-	Power_str << int(Actor::Power);
-}
 
 
 void Actor::PushScore(std::ostringstream & ScoreString)
@@ -114,7 +129,7 @@ void Actor::InterractMap(sf::Int64 time)
 		
 			if ((i >= 0) && (i < HEIGHT) && (j >= 0) && (j < WIDTH))
 			{
-				if (TileMap[i][j] == '0')
+				if ((TileMap[i][j] == '0') || (TileMap[i][j] == 'B'))
 				{
 					if (dy > 0)
 						Ycoord = i*HGRASS - Height;
