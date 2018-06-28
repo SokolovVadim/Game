@@ -45,6 +45,7 @@ enum ENGINE {
 #include "Mission.h"
 
 
+
 #define asserted || fout << "WARNING! ASSERT WAS CALLED ON LINE %d\n" << __LINE__;
 
 

@@ -49,19 +49,10 @@ void Process(sf::RenderWindow & window, Map & map, MyView & View, Actor & Hero,
 					break;
 				}
 				}
-
 			}
-
-
-
-
-
-
 		}
 
-		std::ostringstream GameOver;
-		GameOver << "Game over";
-		game_over.setString(GameOver.str());
+		
 
 
 		if (Hero.GetAlive()) {
@@ -75,7 +66,7 @@ void Process(sf::RenderWindow & window, Map & map, MyView & View, Actor & Hero,
 				ChooseAction(Hero, 2, &CurFrame, time, 93 * int(CurFrame), 0);
 			}
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
-				ChooseAction(Hero, 3, &CurFrame, time, 93 * int(CurFrame), 2*HEROY);
+				ChooseAction(Hero, 3, &CurFrame, time, 93 * int(CurFrame), 2 * HEROY);
 			}
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)){
 				window.close();
@@ -104,22 +95,25 @@ void Process(sf::RenderWindow & window, Map & map, MyView & View, Actor & Hero,
 
 		map.DrawMap(window);
 
-		std::ostringstream ScoreString;
+
+		std::ostringstream ScoreString, ScoreAir, time_string, HeatPoints, GameOver;
+
+		GameOver << "Game over";
+		game_over.setString(GameOver.str());
+
+
 		Hero.PushScore(ScoreString);
 		text.setString("Rubins: " + ScoreString.str());
 		text.setPosition(View.view.getCenter().x - TEXTX, View.view.getCenter().y - TEXTY);
 		window.draw(text);
 
-		std::ostringstream ScoreAir;
 		Hero.GetAir(ScoreAir, time);
 		water.setString("Air: " + ScoreAir.str());
 		water.setPosition(View.view.getCenter().x - TEXTX, View.view.getCenter().y - AIR);
 		window.draw(water);
 
-		std::ostringstream time_string;
 		time_string << game_time;
 
-		std::ostringstream HeatPoints;
 		Hero.SetHP(HeatPoints);
 		hp.setString("Health: " + HeatPoints.str() + "\nTime: " + time_string.str());
 		hp.setPosition(View.view.getCenter().x - TEXTX, View.view.getCenter().y - HPY);
@@ -128,7 +122,7 @@ void Process(sf::RenderWindow & window, Map & map, MyView & View, Actor & Hero,
 		if ((View.view.getCenter().x >= W - SETCAMX / 2) && (!Hero.GetAlive()))
 		{
 			//           COnstants below!
-			game_over.setPosition(View.view.getCenter().x - 180, View.view.getCenter().y - 50);
+			game_over.setPosition(View.view.getCenter().x - 310, View.view.getCenter().y - 100);
 			window.draw(game_over);
 		}
 
@@ -193,40 +187,17 @@ int main()
 
 	{
 		fout << "Text has loaded" << std::endl;
-		text.setFont(font);
-		text.setString("Rubins: ");
-		text.setCharacterSize(24);     // PRETTY CONSTATNT
-		text.setFillColor(sf::Color::Black);
-		text.setStyle(sf::Text::Bold | sf::Text::Underlined);
-
+		LoadText(font, text, "Rubins: ", 24, sf::Color::Black, sf::Text::Bold);
 		LoadText(font, water, "Air: ", 24, sf::Color::Blue, sf::Text::Bold);
-
-		water.setFont				(font);
-		water.setString				("Air: ");
-		water.setCharacterSize		(24);
-		water.setFillColor			(sf::Color::Blue);
-		water.setStyle				(sf::Text::Bold);
-
-		hp.setFont(font);
-		hp.setString("Health: ");
-		hp.setCharacterSize(24);
-		hp.setFillColor(sf::Color::Red);
-		hp.setStyle(sf::Text::Bold);
-
-
-		game_over.setFont(font);
-		game_over.setString("Game over");
-		game_over.setCharacterSize(64);
-		game_over.setFillColor(sf::Color::Red);
-		game_over.setStyle(sf::Text::Bold);
-
-
+		LoadText(font, hp, "Health: ", 24, sf::Color::Red, sf::Text::Bold);
+		LoadText(font, game_over, "Game over", 128, sf::Color::Red, sf::Text::Bold);
 	}
 
 	Process(window, map, View, Hero, clock, game_time_clock, game_time,
 		CurFrame, text, water, hp, game_over, show_mission_text);
 	return 0;
 }
+
 
 
 void LoadText(sf::Font & font, sf::Text & text, std::string str,

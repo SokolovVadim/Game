@@ -7,15 +7,15 @@ class Map
 	//sf::String TileMap;
 	sf::String TileMap[HEIGHT] = {
 		"00000000000000000000000000000000",
-		"0  BBBB      0LLL              0",
-		"0         P  0L R        DD    0",
-		"0      0000000         HHHH    0",
-		"0     R       P                0",
-		"0                              0",
-		"0       wwwwwwwNwwwww      D   0",
-		"0 DDDD wwwwwwwwwNwNww   00000000",
-		"0LL     wwwwwwwwwNwNw      D   0",
-		"0LLL   wwwwwwwwwwwwwR          0",
+		"0                            ww0",
+		"0  HHHHH                    www0",
+		"0            0     0000000wwwww0",
+		"0            0              www0",
+		"0            0                 0",
+		"0                0000000       0",
+		"0                      0  BBB  0",
+		"0    DDDDDD            0  BHB  0",
+		"0                      0  B   D0",
 		"00000000000000000000000000000000",
 	};
 
@@ -126,7 +126,7 @@ Map::Map(sf::Image & image, sf::Texture & texture, sf::Sprite & sprite):
 
 Map::~Map()
 {
-	fout << "Map was destructed!" << std::endl;
+	fout << "Map has destructed!" << std::endl;
 }
 
 void Map::SetSprite()
@@ -146,7 +146,7 @@ void Map::LoadMap()
 
 void Map::LoadIm()
 {
-	if (!map_image.loadFromFile("images/map.png")) {
+	if (!map_image.loadFromFile("Images/map.png")) {
 		fout << "Map was not loaded from file!" << std::endl;
 	}
 }
@@ -154,14 +154,14 @@ void Map::LoadIm()
 
 sf::String TileMap[HEIGHT] = {
 	"00000000000000000000000000000000",
-	"0  BBBB      0LLL              0",
-	"0         P  0L R        DD    0",
-	"0      0000000         HHHH    0",
-	"0     R       P                0",
-	"0                              0",
-	"0       wwwwwwwNwwwww      D   0",
-	"0 DDDD wwwwwwwwwNwNww   00000000",
-	"0LL     wwwwwwwwwNwNw      D   0",
-	"0LLL   wwwwwwwwwwwwwR          0",
+	"0                            ww0",
+	"0  HHHHH                    www0",
+	"0            0     0000000wwwww0",
+	"0            0              www0",
+	"0            0                 0",
+	"0                0000000       0",
+	"0                      0  BBB  0",
+	"0    DDDDDD            0  BHB  0",
+	"0                      0  B   D0",
 	"00000000000000000000000000000000",
 };
