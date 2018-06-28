@@ -7,11 +7,11 @@ unsigned int GetCurMission(float coord_x)
 	if (coord_x < 500){
 		mission = 1;
 	}else
-	if (coord_x < 1500) {
+	if (coord_x < 1000) {
 		mission = 2;
 	}
 	else
-	if (coord_x < 2000)
+	if (coord_x < 1500)
 		mission = 3;
 
 	return mission;
@@ -25,7 +25,7 @@ std::string GetTextMission(unsigned int mission)
 	{
 	case 1:
 	{
-		text = "Take red rubins\n to create a soviet lazer\n of justice\n";
+		text = "Take red rubins\nto create a soviet\nlazer of justice\n";
 		break;
 	}
 	case 2:
@@ -35,7 +35,7 @@ std::string GetTextMission(unsigned int mission)
 	}
 	case 3:
 	{
-		text = "Eat red stars\n to provide\n the spirit of Lenin!\n";
+		text = "Eat red stars\nto provide\nthe spirit of Lenin!\n";
 		break;
 	}
 	default:
