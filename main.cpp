@@ -120,6 +120,11 @@ void Process				(sf::RenderWindow & window, Map & map, MyView & View, Actor & He
 			window.close();
 		}
 
+
+
+		View.ScrollMouse(window, time);
+
+
 		Hero.Update			(time);
 		View.ScrollMap		(time);
 		window.setView		(View.view);
@@ -155,7 +160,7 @@ void Process				(sf::RenderWindow & window, Map & map, MyView & View, Actor & He
 		hp.setString		("Health: " + HeatPoints.str() + "\nTime: " + time_string.str() + "\nPower: " + Power.str());
 		hp.setPosition		(View.view.getCenter().x - TEXTX, View.view.getCenter().y - HPY);
 		window.draw			(hp);
-
+		
 		if ((View.view.getCenter().x >= W - SETCAMX / 2) && (!Hero.GetAlive()))
 		{
 			//           COnstants below!
@@ -164,6 +169,8 @@ void Process				(sf::RenderWindow & window, Map & map, MyView & View, Actor & He
 		}
 
 		if (!show_mission_text) {
+			task_txt.setPosition(View.view.getCenter().x + 200, View.view.getCenter().y - 100);
+			Kumach_s.setPosition(View.view.getCenter().x + 120, View.view.getCenter().y - 100);
 			window.draw(Kumach_s);
 			window.draw(task_txt);
 		}

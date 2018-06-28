@@ -26,6 +26,7 @@ public:
 	sf::View view;
 	sf::View GetCoordView	(float xcoord, float ycoord);
 	sf::View ScrollMap		(sf::Int64 time);
+	void ScrollMouse(sf::Window & window, sf::Int64 time);
 
 };
 
@@ -59,4 +60,22 @@ sf::View MyView::ScrollMap(sf::Int64 time)
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
 		view.move(0,  0.1f * time);
 	return view;
+}
+
+
+void MyView::ScrollMouse(sf::Window & window, sf::Int64 time)
+{
+	sf::Vector2i position = sf::Mouse::getPosition(window);
+
+	fout << "Mouse position: x = " << position.x << ", y = " << position.y << std::endl;
+
+	if (position.x < 3)
+		view.move(-0.2f * time, 0);
+	if (position.x > int(window.getSize().x - 3))
+		view.move(0.2f * time, 0);
+	if (position.y < 3)
+		view.move(0, -0.2f * time);
+	if (position.y > int(window.getSize().y - 3))
+		view.move(0, 0.2f * time);
+
 }
