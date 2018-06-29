@@ -7,7 +7,7 @@ void PlayKotik()
 	PlaySoundA("Music/hentai.wav",	NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
 }
 
-
+bool IsWalk();
 void ChooseAction			(Actor & Hero, int dir, double * CurFrame, sf::Int64 time, int X, int Y);
 void LoadMission			(sf::Sprite * Kumach_s);
 void LoadText				(sf::Font & font, sf::Text & text, std::string str,
@@ -100,6 +100,10 @@ void Process				(sf::RenderWindow & window, Map & map, MyView & View, Actor & He
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)){
 				window.close();
 			}
+			if (!IsWalk())
+			{
+				;
+			}
 			if(!((sf::Keyboard::isKeyPressed(sf::Keyboard::W)) || (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) ||
 				 (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) || (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) || 
 				 (sf::Mouse::isButtonPressed(sf::Mouse::Left))))
@@ -128,7 +132,7 @@ void Process				(sf::RenderWindow & window, Map & map, MyView & View, Actor & He
 		View.ScrollMouse(window, time);
 
 
-		Hero.Update			(time);
+		Hero.Update			(time, map);
 		View.ScrollMap		(time);
 		window.setView		(View.view);
 		window.clear		(sf::Color(175, 140, 90, 0));
@@ -211,10 +215,22 @@ void ChooseAction(Actor & Hero, int dir, double * CurFrame, sf::Int64 time, int 
 
 
 
+bool IsWalk()
+{
+	if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Down)  || (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) ||
+		(sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) || (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))))
+		return true;
+	else
+		return false;
+}
+
+
 int main()
 {
 
 	//PlayKotik();
+
+
 
 	sf::RenderWindow window(sf::VideoMode(W, H), "Jeday");
 	MyView View;

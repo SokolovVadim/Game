@@ -39,7 +39,7 @@ public:
 
 	Actor							(std::string Str, unsigned int HP, float x, float y, float w, float h);
 	~Actor();
-	bool			Update			(sf::Int64 time);
+	bool			Update			(sf::Int64 time, Map & map);
 	bool GetAlive();
 	float			GetCoordX		() const;
 	float			GetCoordY		() const;
@@ -47,7 +47,7 @@ public:
 	float			GetPower		() const;
 	void			SetDir			(int dir);
 	void			SetSpeed		(float speed);
-	void			InterractMap	(sf::Int64 time);
+	void			InterractMap	(sf::Int64 time, Map & map);
 	unsigned int	GetScore		();
 	void			SetHP			(std::ostringstream & HeatPoints);
 	void			PushScore		(std::ostringstream & ScoreString);
@@ -120,7 +120,7 @@ Actor::~Actor()
 	std::cout << "Actor Destructor was called!" << std::endl;
 }
 
-void Actor::InterractMap(sf::Int64 time)
+void Actor::InterractMap(sf::Int64 time, Map & map)
 {
 	for (int i(int(Ycoord / HGRASS)); i < (Ycoord + Height)/HGRASS; i++)
 	{
@@ -129,7 +129,10 @@ void Actor::InterractMap(sf::Int64 time)
 		
 			if ((i >= 0) && (i < HEIGHT) && (j >= 0) && (j < WIDTH))
 			{
-				if ((TileMap[i][j] == '0') || (TileMap[i][j] == 'B'))
+
+				char sym = map.GetElemMap(i, j);
+
+				if ((sym == '0') || (sym == 'B'))
 				{
 					if (dy > 0)
 						Ycoord = i*HGRASS - Height;
@@ -141,15 +144,15 @@ void Actor::InterractMap(sf::Int64 time)
 						Xcoord = j*WGRASS + Width/2 + 1;
 
 				}
-				if (TileMap[i][j] == 'R')
+				if (sym == 'R')
 				{
 					Score++;
 
-					TileMap[i][j] = ' ';
+					map.SetElemMap(i, j, ' ');
 					fout << "Interract with Rubin!" << std::endl;
 					
 				}
-				if (TileMap[i][j] == 'w')
+				if (sym == 'w')
 				{
 					if (Air <= 0) {
 						Heatpoints -= float(time) / 5000;
@@ -164,14 +167,14 @@ void Actor::InterractMap(sf::Int64 time)
 					if (Air <= 10)
 						Air += float(time)/5000;
 				}
-				if (TileMap[i][j] == 'H')
+				if (sym == 'H')
 				{
 					if(Heatpoints < 100)
 						Heatpoints += 10;
-					TileMap[i][j] = ' ';
+					map.SetElemMap(i, j, ' ');
 					fout << "Take HP bonus. Now HP = " << Heatpoints << std::endl;
 				}
-				if (TileMap[i][j] == 'D')
+				if (sym == 'D')
 				{
 					if (Heatpoints >= 30)
 						Heatpoints -= 30;
@@ -180,7 +183,7 @@ void Actor::InterractMap(sf::Int64 time)
 						Heatpoints = 0;
 						Alive = false;
 					}
-					TileMap[i][j] = ' ';
+					map.SetElemMap(i, j, ' ');
 
 					fout << "Bourjua! Now HP = " << Heatpoints << std::endl;
 				}
@@ -237,7 +240,7 @@ Actor::Actor(std::string file, unsigned int HP, float x, float y, float w, float
 }
 
 
-bool Actor::Update(sf::Int64 time)
+bool Actor::Update(sf::Int64 time, Map & map)
 {
 	switch (Dir)
 	{
@@ -273,7 +276,7 @@ bool Actor::Update(sf::Int64 time)
 
 	Speed = 0;
 	sprite.setPosition(Xcoord, Ycoord);
-	InterractMap(time);
+	InterractMap(time, map);
 
 	if (Heatpoints <= 0)
 	{

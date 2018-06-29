@@ -4,7 +4,6 @@
 
 class Map
 {
-	//sf::String TileMap;
 	sf::String TileMap[HEIGHT] = {
 		"00000000000000000000000000000000",
 		"0                            ww0",
@@ -23,22 +22,24 @@ class Map
 	sf::Texture			map;
 	sf::Sprite			map_sprite;
 public:
+	Map(sf::Image & image, sf::Texture & texture, sf::Sprite & sprite);
+	~Map();
 	void LoadIm			();
 	void LoadMap		();
 	void SetSprite		();
 	void DrawMap        (sf::RenderWindow & window);
-	//sf::String InterMap(const Map & map);
-	Map(sf::Image & image, sf::Texture & texture, sf::Sprite & sprite);
-	~Map();
+	char GetElemMap		(unsigned int first, unsigned int second);
+	void SetElemMap		(unsigned int first, unsigned int second, char sym);
+
 
 
 };
 
-//sf::String Map::InterMap(const Map & map)
-//{
-//	return map.TileMap;
-//}
 
+void Map::SetElemMap(unsigned int first, unsigned int second, char sym)
+{
+	TileMap[first][second] = sym;
+}
 
 
 void Map::DrawMap(sf::RenderWindow & window)
@@ -152,16 +153,7 @@ void Map::LoadIm()
 }
 
 
-sf::String TileMap[HEIGHT] = {
-	"00000000000000000000000000000000",
-	"0                            ww0",
-	"0  HHHHH                    www0",
-	"0            0     0000000wwwww0",
-	"0            0              www0",
-	"0            0                 0",
-	"0                    000       0",
-	"0                      0  BBB  0",
-	"0    DDDDDD            0  BH   0",
-	"0                      0  B   D0",
-	"00000000000000000000000000000000",
-};
+char Map::GetElemMap(unsigned int first, unsigned int second)
+{
+	return TileMap[first][second];
+}
