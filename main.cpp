@@ -100,7 +100,10 @@ void Process				(sf::RenderWindow & window, Map & map, MyView & View, Actor & He
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)){
 				window.close();
 			}
-			View.GetCoordView(Hero.GetCoordX(), Hero.GetCoordY());
+			if(!((sf::Keyboard::isKeyPressed(sf::Keyboard::W)) || (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) ||
+				 (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) || (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) || 
+				 (sf::Mouse::isButtonPressed(sf::Mouse::Left))))
+				View.GetCoordView(Hero.GetCoordX(), Hero.GetCoordY());
 		}
 		else
 		{

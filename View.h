@@ -63,6 +63,8 @@ sf::View MyView::ScrollMap(sf::Int64 time)
 }
 
 
+
+
 void MyView::ScrollMouse(sf::Window & window, sf::Int64 time)
 {
 	sf::Vector2i position = sf::Mouse::getPosition(window);
