@@ -10,7 +10,7 @@ class Map
 		"0  HHHHH                    www0",
 		"0            0     0000000wwwww0",
 		"0            0              www0",
-		"0            0                 0",
+		"0   ss       0                 0",
 		"0                    000       0",
 		"0                      0  BBB  0",
 		"0    DDDDDD            0  BH   0",
@@ -21,16 +21,17 @@ class Map
 	sf::Image			map_image;
 	sf::Texture			map;
 	sf::Sprite			map_sprite;
+	 
 public:
-	Map(sf::Image & image, sf::Texture & texture, sf::Sprite & sprite);
-	~Map();
-	void LoadIm			();
-	void LoadMap		();
-	void SetSprite		();
-	void DrawMap        (sf::RenderWindow & window);
-	char GetElemMap		(unsigned int first, unsigned int second);
-	void SetElemMap		(unsigned int first, unsigned int second, char sym);
-
+	Map						(sf::Image & image, sf::Texture & texture, sf::Sprite & sprite);
+	~Map					();
+	void LoadIm				();
+	void LoadMap			();
+	void SetSprite			();
+	void DrawMap			(sf::RenderWindow & window);
+	char GetElemMap			(unsigned int first, unsigned int second);
+	void SetElemMap			(unsigned int first, unsigned int second, char sym);
+	void RandomGenerator	();
 
 
 };
@@ -156,4 +157,25 @@ void Map::LoadIm()
 char Map::GetElemMap(unsigned int first, unsigned int second)
 {
 	return TileMap[first][second];
+}
+
+
+
+void Map::RandomGenerator()
+{
+	int		RandomX(0), RandomY(0);
+
+	srand((unsigned int)time(NULL));
+	int		block_number(1); // warning! MN!
+	while	(block_number)
+	{
+		RandomX = 1 + rand() % (W - 1);
+		RandomY = 1 + rand() % (H - 1);
+		if ((RandomX < WIDTH) && (RandomX >= 0) && (RandomY < HEIGHT) && (RandomY >= 0)){
+			if (TileMap[RandomX][RandomY] == ' '){
+				TileMap[RandomX][RandomY] = 's';
+				block_number--;
+			}
+		}
+	}
 }

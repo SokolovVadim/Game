@@ -236,11 +236,16 @@ int main()
 	MyView View;
 	View.view.reset(sf::FloatRect(XPOS - SETCAMX / 2, YPOS - SETCAMY / 2, SETCAMX, SETCAMY));
 
+	
+
 	sf::Image	map_image;
 	sf::Texture map_texture;
 	sf::Sprite	map_sprite;
 
 	Map    map(map_image, map_texture, map_sprite);
+
+	map.RandomGenerator();
+
 	Actor Hero("sheet2.png", HEALTH, 0, SETBEGIN, HEROX, HEROY);
 
 	double			CurFrame(0.0);
