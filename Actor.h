@@ -55,7 +55,19 @@ public:
 	void			PushPower		(std::ostringstream & Power_str);
 	bool			SetPower		(sf::Int64 time);
 	void ReducePower(sf::Int64 time);
+	void Move();
 };
+
+
+
+void Actor::Move()
+{
+
+
+
+
+	;
+}
 
 
 float Actor::GetPower() const

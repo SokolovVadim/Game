@@ -13,7 +13,7 @@ class Map
 		"0   ss       0                 0",
 		"0                    000       0",
 		"0                      0  BBB  0",
-		"0                      0  BH   0",
+		"0         PNBL         0  BH   0",
 		"0                      0  B   D0",
 		"00000000000000000000000000000000",
 	};
@@ -188,7 +188,7 @@ void Map::RandomGenerator(char src, char dest, unsigned int number_)
 void Map::GenerateInTime(sf::Int64 & timer, sf::Int64 time, sf::Int64 period, char src, char dest, unsigned int number_)
 {
 	timer += time;
-	fout << "time : " << time << "timer: " << timer << std::endl;
+	//fout << "time : " << time << "timer: " << timer << std::endl;
 	if (timer > period)
 	{
 		RandomGenerator(' ', 'H', number_);
