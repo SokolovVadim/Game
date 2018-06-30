@@ -79,5 +79,4 @@ void MyView::ScrollMouse(sf::Window & window, sf::Int64 time)
 		view.move(0, -0.2f * time);
 	if (position.y > int(window.getSize().y - 3))
 		view.move(0, 0.2f * time);
-
 }

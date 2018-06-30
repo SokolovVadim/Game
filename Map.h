@@ -166,14 +166,14 @@ void Map::RandomGenerator()
 	int		RandomX(0), RandomY(0);
 
 	srand((unsigned int)time(NULL));
-	int		block_number(1); // warning! MN!
+	int		block_number(24); // warning! MN!
 	while	(block_number)
 	{
-		RandomX = 1 + rand() % (W - 1);
-		RandomY = 1 + rand() % (H - 1);
-		if ((RandomX < WIDTH) && (RandomX >= 0) && (RandomY < HEIGHT) && (RandomY >= 0)){
-			if (TileMap[RandomX][RandomY] == ' '){
-				TileMap[RandomX][RandomY] = 's';
+		RandomX = 1 + rand() % (WIDTH  - 1);
+		RandomY = 1 + rand() % (HEIGHT - 1);
+		if ((RandomX < WIDTH) && (RandomX >= 1) && (RandomY < HEIGHT) && (RandomY >= 1)) {
+			if (TileMap[RandomY][RandomX] == ' '){
+				TileMap[RandomY][RandomX] = 's';
 				block_number--;
 			}
 		}

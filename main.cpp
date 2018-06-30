@@ -9,7 +9,7 @@ void PlayKotik()
 
 bool IsWalk();
 void ChooseAction			(Actor & Hero, int dir, double * CurFrame, sf::Int64 time, int X, int Y);
-void LoadMission			(sf::Sprite * Kumach_s);
+void LoadMission			(sf::Sprite & Kumach_s, sf::Texture & Kumach_texture);
 void LoadText				(sf::Font & font, sf::Text & text, std::string str,
 							unsigned int size, sf::Color colour, sf::Text::Style style);
 
@@ -19,20 +19,8 @@ void Process				(sf::RenderWindow & window, Map & map, MyView & View, Actor & He
 							sf::Text & game_over, bool show_mission_text, sf::Text task_txt/*, sf::Sprite & Kumach_s*/)
 {
 	sf::Sprite Kumach_s;
-	//LoadMission(&Kumach_s);
-
-	sf::Image Kumach;
-	Kumach.loadFromFile("Images/Kumach.png");
-	//Kumach.createMaskFromColor(sf::Color(0, 0, 0));
 	sf::Texture Kumach_texture;
-	Kumach_texture.loadFromImage(Kumach);
-
-
-	Kumach_s.setTexture(Kumach_texture);
-	Kumach_s.setTextureRect(sf::IntRect(20, 0, 300, 100));
-	Kumach_s.setScale(1.0, 1.0);
-
-
+	LoadMission(Kumach_s, Kumach_texture);
 
 	while (window.isOpen())
 	{
@@ -257,8 +245,6 @@ int main()
 	sf::Font font;
 	sf::Text text, water, hp, game_over, task_txt;
 
-
-	//sf::Sprite Kumach_s = LoadMission(show_mission_text);
 	font.loadFromFile("Text/ARIAL.TTF");
 	
 	fout << "Text has loaded" << std::endl;
@@ -287,19 +273,13 @@ void LoadText(sf::Font & font, sf::Text & text, std::string str,
 
 }
 
-void LoadMission(sf::Sprite * Kumach_s)
+void LoadMission(sf::Sprite & Kumach_s, sf::Texture & Kumach_texture)
 {
 	sf::Image Kumach;
 	Kumach.loadFromFile("Images/Kumach.png");
-	//Kumach.createMaskFromColor(sf::Color(0, 0, 0));
-	sf::Texture Kumach_texture;
-	Kumach_texture.loadFromImage(Kumach);
 	
-
-	Kumach_s->setTexture(Kumach_texture);
-	Kumach_s->setTextureRect(sf::IntRect(0, 0, 450, 450));
-	Kumach_s->setScale(1.0, 1.0);
-	
-
-	//return Kumach_ss;
+	Kumach_texture.loadFromImage	(Kumach);
+	Kumach_s.setTexture				(Kumach_texture);
+	Kumach_s.setTextureRect			(sf::IntRect(20, 0, 300, 100));
+	//Kumach_s.setScale(1.0, 1.0);
 }
