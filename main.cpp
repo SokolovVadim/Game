@@ -21,6 +21,7 @@ void Process				(sf::RenderWindow & window, Map & map, MyView & View, Actor & He
 	sf::Sprite Kumach_s;
 	sf::Texture Kumach_texture;
 	LoadMission(Kumach_s, Kumach_texture);
+	sf::Int64 timer(0);
 
 	while (window.isOpen())
 	{
@@ -107,18 +108,15 @@ void Process				(sf::RenderWindow & window, Map & map, MyView & View, Actor & He
 			}
 		}
 
-
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift))
-			fout << "Speed = " << Hero.GetSpeed() << std::endl;
 		if (Hero.GetScore() == MAXSCORE)  // need redesign
 		{
 			window.close();
 		}
 
 
-
 		View.ScrollMouse(window, time);
 
+		map.GenerateInTime(timer, time, 10000, ' ', 'H', 1);
 
 		Hero.Update			(time, map);
 		View.ScrollMap		(time);
@@ -173,6 +171,7 @@ void Process				(sf::RenderWindow & window, Map & map, MyView & View, Actor & He
 		window.display();
 	}
 }
+
 
 
 
@@ -232,7 +231,9 @@ int main()
 
 	Map    map(map_image, map_texture, map_sprite);
 
-	map.RandomGenerator();
+	map.RandomGenerator(' ', 's', 1);
+	map.RandomGenerator(' ', 'D', 8);
+	map.RandomGenerator(' ', 'R', 1);
 
 	Actor Hero("sheet2.png", HEALTH, 0, SETBEGIN, HEROX, HEROY);
 

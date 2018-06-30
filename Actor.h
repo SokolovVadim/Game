@@ -169,8 +169,10 @@ void Actor::InterractMap(sf::Int64 time, Map & map)
 				}
 				if (sym == 'H')
 				{
-					if(Heatpoints < 100)
+					if (Heatpoints <= 90)
 						Heatpoints += 10;
+					else
+						Heatpoints = 100;
 					map.SetElemMap(i, j, ' ');
 					fout << "Take HP bonus. Now HP = " << Heatpoints << std::endl;
 				}

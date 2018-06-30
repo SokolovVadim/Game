@@ -69,7 +69,7 @@ void MyView::ScrollMouse(sf::Window & window, sf::Int64 time)
 {
 	sf::Vector2i position = sf::Mouse::getPosition(window);
 
-	fout << "Mouse position: x = " << position.x << ", y = " << position.y << std::endl;
+	//fout << "Mouse position: x = " << position.x << ", y = " << position.y << std::endl;
 
 	if (position.x < 3)
 		view.move(-0.2f * time, 0);

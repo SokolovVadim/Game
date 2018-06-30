@@ -7,13 +7,13 @@ class Map
 	sf::String TileMap[HEIGHT] = {
 		"00000000000000000000000000000000",
 		"0                            ww0",
-		"0  HHHHH                    www0",
+		"0                           www0",
 		"0            0     0000000wwwww0",
 		"0            0              www0",
 		"0   ss       0                 0",
 		"0                    000       0",
 		"0                      0  BBB  0",
-		"0    DDDDDD            0  BH   0",
+		"0                      0  BH   0",
 		"0                      0  B   D0",
 		"00000000000000000000000000000000",
 	};
@@ -31,7 +31,8 @@ public:
 	void DrawMap			(sf::RenderWindow & window);
 	char GetElemMap			(unsigned int first, unsigned int second);
 	void SetElemMap			(unsigned int first, unsigned int second, char sym);
-	void RandomGenerator	();
+	void RandomGenerator	(char src, char dest, unsigned int number_);
+	void GenerateInTime(sf::Int64 & timer, sf::Int64 time, sf::Int64 period, char src, char dest, unsigned int number_);
 
 
 };
@@ -161,21 +162,37 @@ char Map::GetElemMap(unsigned int first, unsigned int second)
 
 
 
-void Map::RandomGenerator()
+void Map::RandomGenerator(char src, char dest, unsigned int number_)
 {
 	int		RandomX(0), RandomY(0);
 
 	srand((unsigned int)time(NULL));
-	int		block_number(24); // warning! MN!
-	while	(block_number)
+	
+
+	while(number_ > 0)
 	{
 		RandomX = 1 + rand() % (WIDTH  - 1);
 		RandomY = 1 + rand() % (HEIGHT - 1);
 		if ((RandomX < WIDTH) && (RandomX >= 1) && (RandomY < HEIGHT) && (RandomY >= 1)) {
-			if (TileMap[RandomY][RandomX] == ' '){
-				TileMap[RandomY][RandomX] = 's';
-				block_number--;
+			if (TileMap[RandomY][RandomX] == src){
+				TileMap[RandomY][RandomX] = dest;
+				number_--;
+				fout << dest << " has generated on " << RandomX << " " << RandomY << std::endl;
+
 			}
 		}
+	}
+}
+
+
+void Map::GenerateInTime(sf::Int64 & timer, sf::Int64 time, sf::Int64 period, char src, char dest, unsigned int number_)
+{
+	timer += time;
+	fout << "time : " << time << "timer: " << timer << std::endl;
+	if (timer > period)
+	{
+		RandomGenerator(' ', 'H', number_);
+		timer = 0;
+		fout << "Generator succeed!" << std::endl;
 	}
 }
