@@ -41,6 +41,8 @@ void	Process				(sf::RenderWindow & window, Map & map, MyView & View, Actor & He
 	sf::Vector2i PixPos;           // load information about mouse position
 	sf::Vector2f WindPos;          //
 
+	//Text text_c;
+
 	while (window.isOpen())
 	{
 
@@ -279,8 +281,8 @@ void ActionSwitch(Actor & Hero, double & CurFrame, sf::Int64 & time, sf::RenderW
 	}
 }
 
-void PrintText(Actor & Hero, std::ostringstream & ScoreString, sf::Text & text, MyView & View,
-	sf::RenderWindow & window, std::ostringstream & ScoreAir, sf::Int64 & time, sf::Text & water,
+void PrintText(Actor   & Hero,   std::ostringstream & ScoreString, sf::Text  & text, MyView   & View,
+	sf::RenderWindow   & window, std::ostringstream & ScoreAir,    sf::Int64 & time, sf::Text & water,
 	std::ostringstream & time_string, int & game_time, std::ostringstream & Power, std::ostringstream & HeatPoints,
 	sf::Text & hp)
 {
