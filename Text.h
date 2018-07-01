@@ -15,9 +15,10 @@ private:
 public:
 
 	Text();
-	Text(sf::Font & font, sf::Text & text, sf::Color & color, sf::Text::Style & style,
-		std::string & str, /*std::ostringstream & stream,*/ unsigned int & size);
-	void Draw(MyView & View, sf::RenderWindow & window);
+	Text(sf::Font & font, sf::Text & text, const sf::Color color, sf::Text::Style style,
+		std::string & str, /*std::ostringstream & stream,*/ unsigned int size);
+	void Draw(MyView & View, sf::RenderWindow & window, int correct_x, int correct_y);
+	void Print();
 };
 
 Text::Text() :
@@ -29,8 +30,8 @@ Text::Text() :
 	;
 }
 
-Text::Text(sf::Font & font, sf::Text & text, sf::Color & color, sf::Text::Style & style,
-	std::string & str, /*std::ostringstream & stream,*/ unsigned int & size):
+Text::Text(sf::Font & font, sf::Text & text, const sf::Color color, sf::Text::Style style,
+	std::string & str, /*std::ostringstream & stream,*/ unsigned int size) :
 	font_t		(font),
 	text_t		(text),
 	color_t		(color),
@@ -48,12 +49,19 @@ Text::Text(sf::Font & font, sf::Text & text, sf::Color & color, sf::Text::Style 
 
 
 
-void Text::Draw(MyView & View, sf::RenderWindow & window)
+void Text::Draw(MyView & View, sf::RenderWindow & window, int correct_x, int correct_y)
 {
 	text_t.setString(str_t + stream_t.str());
-	text_t.setPosition(View.view.getCenter().x, View.view.getCenter().y);
+	text_t.setPosition(View.view.getCenter().x + correct_x, View.view.getCenter().y + correct_y);
 	window.draw(text_t);
 }
+
+void Text::Print()
+{
+	fout << "default text: " << str_t << ", now text: " << stream_t.str() << std::endl;
+}
+
+
 
 //void PrintText(Actor   & Hero, std::ostringstream & ScoreString, sf::Text  & text, MyView   & View,
 //	sf::RenderWindow   & window, std::ostringstream & ScoreAir, sf::Int64 & time, sf::Text & water,
@@ -80,27 +88,40 @@ void Text::Draw(MyView & View, sf::RenderWindow & window)
 //	window.draw(hp);
 //}p
 
+
 class AllText
 {
 private:
-	Text text1;
-	Text text2;
-	Text text3;
-	sf::Font font;
+	Text		text1;
+	Text		text2;
+	Text		text3;
+	sf::Font	font;
 public:
-	AllText();
-	void DrawAll(MyView & View, sf::RenderWindow & window);
+	AllText			(sf::Font & font_, sf::Text & text, sf::Text & water, sf::Text & hp);
+	void DrawAll	(MyView & View, sf::RenderWindow & window);
+	void PrintAll	();
 };
 
-AllText::AllText()
+AllText::AllText(sf::Font & font_, sf::Text & text, sf::Text & water, sf::Text & hp) :
+	text1(font_, text,  sf::Color::Black, sf::Text::Bold, std::string("Rubins: "), (unsigned int)24),
+	text2(font_, water, sf::Color::Blue,  sf::Text::Bold, std::string("Air: "   ), (unsigned int)24),
+	text3(font_, hp,    sf::Color::Red,   sf::Text::Bold, std::string("Health: "), (unsigned int)24)
 {
-	font.loadFromFile("Text/ARIAL.TTF");
+	font.loadFromFile("Text/ARIAL.TTF");                // check how it works (reference in init. list)
 	
 }
 
+
 void AllText::DrawAll(MyView & View, sf::RenderWindow & window)
 {
-	text1.Draw(View, window);
-	text2.Draw(View, window);
-	text3.Draw(View, window);
+	text1.Draw(View, window, -TEXTX, -TEXTY);
+	text2.Draw(View, window, -TEXTX, -AIR);
+	text3.Draw(View, window, -TEXTX, -HPY);
+}
+
+void AllText::PrintAll()
+{
+	text1.Print();
+	text2.Print();
+	text3.Print();
 }
