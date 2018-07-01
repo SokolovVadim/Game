@@ -110,12 +110,12 @@ void Actor::SetHP(std::ostringstream & HeatPoints)
 
 void Actor::PushScore(std::ostringstream & ScoreString)
 {
-	ScoreString << Actor::Score;
+	ScoreString << Score;
 }
 
 void Actor::GetAir(std::ostringstream & ScoreAir, sf::Int64 time)
 {
-	ScoreAir << int(Actor::Air);
+	ScoreAir << int(Air);
 }
 
 bool Actor::GetAlive()

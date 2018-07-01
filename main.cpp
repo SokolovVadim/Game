@@ -39,16 +39,18 @@ void Process (sf::RenderWindow & window, Map & map, MyView & View, Actor & Hero)
 	bool			show_mission_text(true);
 
 	sf::Font font;
-	sf::Text text, water, hp, game_over, task_txt;
 
-	font.loadFromFile("Text/ARIAL.TTF");
+	if (!font.loadFromFile("Text/ARIAL.TTF"))		// check how it works (reference in init. list)
+		fout << "Text has not loaded!" << std::endl;
 
-	fout << "Text has loaded" << std::endl;
-	LoadText(font, text,		"Rubins: ",  24,  sf::Color::Black, sf::Text::Bold);
-	LoadText(font, water,		"Air: ",	 24,  sf::Color::Blue,  sf::Text::Bold);
-	LoadText(font, hp,			"Health: ",	 24,  sf::Color::Red,   sf::Text::Bold);
-	LoadText(font, game_over,	"Game over", 128, sf::Color::Red,   sf::Text::Bold);
-	LoadText(font, task_txt,	"Task: ",	 16,  sf::Color::Black, sf::Text::Bold);
+	sf::Text text, water, hp, game_over, task_txt, power, time_t;
+
+
+	AllText fulltxt(font, text, water, hp, game_over, task_txt, power, time_t);
+
+
+
+	fulltxt.PrintAll();
 
 
 	// end ref
@@ -65,7 +67,6 @@ void Process (sf::RenderWindow & window, Map & map, MyView & View, Actor & Hero)
 	sf::Vector2i PixPos;           // load information about mouse position
 	sf::Vector2f WindPos;          //
 
-	//Text text_c;
 
 	while (window.isOpen())
 	{
@@ -99,8 +100,9 @@ void Process (sf::RenderWindow & window, Map & map, MyView & View, Actor & Hero)
 		GameOver << "Game over";
 		game_over.setString(GameOver.str());
 
-		PrintText(Hero, ScoreString, text, View, window, ScoreAir,
-			time, water, time_string, game_time, Power, HeatPoints, hp);
+		/*PrintText(Hero, ScoreString, text, View, window, ScoreAir,
+			time, water, time_string, game_time, Power, HeatPoints, hp);*/
+		fulltxt.DrawAll(View, window, Hero, time, game_time);
 
 		DrawObjects(View, Hero, game_over, window, show_mission_text, task_txt, Kumach_s);
 		window.draw(Hero.sprite);
