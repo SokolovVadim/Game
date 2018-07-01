@@ -27,8 +27,6 @@ private:
 	
 	sf::Vector2f	PosActor;
 	std::string		File; // directory to load
-	//Map MyMap;
-
 
 public:
 	float			dx;
@@ -40,7 +38,8 @@ public:
 	Actor							(std::string Str, unsigned int HP, float x, float y, float w, float h);
 	~Actor();
 	bool			Update			(sf::Int64 time, Map & map);
-	bool GetAlive();
+	bool			GetAlive		();
+	bool			SetPower		(sf::Int64 time);
 	float			GetCoordX		() const;
 	float			GetCoordY		() const;
 	float			GetSpeed		() const;
@@ -48,14 +47,13 @@ public:
 	void			SetDir			(int dir);
 	void			SetSpeed		(float speed);
 	void			InterractMap	(sf::Int64 time, Map & map);
-	unsigned int	GetScore		();
 	void			SetHP			(std::ostringstream & HeatPoints);
 	void			PushScore		(std::ostringstream & ScoreString);
 	void			GetAir			(std::ostringstream & ScoreAir, sf::Int64 time);
 	void			PushPower		(std::ostringstream & Power_str);
-	bool			SetPower		(sf::Int64 time);
-	void ReducePower(sf::Int64 time);
-	void Move();
+	void			ReducePower		(sf::Int64 time);
+	void			Move			();
+	unsigned int	GetScore		();
 };
 
 

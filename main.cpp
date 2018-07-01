@@ -12,23 +12,47 @@ void	MoveMouse			(sf::Vector2i & PixPos, sf::Vector2f & WindPos, sf::RenderWindo
 void	ChooseAction		(Actor & Hero, int dir, double & CurFrame, sf::Int64 time, int X, int Y);
 void	LoadMission			(sf::Sprite & Kumach_s, sf::Texture & Kumach_texture);
 void	LoadText			(sf::Font & font, sf::Text & text, std::string str,
-							unsigned int size, sf::Color colour, sf::Text::Style style);
+							unsigned int size, sf::Color colour, sf::Text::Style style);\
+
 void React(sf::RenderWindow & window, bool & show_mission_text,
 	std::ostringstream & task, sf::Text & task_txt, MyView & View, Actor & Hero, sf::Sprite & Kumach_s);
+
 void ActionSwitch(Actor & Hero, double & CurFrame, sf::Int64 & time, sf::RenderWindow & window,
 	MyView & View);
+
 void PrintText(Actor & Hero, std::ostringstream & ScoreString, sf::Text & text, MyView & View,
 	sf::RenderWindow & window, std::ostringstream & ScoreAir, sf::Int64 & time, sf::Text & water,
 	std::ostringstream & time_string, int & game_time, std::ostringstream & Power, std::ostringstream & HeatPoints,
 	sf::Text & hp);
+
 void DrawObjects(MyView & View, Actor & Hero, sf::Text & game_over, sf::RenderWindow & window,
 	bool & show_mission_text, sf::Text & task_txt, sf::Sprite & Kumach_s);
 
-void	Process				(sf::RenderWindow & window, Map & map, MyView & View, Actor & Hero,
-							sf::Clock & clock, sf::Clock & game_time_clock, int game_time,
-							double CurFrame, sf::Text & text, sf::Text & water, sf::Text & hp,
-							sf::Text & game_over, bool show_mission_text, sf::Text task_txt)
+void Process (sf::RenderWindow & window, Map & map, MyView & View, Actor & Hero)
 {
+	// ref
+
+	double			CurFrame(0.0);
+	sf::Clock		clock;
+	sf::Clock		game_time_clock;
+	int				game_time(0);
+	bool			show_mission_text(true);
+
+	sf::Font font;
+	sf::Text text, water, hp, game_over, task_txt;
+
+	font.loadFromFile("Text/ARIAL.TTF");
+
+	fout << "Text has loaded" << std::endl;
+	LoadText(font, text,		"Rubins: ",  24,  sf::Color::Black, sf::Text::Bold);
+	LoadText(font, water,		"Air: ",	 24,  sf::Color::Blue,  sf::Text::Bold);
+	LoadText(font, hp,			"Health: ",	 24,  sf::Color::Red,   sf::Text::Bold);
+	LoadText(font, game_over,	"Game over", 128, sf::Color::Red,   sf::Text::Bold);
+	LoadText(font, task_txt,	"Task: ",	 16,  sf::Color::Black, sf::Text::Bold);
+
+
+	// end ref
+
 	sf::Sprite		Kumach_s;
 	sf::Texture		Kumach_texture;
 	LoadMission		(Kumach_s, Kumach_texture);
@@ -125,13 +149,9 @@ int main()
 
 	//PlayKotik();
 
-
-
 	sf::RenderWindow window(sf::VideoMode(W, H), "Jeday");
 	MyView View;
 	View.view.reset(sf::FloatRect(XPOS - SETCAMX / 2, YPOS - SETCAMY / 2, SETCAMX, SETCAMY));
-
-	
 
 	sf::Image	map_image;
 	sf::Texture map_texture;
@@ -145,27 +165,7 @@ int main()
 
 	Actor Hero("sheet2.png", HEALTH, 0, SETBEGIN, HEROX, HEROY);
 
-	double			CurFrame(0.0);
-	sf::Clock		clock;
-	sf::Clock		game_time_clock;
-	int				game_time(0);
-	bool			show_mission_text(true);
-
-	sf::Font font;
-	sf::Text text, water, hp, game_over, task_txt;
-
-	font.loadFromFile("Text/ARIAL.TTF");
-	
-	fout << "Text has loaded" << std::endl;
-	LoadText(font, text,		"Rubins: ",		24,  sf::Color::Black, sf::Text::Bold);
-	LoadText(font, water,		"Air: ",		24,  sf::Color::Blue,  sf::Text::Bold);
-	LoadText(font, hp,			"Health: ",		24,	 sf::Color::Red,   sf::Text::Bold);
-	LoadText(font, game_over,	"Game over",	128, sf::Color::Red,   sf::Text::Bold);
-	LoadText(font, task_txt,    "Task: ",       16,  sf::Color::Black, sf::Text::Bold);
-	
-
-	Process(window, map, View, Hero, clock, game_time_clock, game_time,
-		CurFrame, text, water, hp, game_over, show_mission_text, task_txt);
+	Process(window, map, View, Hero);
 	return 0;
 }
 

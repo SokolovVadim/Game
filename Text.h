@@ -78,7 +78,7 @@ void Text::Draw(MyView & View, sf::RenderWindow & window)
 //	hp.setString("Health: " + HeatPoints.str() + "\nTime: " + time_string.str() + "\nPower: " + Power.str());
 //	hp.setPosition(View.view.getCenter().x - TEXTX, View.view.getCenter().y - HPY);
 //	window.draw(hp);
-//}
+//}p
 
 class AllText
 {
@@ -86,11 +86,21 @@ private:
 	Text text1;
 	Text text2;
 	Text text3;
+	sf::Font font;
 public:
-	void DrawAll();
+	AllText();
+	void DrawAll(MyView & View, sf::RenderWindow & window);
 };
 
-void AllText::DrawAll()
+AllText::AllText()
 {
-	;
+	font.loadFromFile("Text/ARIAL.TTF");
+	
+}
+
+void AllText::DrawAll(MyView & View, sf::RenderWindow & window)
+{
+	text1.Draw(View, window);
+	text2.Draw(View, window);
+	text3.Draw(View, window);
 }
