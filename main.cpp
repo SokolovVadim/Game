@@ -20,13 +20,8 @@ void React(sf::RenderWindow & window, bool & show_mission_text,
 void ActionSwitch(Actor & Hero, double & CurFrame, sf::Int64 & time, sf::RenderWindow & window,
 	MyView & View);
 
-void PrintText(Actor & Hero, std::ostringstream & ScoreString, sf::Text & text, MyView & View,
-	sf::RenderWindow & window, std::ostringstream & ScoreAir, sf::Int64 & time, sf::Text & water,
-	std::ostringstream & time_string, int & game_time, std::ostringstream & Power, std::ostringstream & HeatPoints,
-	sf::Text & hp);
-
-void DrawObjects(MyView & View, Actor & Hero, sf::Text & game_over, sf::RenderWindow & window,
-	bool & show_mission_text, sf::Text & task_txt, sf::Sprite & Kumach_s);
+//void DrawObjects(MyView & View, Actor & Hero, sf::Text & game_over, sf::RenderWindow & window,
+//	bool & show_mission_text, sf::Text & task_txt, sf::Sprite & Kumach_s);
 
 void Process (sf::RenderWindow & window, Map & map, MyView & View, Actor & Hero)
 {
@@ -72,7 +67,6 @@ void Process (sf::RenderWindow & window, Map & map, MyView & View, Actor & Hero)
 	{
 
 		sf::Int64 time = clock.getElapsedTime().asMicroseconds();
-		std::ostringstream task;
 
 		if (Hero.GetAlive())
 			game_time = int(game_time_clock.getElapsedTime().asSeconds());
@@ -81,7 +75,8 @@ void Process (sf::RenderWindow & window, Map & map, MyView & View, Actor & Hero)
 		time /= 800;
 		
 		MoveMouse(PixPos, WindPos, window);
-		React(window, show_mission_text, task, task_txt, View, Hero, Kumach_s);
+
+		fulltxt.React(window, show_mission_text, View, Hero, Kumach_s); //!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 		ActionSwitch(Hero, CurFrame, time, window, View);
 
 		View.ScrollMouse(window, time);
@@ -97,14 +92,11 @@ void Process (sf::RenderWindow & window, Map & map, MyView & View, Actor & Hero)
 
 		std::ostringstream ScoreString, ScoreAir, time_string, HeatPoints, GameOver, Power;
 
-		GameOver << "Game over";
-		game_over.setString(GameOver.str());
-
-		/*PrintText(Hero, ScoreString, text, View, window, ScoreAir,
-			time, water, time_string, game_time, Power, HeatPoints, hp);*/
 		fulltxt.DrawAll(View, window, Hero, time, game_time);
+		fulltxt.DrawTXT(View, Hero, window);
+		fulltxt.DrawSprite(View, window, show_mission_text, Kumach_s); //!!!!!!!!!!!!!!!!!!!!!!!!
 
-		DrawObjects(View, Hero, game_over, window, show_mission_text, task_txt, Kumach_s);
+
 		window.draw(Hero.sprite);
 		window.display();
 	}
@@ -283,47 +275,22 @@ void ActionSwitch(Actor & Hero, double & CurFrame, sf::Int64 & time, sf::RenderW
 	}
 }
 
-void PrintText(Actor   & Hero,   std::ostringstream & ScoreString, sf::Text  & text, MyView   & View,
-	sf::RenderWindow   & window, std::ostringstream & ScoreAir,    sf::Int64 & time, sf::Text & water,
-	std::ostringstream & time_string, int & game_time, std::ostringstream & Power, std::ostringstream & HeatPoints,
-	sf::Text & hp)
-{
-	Hero.PushScore(ScoreString);
-	text.setString("Rubins: " + ScoreString.str());
-	text.setPosition(View.view.getCenter().x - TEXTX, View.view.getCenter().y - TEXTY);
-	window.draw(text);
-	//window.draw(Kumach_s);
-
-	Hero.GetAir(ScoreAir, time);
-	water.setString("Air: " + ScoreAir.str());
-	water.setPosition(View.view.getCenter().x - TEXTX, View.view.getCenter().y - AIR);
-	window.draw(water);
-
-	time_string << game_time;
-	Hero.PushPower(Power);
-
-	Hero.SetHP(HeatPoints);
-	hp.setString("Health: " + HeatPoints.str() + "\nTime: " + time_string.str() + "\nPower: " + Power.str());
-	hp.setPosition(View.view.getCenter().x - TEXTX, View.view.getCenter().y - HPY);
-	window.draw(hp);
-}
 
 
-
-void DrawObjects(MyView & View, Actor & Hero, sf::Text & game_over, sf::RenderWindow & window,
-	bool & show_mission_text, sf::Text & task_txt, sf::Sprite & Kumach_s)
-{
-	if ((View.view.getCenter().x >= W - SETCAMX / 2) && (!Hero.GetAlive()))
-	{
-		//           COnstants below!
-		game_over.setPosition(View.view.getCenter().x - 310, View.view.getCenter().y - 100);
-		window.draw(game_over);
-	}
-
-	if (!show_mission_text) {
-		task_txt.setPosition(View.view.getCenter().x + 200, View.view.getCenter().y - 100);
-		Kumach_s.setPosition(View.view.getCenter().x + 120, View.view.getCenter().y - 100);
-		window.draw(Kumach_s);
-		window.draw(task_txt);
-	}
-}
+//void DrawObjects(MyView & View, Actor & Hero, sf::Text & game_over, sf::RenderWindow & window,
+//	bool & show_mission_text, sf::Text & task_txt, sf::Sprite & Kumach_s)
+//{
+//	if ((View.view.getCenter().x >= W - SETCAMX / 2) && (!Hero.GetAlive()))
+//	{
+//		//           COnstants below!
+//		game_over.setPosition(View.view.getCenter().x - 310, View.view.getCenter().y - 100);
+//		window.draw(game_over);
+//	}
+//
+//	if (!show_mission_text) {
+//		task_txt.setPosition(View.view.getCenter().x + 200, View.view.getCenter().y - 100);
+//		Kumach_s.setPosition(View.view.getCenter().x + 120, View.view.getCenter().y - 100);
+//		window.draw(Kumach_s);
+//		window.draw(task_txt);
+//	}
+//}

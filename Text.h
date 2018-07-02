@@ -20,6 +20,8 @@ public:
 	void Draw(MyView & View, sf::RenderWindow & window, int correct_x, int correct_y);
 	void Print();
 	void PushStr(int value);
+	void PushStr(std::string value);
+	void PrepareToDraw(MyView & View, int correct_x, int correct_y);
 	std::ostringstream & GetStream();
 };
 
@@ -48,8 +50,22 @@ Text::Text(sf::Font & font, sf::Text & text, const sf::Color color, sf::Text::St
 	text_t.setStyle			(style);
 }
 
+
+void Text::PrepareToDraw(MyView & View, int correct_x, int correct_y)
+{
+	text_t.setString(str_t + stream_t.str());
+	text_t.setPosition(View.view.getCenter().x + correct_x, View.view.getCenter().y + correct_y);
+}
+
 void Text::PushStr(int value)
 {
+	stream_t.str(std::string());
+	stream_t << value;
+}
+
+void Text::PushStr(std::string value)
+{
+	stream_t.str(std::string());
 	stream_t << value;
 }
 
@@ -79,8 +95,8 @@ private:
 	Text		score_t;
 	Text		water_t;
 	Text		hp_t;
-	Text power_t;
-	Text time_;
+	Text		power_t;
+	Text		time_;
 	Text		go_t;
 	Text		task_t;
 public:
@@ -88,6 +104,9 @@ public:
 		sf::Text & game_over, sf::Text & task, sf::Text & power, sf::Text & time);
 	void DrawAll	(MyView & View, sf::RenderWindow & window, Actor & Hero, sf::Int64 & time, int & game_time);
 	void PrintAll	();
+	void DrawSprite (MyView & View, sf::RenderWindow & window, bool & is_show, sf::Sprite & Kumach_s);
+	void DrawTXT(MyView & View, Actor & Hero, sf::RenderWindow & window);
+	void React(sf::RenderWindow & window, bool & is_show, MyView & View, Actor & Hero, sf::Sprite & Kumach_s);
 };
 
 AllText::AllText(sf::Font & font_, sf::Text & text, sf::Text & water, sf::Text & hp,
@@ -109,47 +128,70 @@ void AllText::DrawAll(MyView & View, sf::RenderWindow & window, Actor & Hero, sf
 	Hero.PushScore(score_t.GetStream());
 	score_t.Draw(View, window, -TEXTX, -TEXTY);
 
-	Hero.GetAir(water_t.GetStream(), time);
-	water_t.Draw(View, window, -TEXTX, -AIR);
+	Hero.GetAir(water_t.GetStream());
+	water_t.Draw(View, window, -TEXTX, -TEXTY + 30);
 
-	time_.PushStr(game_time);
 	Hero.PushPower(power_t.GetStream());
+	power_t.Draw(View, window, -TEXTX, -TEXTY + 60);
 
 	Hero.SetHP(hp_t.GetStream());
-	hp_t.Draw	(View, window, -TEXTX, -HPY);
-	// time_  &  power_t
+	hp_t.Draw	(View, window, -TEXTX, -TEXTY + 90);
+
+	time_.PushStr(game_time);
+	time_.Draw(View, window, -TEXTX, -TEXTY + 120);
 }
 
+void AllText::DrawTXT(MyView & View, Actor & Hero, sf::RenderWindow & window)
+{
+	if ((View.view.getCenter().x >= W - SETCAMX / 2) && (!Hero.GetAlive()))
+		{
+			//           COnstants below!
+			go_t.Draw(View, window, -310, -100);
+		}
+}
 
-//void PrintText(Actor   & Hero, std::ostringstream & ScoreString, sf::Text  & text, MyView   & View,
-//	sf::RenderWindow   & window, std::ostringstream & ScoreAir, sf::Int64 & time, sf::Text & water,
-//	std::ostringstream & time_string, int & game_time, std::ostringstream & Power, std::ostringstream & HeatPoints,
-//	sf::Text & hp)
-//{
-//	Hero.PushScore(ScoreString);
-//	text.setString("Rubins: " + ScoreString.str());
-//	text.setPosition(View.view.getCenter().x - TEXTX, View.view.getCenter().y - TEXTY);
-//	window.draw(text);
-//	//window.draw(Kumach_s);
-//
-//	Hero.GetAir(ScoreAir, time);
-//	water.setString("Air: " + ScoreAir.str());
-//	water.setPosition(View.view.getCenter().x - TEXTX, View.view.getCenter().y - AIR);
-//	window.draw(water);
-//
-//	time_string << game_time;
-//	Hero.PushPower(Power);
-//
-//	Hero.SetHP(HeatPoints);
-//	hp.setString("Health: " + HeatPoints.str() + "\nTime: " + time_string.str() + "\nPower: " + Power.str());
-//	hp.setPosition(View.view.getCenter().x - TEXTX, View.view.getCenter().y - HPY);
-//	window.draw(hp);
-//}p
-
+void AllText::DrawSprite(MyView & View, sf::RenderWindow & window, bool & is_show, sf::Sprite & Kumach_s)
+{
+	if (!is_show) {
+		task_t.Draw(View, window, 200, -100);
+		Kumach_s.setPosition(View.view.getCenter().x + 120, View.view.getCenter().y - 100);
+		window.draw(Kumach_s);
+	}
+}
 
 void AllText::PrintAll()
 {
 	score_t.Print();
 	water_t.Print();
 	hp_t.Print();
+}
+
+void AllText::React(sf::RenderWindow & window, bool & is_show, MyView & View, Actor & Hero, sf::Sprite & Kumach_s)
+{
+	sf::Event event;
+	while (window.pollEvent(event))
+	{
+		if (event.type == sf::Event::Closed)
+			window.close();
+	
+		if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Tab)) {
+			fout << "TAB has pressed" << std::endl;
+			switch (is_show)
+			{
+			case true:
+			{
+				task_t.PushStr( GetTextMission(GetCurMission(Hero.GetCoordX())));
+				//task_t.PrepareToDraw(View, 200, -100);
+				Kumach_s.setPosition(View.view.getCenter().x + 120, View.view.getCenter().y - 100);
+				is_show = false;
+				break;
+			}
+			case false:
+			{				
+				is_show = true;
+				break;
+			}
+			}
+		}
+	}
 }
