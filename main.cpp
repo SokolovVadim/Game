@@ -8,19 +8,27 @@ void PlayKotik()
 }
 
 bool	IsWalk				();
-void	MoveMouse			(sf::Vector2i & PixPos, sf::Vector2f & WindPos, sf::RenderWindow & window);
 void	ChooseAction		(Actor & Hero, int dir, double & CurFrame, sf::Int64 time, int X, int Y);
 void	LoadMission			(sf::Sprite & Kumach_s, sf::Texture & Kumach_texture);
-void	LoadText			(sf::Font & font, sf::Text & text, std::string str,
-							unsigned int size, sf::Color colour, sf::Text::Style style);\
+void	Process				(sf::RenderWindow & window, Map & map, MyView & View, Actor & Hero);
+void	ActionSwitch		(Actor & Hero, double & CurFrame, sf::Int64 & time,
+							sf::RenderWindow & window,	MyView & View);
+// into separated class Drag & Drop interface
+void	MoveMouse(sf::Vector2i & PixPos, sf::Vector2f & WindPos, sf::RenderWindow & window);
+//void DragAndDrop(sf::Event & event, Actor & Hero);
+void Move();
 
-void React(sf::RenderWindow & window, bool & show_mission_text,
-	std::ostringstream & task, sf::Text & task_txt, MyView & View, Actor & Hero, sf::Sprite & Kumach_s);
-
-void ActionSwitch(Actor & Hero, double & CurFrame, sf::Int64 & time, sf::RenderWindow & window,
-	MyView & View);
 
 
+void Move()
+{
+	bool			isMove(false);
+	float			Dx(0.0f);
+	float			Dy(0.0f);
+
+	sf::Vector2i PixPos;           // to load information about mouse position
+	sf::Vector2f WindPos;          //
+}
 
 void Process (sf::RenderWindow & window, Map & map, MyView & View, Actor & Hero)
 {
@@ -47,16 +55,18 @@ void Process (sf::RenderWindow & window, Map & map, MyView & View, Actor & Hero)
 	LoadMission		(Kumach_s, Kumach_texture);
 
 	sf::Int64		timer	(0);
-	bool			isMove	(false);
-	float			Dx		(0.0f);
-	float			Dy		(0.0f);
 
-	sf::Vector2i PixPos;           // to load information about mouse position
-	sf::Vector2f WindPos;          //
 
+	//sf::Vector2i PixPos;           // to load information about mouse position
+	//sf::Vector2f WindPos;          //
+
+	bool IsMove(false);
+	float Dx(0.0f);
+	float Dy(0.0f);
 
 	while (window.isOpen())
 	{
+		DragAndDrop dnd(window, IsMove, Dx, Dy);
 		sf::Int64 time = clock.getElapsedTime().asMicroseconds();
 
 		if (Hero.GetAlive())
@@ -65,12 +75,20 @@ void Process (sf::RenderWindow & window, Map & map, MyView & View, Actor & Hero)
 		clock.restart();
 		time /= 800;
 		
-		MoveMouse(PixPos, WindPos, window);
+		//MoveMouse(PixPos, WindPos, window);
 
-		fulltxt.React(window, show_mission_text, View, Hero, Kumach_s); 
+		sf::Event event;
+		while (window.pollEvent(event))
+		{
+			fulltxt.React(event, window, show_mission_text, View, Hero, Kumach_s);
+			dnd.MainEffect(event, Hero);
+			dnd.MoveMouse(window);
+		}
+		dnd.Action(Hero);
+
 		ActionSwitch(Hero, CurFrame, time, window, View);
 
-		View.ScrollMouse(window, time);
+		//View.ScrollMouse(window, time);
 
 		map.GenerateInTime(timer, time, 10000, ' ', 'H', 1);
 
@@ -115,8 +133,6 @@ void ChooseAction(Actor & Hero, int dir, double & CurFrame, sf::Int64 time, int 
 		Hero.sprite.setTextureRect(sf::IntRect(X, Y, HEROX, HEROY));
 }
 
-
-
 bool IsWalk()
 {
 	if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Down)  || (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) ||
@@ -124,45 +140,6 @@ bool IsWalk()
 		return true;
 	else
 		return false;
-}
-
-
-int main()
-{
-
-	//PlayKotik();
-
-	sf::RenderWindow window(sf::VideoMode(W, H), "Jeday");
-	MyView View;
-	View.view.reset(sf::FloatRect(XPOS - SETCAMX / 2, YPOS - SETCAMY / 2, SETCAMX, SETCAMY));
-
-	sf::Image	map_image;
-	sf::Texture map_texture;
-	sf::Sprite	map_sprite;
-
-	Map    map(map_image, map_texture, map_sprite);
-
-	map.RandomGenerator(' ', 's', 1);
-	map.RandomGenerator(' ', 'D', 8);
-	map.RandomGenerator(' ', 'R', 1);
-
-	Actor Hero("sheet2.png", HEALTH, 0, SETBEGIN, HEROX, HEROY);
-
-	Process(window, map, View, Hero);
-	return 0;
-}
-
-
-
-void LoadText(sf::Font & font, sf::Text & text, std::string str,
-	unsigned int size, sf::Color color, sf::Text::Style style)
-{
-	text.setFont			(font);
-	text.setString			(str);
-	text.setCharacterSize	(size);
-	text.setFillColor		(color);
-	text.setStyle			(style);
-
 }
 
 void LoadMission(sf::Sprite & Kumach_s, sf::Texture & Kumach_texture)
@@ -185,41 +162,14 @@ void MoveMouse(sf::Vector2i & PixPos, sf::Vector2f & WindPos, sf::RenderWindow &
 	//fout << "Mouse window coord.x = " << WindPos.x << " coord.y = " << WindPos.y << std::endl;
 }
 
-void React(sf::RenderWindow & window, bool & show_mission_text,	std::ostringstream & task,
-	sf::Text & task_txt, MyView & View, Actor & Hero, sf::Sprite & Kumach_s)
-{
-	sf::Event event;
-	while (window.pollEvent(event))
-	{
-		if (event.type == sf::Event::Closed)
-			window.close();
 
-		if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Tab)) {
-			fout << "TAB has pressed" << std::endl;
-
-			switch (show_mission_text)
-			{
-			case true:
-			{
-
-				task << GetTextMission(GetCurMission(Hero.GetCoordX()));
-				task_txt.setString("Task: " + task.str());
-				task_txt.setPosition(View.view.getCenter().x + 200, View.view.getCenter().y - 100);
-				Kumach_s.setPosition(View.view.getCenter().x + 120, View.view.getCenter().y - 100);
-				show_mission_text = false;
-				break;
-			}
-			case false:
-			{
-				task_txt.setString("six nine");
-				show_mission_text = true;
-
-				break;
-			}
-			}
-		}
-	}
-}
+//void DragAndDrop(sf::Event & event, Actor & Hero)
+//{
+//	sf::Event event;
+//	if((event.type == sf::Event::MouseButtonPressed) && (event.key.code == sf::Mouse::Left)
+//		&& (Hero.sprite.getGlobalBounds().contains())
+//
+//}
 
 
 void ActionSwitch(Actor & Hero, double & CurFrame, sf::Int64 & time, sf::RenderWindow & window,
@@ -262,4 +212,30 @@ void ActionSwitch(Actor & Hero, double & CurFrame, sf::Int64 & time, sf::RenderW
 
 		}
 	}
+}
+
+
+int main()
+{
+
+	//PlayKotik();
+
+	sf::RenderWindow window(sf::VideoMode(W, H), "Jeday");
+	MyView View;
+	View.view.reset(sf::FloatRect(XPOS - SETCAMX / 2, YPOS - SETCAMY / 2, SETCAMX, SETCAMY));
+
+	sf::Image	map_image;
+	sf::Texture map_texture;
+	sf::Sprite	map_sprite;
+
+	Map    map(map_image, map_texture, map_sprite);
+
+	map.RandomGenerator(' ', 's', 1);
+	map.RandomGenerator(' ', 'D', 8);
+	map.RandomGenerator(' ', 'R', 1);
+
+	Actor Hero("sheet2.png", HEALTH, 0, SETBEGIN, HEROX, HEROY);
+
+	Process(window, map, View, Hero);
+	return 0;
 }
