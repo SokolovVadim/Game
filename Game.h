@@ -44,6 +44,7 @@ enum ENGINE {
 #include "View.h"
 #include "Mission.h"
 #include "Text.h"
+#include "DragAndDrop.h"
 
 
 #define asserted || fout << "WARNING! ASSERT WAS CALLED ON LINE %d\n" << __LINE__;

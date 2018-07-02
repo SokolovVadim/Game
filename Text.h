@@ -45,7 +45,7 @@ Text::Text(sf::Font & font, sf::Text & text, const sf::Color color, sf::Text::St
 	size_		(size)
 {
 	text_t.setFont			(font);
-	text_t.setString			(str);
+	text_t.setString		(str);
 	text_t.setCharacterSize	(size);
 	text_t.setFillColor		(color);
 	text_t.setStyle			(style);
@@ -112,7 +112,7 @@ public:
 	void PrintAll	();
 	void DrawSprite (MyView & View, sf::RenderWindow & window, bool & is_show, sf::Sprite & Kumach_s);
 	void DrawTXT(MyView & View, Actor & Hero, sf::RenderWindow & window);
-	void React(sf::RenderWindow & window, bool & is_show, MyView & View, Actor & Hero, sf::Sprite & Kumach_s);
+	void React(sf::Event & event, sf::RenderWindow & window, bool & is_show, MyView & View, Actor & Hero, sf::Sprite & Kumach_s);
 	Text & GetText();
 };
 
@@ -179,35 +179,33 @@ void AllText::PrintAll()
 	hp_t.Print();
 }
 
-void AllText::React(sf::RenderWindow & window, bool & is_show, MyView & View, Actor & Hero, sf::Sprite & Kumach_s)
+void AllText::React(sf::Event & event, sf::RenderWindow & window, bool & is_show, MyView & View, Actor & Hero, sf::Sprite & Kumach_s)
 {
-	sf::Event event;
-	while (window.pollEvent(event))
-	{
-		if (event.type == sf::Event::Closed)
-			window.close();
+	//sf::Event event;
+	//while (window.pollEvent(event))
+	//{
 	
-		if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Tab)) {
-			fout << "TAB has pressed" << std::endl;
-			switch (is_show)
-			{
-			case true:
-			{
-				task_t.PushStr( GetTextMission(GetCurMission(Hero.GetCoordX())));
+	if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Tab)) {
+		fout << "TAB has pressed" << std::endl;
+		switch (is_show)
+		{
+		case true:
+		{
+			task_t.PushStr( GetTextMission(GetCurMission(Hero.GetCoordX())));
 				
-				//task_t.PrepareToDraw(View, 200, -100);
-				Kumach_s.setPosition(View.view.getCenter().x + 120, View.view.getCenter().y - 100);
-				is_show = false;
-				break;
-			}
-			case false:
-			{				
-				is_show = true;
-				break;
-			}
-			}
+			//task_t.PrepareToDraw(View, 200, -100);
+			Kumach_s.setPosition(View.view.getCenter().x + 120, View.view.getCenter().y - 100);
+			is_show = false;
+			break;
+		}
+		case false:
+		{				
+			is_show = true;
+			break;
+		}
 		}
 	}
+	//}
 }
 
 

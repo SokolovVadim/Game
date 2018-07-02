@@ -52,21 +52,15 @@ public:
 	void			GetAir			(std::ostringstream & ScoreAir);
 	void			PushPower		(std::ostringstream & Power_str);
 	void			ReducePower		(sf::Int64 time);
-	void			Move			();
+	void			SetCoord		(const float x, const float y);
 	unsigned int	GetScore		();
 };
 
-
-
-void Actor::Move()
+void Actor::SetCoord(const float x, const float y)
 {
-
-
-
-
-	;
+	Xcoord = x;
+	Ycoord = y;
 }
-
 
 float Actor::GetPower() const
 {
@@ -131,7 +125,7 @@ bool Actor::GetAlive()
 Actor::~Actor()
 {
 	fout << "Finished HP = " << Heatpoints << std::endl;
-	std::cout << "Actor Destructor was called!" << std::endl;
+	fout << "Actor Destructor was called!" << std::endl;
 }
 
 void Actor::InterractMap(sf::Int64 time, Map & map)
@@ -206,7 +200,7 @@ void Actor::InterractMap(sf::Int64 time, Map & map)
 
 			}
 			else {
-				std::cout << "i = " << i << std::ends << "j = " << j << std::endl;
+				//std::cout << "i = " << i << std::ends << "j = " << j << std::endl;
 			}
 		}
 	}
@@ -252,7 +246,7 @@ Actor::Actor(std::string file, unsigned int HP, float x, float y, float w, float
 	sprite.setTextureRect	     (sf::IntRect(int(x), int(y), int(Width), int(Height)));
 	sprite.setPosition           (XPOS, YPOS);
 	
-	std::cout << "Actor constructor was called!" << std::endl;
+	fout << "Actor constructor was called!" << std::endl;
 }
 
 
@@ -282,7 +276,7 @@ bool Actor::Update(sf::Int64 time, Map & map)
 	}
 	default:{
 		dx = 0; dy = 0;
-		std::cout << "No switch choose" << std::endl;
+		//std::cout << "No switch choose" << std::endl;
 	}
 	}
 

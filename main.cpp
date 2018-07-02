@@ -57,16 +57,17 @@ void Process (sf::RenderWindow & window, Map & map, MyView & View, Actor & Hero)
 	sf::Int64		timer	(0);
 
 
-	//sf::Vector2i PixPos;           // to load information about mouse position
-	//sf::Vector2f WindPos;          //
-
-	bool IsMove(false);
-	float Dx(0.0f);
-	float Dy(0.0f);
+	bool IsMove		(false);
+	float Dx		(0.0f);
+	float Dy		(0.0f);
 
 	while (window.isOpen())
 	{
 		DragAndDrop dnd(window, IsMove, Dx, Dy);
+
+		//sf::Vector2i PixPos = sf::Mouse::getPosition(window);           // to load information about mouse position
+		//sf::Vector2f WindPos = window.mapPixelToCoords(PixPos);          //
+
 		sf::Int64 time = clock.getElapsedTime().asMicroseconds();
 
 		if (Hero.GetAlive())
@@ -80,10 +81,32 @@ void Process (sf::RenderWindow & window, Map & map, MyView & View, Actor & Hero)
 		sf::Event event;
 		while (window.pollEvent(event))
 		{
+			if (event.type == sf::Event::Closed)
+				window.close();
 			fulltxt.React(event, window, show_mission_text, View, Hero, Kumach_s);
+			/*if(event.type == sf::Event::MouseButtonPressed)
+				if (event.key.code == sf::Mouse::Left)
+					if(Hero.sprite.getGlobalBounds().contains(PixPos.x, PixPos.y))
+					{
+						Dx = PixPos.x - Hero.sprite.getPosition().x;
+						Dy = PixPos.y - Hero.sprite.getPosition().y;
+						IsMove = true;
+					}
+			if (event.type == sf::Event::MouseButtonReleased)
+				if (event.key.code == sf::Mouse::Left)
+				{
+					IsMove = false;
+					Hero.sprite.setColor(sf::Color::White);
+				}*/
+
 			dnd.MainEffect(event, Hero);
 			dnd.MoveMouse(window);
 		}
+		/*if (IsMove)
+		{
+			Hero.sprite.setColor(sf::Color::Magenta);
+			Hero.SetCoord(PixPos.x - Dx, PixPos.y - Dy);
+		}*/
 		dnd.Action(Hero);
 
 		ActionSwitch(Hero, CurFrame, time, window, View);

@@ -11,15 +11,15 @@ private:
 	sf::Vector2i	PixPos;
 	sf::Vector2f	WindPos;
 public:
-	DragAndDrop				(sf::RenderWindow & window, bool Ismove_, float Dx_, float Dy_);
+	DragAndDrop				(sf::RenderWindow & window, bool & Ismove_, float & Dx_, float & Dy_);
 	void MoveMouse			(sf::RenderWindow & window);
 	void MainEffect			(sf::Event & event, Actor & Hero);
 	void Action(Actor & Hero);
 };
 
 
-DragAndDrop::DragAndDrop(sf::RenderWindow & window, bool Ismove_, float Dx_, float Dy_) :
-	isMove(isMove),
+DragAndDrop::DragAndDrop(sf::RenderWindow & window, bool & IsMove_, float & Dx_, float & Dy_) :
+	isMove(IsMove_),
 	Dx(Dx_),
 	Dy(Dy_),
 	PixPos(sf::Mouse::getPosition(window)),
@@ -38,8 +38,12 @@ void DragAndDrop::MainEffect(sf::Event & event, Actor & Hero)
 		&& (Hero.sprite.getGlobalBounds().contains(WindPos)))
 	{
 		fout << "Click!" << std::endl;
-		Dx = WindPos.x - Hero.sprite.getPosition().x;
-		Dy = WindPos.y - Hero.sprite.getPosition().y;
+		Dx = PixPos.x - Hero.sprite.getPosition().x;
+		Dy = PixPos.y - Hero.sprite.getPosition().y;
+
+		std::cout << "Dx = " << Dx << " Dy = " << Dy << std::endl;
+
+
 		isMove = true;
 	}
 	if ((event.type == sf::Event::MouseButtonReleased) && (event.key.code == sf::Mouse::Left))
@@ -53,6 +57,6 @@ void DragAndDrop::Action(Actor & Hero)
 {
 	if (isMove) {
 		Hero.sprite.setColor(sf::Color::Cyan);
-		Hero.SetCoord(WindPos.x - Dx, WindPos.y - Dy);
+		Hero.SetCoord(PixPos.x - Dx, PixPos.y - Dy);
 	}
 }
