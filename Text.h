@@ -23,6 +23,7 @@ public:
 	void PushStr(std::string value);
 	void PrepareToDraw(MyView & View, int correct_x, int correct_y);
 	std::ostringstream & GetStream();
+	sf::Text & GetText();
 };
 
 Text::Text() :
@@ -50,6 +51,10 @@ Text::Text(sf::Font & font, sf::Text & text, const sf::Color color, sf::Text::St
 	text_t.setStyle			(style);
 }
 
+sf::Text & Text::GetText()
+{
+	return text_t;
+}
 
 void Text::PrepareToDraw(MyView & View, int correct_x, int correct_y)
 {
@@ -80,6 +85,7 @@ void Text::Draw(MyView & View, sf::RenderWindow & window, int correct_x, int cor
 	text_t.setString(str_t + stream_t.str());
 	text_t.setPosition(View.view.getCenter().x + correct_x, View.view.getCenter().y + correct_y);
 	window.draw(text_t);
+	//window.display();
 }
 
 void Text::Print()
@@ -107,6 +113,7 @@ public:
 	void DrawSprite (MyView & View, sf::RenderWindow & window, bool & is_show, sf::Sprite & Kumach_s);
 	void DrawTXT(MyView & View, Actor & Hero, sf::RenderWindow & window);
 	void React(sf::RenderWindow & window, bool & is_show, MyView & View, Actor & Hero, sf::Sprite & Kumach_s);
+	Text & GetText();
 };
 
 AllText::AllText(sf::Font & font_, sf::Text & text, sf::Text & water, sf::Text & hp,
@@ -122,6 +129,10 @@ AllText::AllText(sf::Font & font_, sf::Text & text, sf::Text & water, sf::Text &
 	;
 }
 
+Text & AllText::GetText()
+{
+	return task_t;
+}
 
 void AllText::DrawAll(MyView & View, sf::RenderWindow & window, Actor & Hero, sf::Int64 & time, int & game_time)
 {
@@ -153,9 +164,11 @@ void AllText::DrawTXT(MyView & View, Actor & Hero, sf::RenderWindow & window)
 void AllText::DrawSprite(MyView & View, sf::RenderWindow & window, bool & is_show, sf::Sprite & Kumach_s)
 {
 	if (!is_show) {
-		task_t.Draw(View, window, 200, -100);
+		
+		//window.display();
 		Kumach_s.setPosition(View.view.getCenter().x + 120, View.view.getCenter().y - 100);
 		window.draw(Kumach_s);
+		task_t.Draw(View, window, 200, -100);
 	}
 }
 
@@ -181,6 +194,7 @@ void AllText::React(sf::RenderWindow & window, bool & is_show, MyView & View, Ac
 			case true:
 			{
 				task_t.PushStr( GetTextMission(GetCurMission(Hero.GetCoordX())));
+				
 				//task_t.PrepareToDraw(View, 200, -100);
 				Kumach_s.setPosition(View.view.getCenter().x + 120, View.view.getCenter().y - 100);
 				is_show = false;
@@ -195,3 +209,61 @@ void AllText::React(sf::RenderWindow & window, bool & is_show, MyView & View, Ac
 		}
 	}
 }
+
+
+
+//void React(sf::RenderWindow & window, bool & show_mission_text, std::ostringstream & task,
+//	sf::Text & task_txt, MyView & View, Actor & Hero, sf::Sprite & Kumach_s)
+//{
+//	sf::Event event;
+//	while (window.pollEvent(event))
+//	{
+//		if (event.type == sf::Event::Closed)
+//			window.close();
+//
+//		if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Tab)) {
+//			fout << "TAB has pressed" << std::endl;
+//
+//			switch (show_mission_text)
+//			{
+//			case true:
+//			{
+//
+//				task << GetTextMission(GetCurMission(Hero.GetCoordX()));
+//				task_txt.setString("Task: " + task.str());
+//				task_txt.setPosition(View.view.getCenter().x + 200, View.view.getCenter().y - 100);
+//				Kumach_s.setPosition(View.view.getCenter().x + 120, View.view.getCenter().y - 100);
+//				show_mission_text = false;
+//				break;
+//			}
+//			case false:
+//			{
+//				task_txt.setString("six nine");
+//				show_mission_text = true;
+//
+//				break;
+//			}
+//			}
+//		}
+//	}
+//}
+
+
+
+//void DrawObjects(MyView & View, Actor & Hero, sf::Text & game_over, sf::RenderWindow & window,
+//	bool & show_mission_text, sf::Text & task_txt, sf::Sprite & Kumach_s)
+//{
+//	if ((View.view.getCenter().x >= W - SETCAMX / 2) && (!Hero.GetAlive()))
+//	{
+//		//           COnstants below!
+//		game_over.setPosition(View.view.getCenter().x - 310, View.view.getCenter().y - 100);
+//		window.draw(game_over);
+//	}
+//
+//	if (!show_mission_text) {
+//		task_txt.setPosition(View.view.getCenter().x + 200, View.view.getCenter().y - 100);
+//		Kumach_s.setPosition(View.view.getCenter().x + 120, View.view.getCenter().y - 100);
+//		window.draw(Kumach_s);
+//		window.draw(task_txt);
+//	}
+//}

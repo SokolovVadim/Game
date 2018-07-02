@@ -49,7 +49,7 @@ public:
 	void			InterractMap	(sf::Int64 time, Map & map);
 	void			SetHP			(std::ostringstream & HeatPoints);
 	void			PushScore		(std::ostringstream & ScoreString);
-	void			GetAir			(std::ostringstream & ScoreAir, sf::Int64 time);
+	void			GetAir			(std::ostringstream & ScoreAir);
 	void			PushPower		(std::ostringstream & Power_str);
 	void			ReducePower		(sf::Int64 time);
 	void			Move			();
@@ -93,6 +93,7 @@ void Actor::ReducePower(sf::Int64 time)
 
 void Actor::PushPower(std::ostringstream & Power_str)
 {
+	Power_str.str(std::string());
 	Power_str << int(Actor::Power);
 }
 
@@ -103,6 +104,7 @@ float Actor::GetSpeed()const
 
 void Actor::SetHP(std::ostringstream & HeatPoints)
 {
+	HeatPoints.str(std::string());
 	HeatPoints << int(Actor::Heatpoints);
 }
 
@@ -110,11 +112,13 @@ void Actor::SetHP(std::ostringstream & HeatPoints)
 
 void Actor::PushScore(std::ostringstream & ScoreString)
 {
+	ScoreString.str(std::string());
 	ScoreString << Score;
 }
 
-void Actor::GetAir(std::ostringstream & ScoreAir, sf::Int64 time)
+void Actor::GetAir(std::ostringstream & ScoreAir)
 {
+	ScoreAir.str(std::string());
 	ScoreAir << int(Air);
 }
 
