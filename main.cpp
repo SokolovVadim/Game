@@ -12,23 +12,7 @@ void	ChooseAction		(Actor & Hero, int dir, double & CurFrame, sf::Int64 time, in
 void	LoadMission			(sf::Sprite & Kumach_s, sf::Texture & Kumach_texture);
 void	Process				(sf::RenderWindow & window, Map & map, MyView & View, Actor & Hero);
 void	ActionSwitch		(Actor & Hero, double & CurFrame, sf::Int64 & time,
-							sf::RenderWindow & window,	MyView & View);
-// into separated class Drag & Drop interface
-void	MoveMouse(sf::Vector2i & PixPos, sf::Vector2f & WindPos, sf::RenderWindow & window);
-//void DragAndDrop(sf::Event & event, Actor & Hero);
-void Move();
-
-
-
-void Move()
-{
-	bool			isMove(false);
-	float			Dx(0.0f);
-	float			Dy(0.0f);
-
-	sf::Vector2i PixPos;           // to load information about mouse position
-	sf::Vector2f WindPos;          //
-}
+							sf::RenderWindow & window, MyView & View);
 
 void Process (sf::RenderWindow & window, Map & map, MyView & View, Actor & Hero)
 {
@@ -39,6 +23,7 @@ void Process (sf::RenderWindow & window, Map & map, MyView & View, Actor & Hero)
 	sf::Clock		game_time_clock;
 	int				game_time(0);
 	bool			show_mission_text(true);
+	
 
 	sf::Font font;
 
@@ -56,11 +41,15 @@ void Process (sf::RenderWindow & window, Map & map, MyView & View, Actor & Hero)
 
 	sf::Int64		timer	(0);
 
+	// rpg interface  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-	bool IsMove		(false);
-	float Dx		(0.0f);
-	float Dy		(0.0f);
-	DragAndDrop dnd(window, IsMove, Dx, Dy);
+	int tempX(0);
+	int tempY(0);
+	float distance(0.0f);
+
+	// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+	DragAndDrop dnd(window);
 
 	while (window.isOpen())
 	{
@@ -83,8 +72,13 @@ void Process (sf::RenderWindow & window, Map & map, MyView & View, Actor & Hero)
 				window.close();
 			fulltxt.React(event, window, show_mission_text, View, Hero, Kumach_s);
 			dnd.MainEffect(event, Hero);
+			dnd.Select(window, event, Hero);
+			dnd.Rpg(event, Hero);
+			
 			//dnd.MoveMouse(window);
 		}
+		dnd.MoveSprite(Hero, time);
+		//dnd.DropColor(Hero, event);
 		dnd.Action(Hero);
 
 		ActionSwitch(Hero, CurFrame, time, window, View);
@@ -155,30 +149,10 @@ void LoadMission(sf::Sprite & Kumach_s, sf::Texture & Kumach_texture)
 }
 
 
-void MoveMouse(sf::Vector2i & PixPos, sf::Vector2f & WindPos, sf::RenderWindow & window)
-{
-	PixPos = sf::Mouse::getPosition(window);
-	WindPos = window.mapPixelToCoords(PixPos);
-	//fout << "Mouse pixel  coord.x = " << PixPos.x  << " coord.y = " << PixPos.y  << std::endl;
-	//fout << "Mouse window coord.x = " << WindPos.x << " coord.y = " << WindPos.y << std::endl;
-}
-
-
-//void DragAndDrop(sf::Event & event, Actor & Hero)
-//{
-//	sf::Event event;
-//	if((event.type == sf::Event::MouseButtonPressed) && (event.key.code == sf::Mouse::Left)
-//		&& (Hero.sprite.getGlobalBounds().contains())
-//
-//}
-
-
 void ActionSwitch(Actor & Hero, double & CurFrame, sf::Int64 & time, sf::RenderWindow & window,
 	MyView & View)
 {
 	if (Hero.GetAlive()) {
-
-
 
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
 			ChooseAction(Hero, 0, CurFrame, time, HEROX * int(CurFrame), HEROY);

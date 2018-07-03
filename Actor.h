@@ -19,6 +19,8 @@ private:
 	float			Air;
 
 	bool			Alive;
+	bool			IsMove;
+	bool			IsSelect;
 
 	sf::Image		Image;
 	sf::Texture		Texture;
@@ -40,6 +42,8 @@ public:
 	bool			Update			(sf::Int64 time, Map & map);
 	bool			GetAlive		();
 	bool			SetPower		(sf::Int64 time);
+	bool			GetSelect		();
+	bool			GetMove			();
 	float			GetCoordX		() const;
 	float			GetCoordY		() const;
 	float			GetSpeed		() const;
@@ -53,8 +57,38 @@ public:
 	void			PushPower		(std::ostringstream & Power_str);
 	void			ReducePower		(sf::Int64 time);
 	void			SetCoord		(const float x, const float y);
+	void			SetSelect		(bool value);
+	void			SetMove			(bool value);
+	void			IncCoord		(const float x, const float y);
 	unsigned int	GetScore		();
 };
+
+
+void Actor::IncCoord(const float x, const float y)
+{
+	Xcoord += x;
+	Ycoord += y;
+}
+
+bool Actor::GetMove()
+{
+	return IsMove;
+}
+
+void Actor::SetMove(bool value)
+{
+	IsMove = value;
+}
+
+bool Actor::GetSelect()
+{
+	return IsSelect;
+}
+
+void Actor::SetSelect(bool value)
+{
+	IsSelect = value;
+}
 
 void Actor::SetCoord(const float x, const float y)
 {
@@ -231,6 +265,8 @@ Actor::Actor(std::string file, unsigned int HP, float x, float y, float w, float
 	Power		(10),
 	Speed		(0),
 	Alive       (true),
+	IsMove		(false),
+	IsSelect	(false),
 	Score       (0),
 	Air         (10),
 	Width		(w),
