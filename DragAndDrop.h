@@ -9,8 +9,13 @@ private:
 	float			tempY;
 	float			distance;
 	bool			isMove;
+
 	float			Dx;
 	float			Dy;
+	float			DeltaX;
+	float			DeltaY;
+	float			Rotation;
+
 	sf::Vector2i	PixPos;
 	sf::Vector2f	WindPos;
 public:
@@ -23,6 +28,7 @@ public:
 	void Rpg				(sf::Event & event, Actor & Hero);
 	void MoveSprite			(Actor & Hero, sf::Int64 & time);
 	void DropColor			(Actor & Hero, sf::Event & event);
+	void Rotate				(Actor & Hero);
 };
 
 
@@ -33,9 +39,23 @@ DragAndDrop::DragAndDrop(sf::RenderWindow & window) :
 	isMove			(false),
 	Dx				(0.0f),
 	Dy				(0.0f),
+	DeltaX			(0.0f),
+	DeltaY			(0.0f),
+	Rotation		(0.0f),
 	PixPos			(sf::Mouse::getPosition(window)),
 	WindPos			(window.mapPixelToCoords(PixPos))
 {}
+
+
+void DragAndDrop::Rotate(Actor & Hero)
+{
+	DeltaX = WindPos.x - Hero.GetCoordX();
+	DeltaY = WindPos.y - Hero.GetCoordY();
+	Rotation = (atan2(DeltaX, DeltaY)) * 180.0f / float(M_PI);
+	Hero.sprite.setRotation(Rotation);
+}
+
+
 
 void DragAndDrop::DropColor(Actor & Hero, sf::Event & event)
 {
@@ -55,7 +75,7 @@ void DragAndDrop::MoveSprite(Actor & Hero, sf::Int64 & time)
 		distance = sqrt((pow(tempX - Hero.GetCoordX(), 2) + pow(tempY - Hero.GetCoordY(), 2)));
 		if (distance > 2.0)
 		{
-			Hero.IncCoord(0.1*time*(tempX - Hero.GetCoordX()) / distance, 0.1*time*(tempY - Hero.GetCoordY()) / distance);
+			Hero.IncCoord(0.1f*time*(tempX - Hero.GetCoordX()) / distance, 0.1f*time*(tempY - Hero.GetCoordY()) / distance);
 		}
 		else
 		{
@@ -88,6 +108,7 @@ void DragAndDrop::Rpg(sf::Event & event, Actor & Hero)
 				Hero.sprite.setColor(sf::Color::White);
 				tempX = WindPos.x;
 				tempY = WindPos.y;
+				//Rotate(Hero);  !!!  I banned it cas it didn't work correctly   !!!!!!!!!!!!!!!!!!!!!!!!!!
 			}
 }
 
