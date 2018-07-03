@@ -15,6 +15,7 @@ public:
 	void MoveMouse			(sf::RenderWindow & window);
 	void MainEffect			(sf::Event & event, Actor & Hero);
 	void Action(Actor & Hero);
+	void SetVectors(sf::RenderWindow & window);
 };
 
 
@@ -26,6 +27,13 @@ DragAndDrop::DragAndDrop(sf::RenderWindow & window, bool & IsMove_, float & Dx_,
 	WindPos(window.mapPixelToCoords(PixPos))
 {}
 
+
+void DragAndDrop::SetVectors(sf::RenderWindow & window)
+{
+	PixPos = (sf::Mouse::getPosition(window));
+	WindPos = (window.mapPixelToCoords(PixPos));
+}
+
 void DragAndDrop::MoveMouse(sf::RenderWindow & window)
 {
 	fout << "Mouse pixel  coord.x = " << PixPos.x  << " coord.y = " << PixPos.y  << std::endl;
@@ -34,29 +42,58 @@ void DragAndDrop::MoveMouse(sf::RenderWindow & window)
 
 void DragAndDrop::MainEffect(sf::Event & event, Actor & Hero)
 {
-	if ((event.type == sf::Event::MouseButtonPressed) && (event.key.code == sf::Mouse::Left)
-		&& (Hero.sprite.getGlobalBounds().contains(WindPos)))
-	{
-		fout << "Click!" << std::endl;
-		Dx = PixPos.x - Hero.sprite.getPosition().x;
-		Dy = PixPos.y - Hero.sprite.getPosition().y;
-
-		std::cout << "Dx = " << Dx << " Dy = " << Dy << std::endl;
-
-
-		isMove = true;
-	}
-	if ((event.type == sf::Event::MouseButtonReleased) && (event.key.code == sf::Mouse::Left))
-	{
-		isMove = false;
-		Hero.sprite.setColor(sf::Color::White);
-	}
+	if (event.type == sf::Event::MouseButtonPressed)
+			if (event.key.code == sf::Mouse::Left)
+				if (Hero.sprite.getGlobalBounds().contains(WindPos.x, WindPos.y))
+				{
+					Dx = WindPos.x - Hero.sprite.getPosition().x;
+					Dy = WindPos.y - Hero.sprite.getPosition().y;
+					isMove = true;
+				}
+	if (event.type == sf::Event::MouseButtonReleased)
+		if (event.key.code == sf::Mouse::Left)
+		{
+			isMove = false;
+			Hero.sprite.setColor(sf::Color::White);
+		}
 }
 
 void DragAndDrop::Action(Actor & Hero)
 {
-	if (isMove) {
-		Hero.sprite.setColor(sf::Color::Cyan);
-		Hero.SetCoord(PixPos.x - Dx, PixPos.y - Dy);
+	if (isMove)
+	{
+
+		fout << "Hero: x = " << Hero.GetCoordX() << ", y = " << Hero.GetCoordY() << " Window: x = " << (WindPos.x - Dx) << ", y = " << (WindPos.y - Dy) << std::endl;
+		Hero.sprite.setColor(sf::Color::Magenta);
+		Hero.SetCoord(WindPos.x - Dx, WindPos.y - Dy);
 	}
 }
+
+//while (window.pollEvent(event))
+//{
+//	if (event.type == sf::Event::Closed)
+//		window.close();
+//	fulltxt.React(event, window, show_mission_text, View, Hero, Kumach_s);
+//	if (event.type == sf::Event::MouseButtonPressed)
+//		if (event.key.code == sf::Mouse::Left)
+//			if (Hero.sprite.getGlobalBounds().contains(WindPos.x, WindPos.y))
+//			{
+//				Dx = WindPos.x - Hero.sprite.getPosition().x;
+//				Dy = WindPos.y - Hero.sprite.getPosition().y;
+//				IsMove = true;
+//			}
+//	if (event.type == sf::Event::MouseButtonReleased)
+//		if (event.key.code == sf::Mouse::Left)
+//		{
+//			IsMove = false;
+//			Hero.sprite.setColor(sf::Color::White);
+//		}
+//
+//	dnd.MainEffect(event, Hero);
+//	dnd.MoveMouse(window);
+//}
+//if (IsMove)
+//{
+//	Hero.sprite.setColor(sf::Color::Magenta);
+//	Hero.SetCoord(WindPos.x - Dx, WindPos.y - Dy);
+//}
