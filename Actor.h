@@ -6,6 +6,7 @@ class Actor
 private:
 
 	int				Dir;
+	int				PurpleTimer;
 	unsigned int	Score;
 
 	float			Heatpoints;
@@ -21,6 +22,7 @@ private:
 	bool			Alive;
 	bool			IsMove;
 	bool			IsSelect;
+	bool			IsPurple;
 
 	sf::Image		Image;
 	sf::Texture		Texture;
@@ -60,9 +62,23 @@ public:
 	void			SetSelect		(bool value);
 	void			SetMove			(bool value);
 	void			IncCoord		(const float x, const float y);
+	void PurpleStyle(sf::Int64 & time);
 	unsigned int	GetScore		();
 };
 
+void Actor::PurpleStyle(sf::Int64 & time)
+{
+	//std::cout << "time: " << time << std::endl;
+	if (IsPurple) {
+		PurpleTimer += int(time);
+		if (PurpleTimer > 5000)
+		{
+			IsPurple = false;
+			sprite.setColor(sf::Color::White);
+			PurpleTimer = 0;
+		}
+	}
+}
 
 void Actor::IncCoord(const float x, const float y)
 {
@@ -174,7 +190,7 @@ void Actor::InterractMap(sf::Int64 time, Map & map)
 
 				char sym = map.GetElemMap(i, j);
 
-				if ((sym == '0') || (sym == 'B'))
+				if ((sym == '0') || (sym == 'B') || (sym == 'T'))
 				{
 					if (dy > 0)
 						Ycoord = i*HGRASS - Height;
@@ -193,6 +209,21 @@ void Actor::InterractMap(sf::Int64 time, Map & map)
 					map.SetElemMap(i, j, ' ');
 					fout << "Interract with Rubin!" << std::endl;
 					
+				}
+				if (sym == 'M')
+				{
+					if (Heatpoints > 5)
+						Heatpoints -= 5;
+					else
+						Heatpoints = 0;
+					if (Power < 7)
+						Power += 3;
+					else
+						Power = 10;
+					map.SetElemMap(i, j, ' ');
+					IsPurple = true;
+					PurpleTimer = 0;
+					sprite.setColor(sf::Color::Magenta);
 				}
 				if (sym == 'w')
 				{
@@ -261,6 +292,7 @@ float Actor::GetCoordY() const {
 
 
 Actor::Actor(std::string file, unsigned int HP, float x, float y, float w, float h) :
+	PurpleTimer(0),
 	Heatpoints	(100),
 	Power		(10),
 	Speed		(0),

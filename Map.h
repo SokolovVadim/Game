@@ -5,17 +5,17 @@
 class Map
 {
 	sf::String TileMap[HEIGHT] = {
-		"00000000000000000000000000000000",
-		"0                            ww0",
-		"0                           www0",
-		"0            0     0000000wwwww0",
-		"0            0              www0",
-		"0   ss       0                 0",
-		"0                    000       0",
-		"0                      0  BBB  0",
-		"0         PNBL         0  BH   0",
-		"0                      0  B   D0",
-		"00000000000000000000000000000000",
+		"BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB",
+		"B                            wwB",
+		"B                           wwwB",
+		"B      TTT     0   0000000wwwwwB",
+		"B       TT    0             wwwB",
+		"B   ss       0                 B",
+		"B                    000       B",
+		"B                      0  BBB  B",
+		"B         PNBL   TT    0  BH   B",
+		"B             TTTT     0  B   DB",
+		"BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB",
 	};
 
 	sf::Image			map_image;
@@ -105,6 +105,16 @@ void Map::DrawMap(sf::RenderWindow & window)
 			map_sprite.setTextureRect(sf::IntRect(WGRASS * 3 + 1, HGRASS, WGRASS, HGRASS));
 			break;
 		}
+		case 'M':
+		{
+			map_sprite.setTextureRect(sf::IntRect(WGRASS * 4 + 1, HGRASS, WGRASS, HGRASS));
+			break;
+		}
+		case 'T':
+		{
+			map_sprite.setTextureRect(sf::IntRect(WGRASS * 5, HGRASS, WGRASS, HGRASS));
+			break;
+		}
 		}
 
 		map_sprite.setPosition(float(j * WGRASS), float(i * HGRASS));
@@ -191,7 +201,7 @@ void Map::GenerateInTime(sf::Int64 & timer, sf::Int64 time, sf::Int64 period, ch
 	//fout << "time : " << time << "timer: " << timer << std::endl;
 	if (timer > period)
 	{
-		RandomGenerator(' ', 'H', number_);
+		RandomGenerator(src, dest, number_);
 		timer = 0;
 		fout << "Generator succeed!" << std::endl;
 	}
