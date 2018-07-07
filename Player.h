@@ -7,7 +7,7 @@ class Player
 private:
 
 	int				Dir;
-	int				PurpleTimer;
+
 	unsigned int	Score;
 
 	float			Heatpoints;
@@ -23,7 +23,7 @@ private:
 	bool			Alive;
 	bool			IsMove;
 	bool			IsSelect;
-	bool			IsPurple;
+
 
 	bool			OnGround;
 	sf::Image		Image;
@@ -34,11 +34,25 @@ private:
 	sf::Vector2f	PosPlayer;
 	std::string		File; // directory to load
 
+	enum STATUS
+	{
+		LEFT,
+		RIGHT,
+		UP,
+		DOWN,
+		SHIFT,
+		JUMP,
+		STAY
+	};
+
+	STATUS Status;
+
 public:
 	float			dx;
 	float			dy;
 
 	const float		n_speed = 0.2f;
+	const float		j_speed = -0.4f;
 	sf::Sprite		sprite;
 
 	Player(std::string Str, float x, float y, float w, float h);
@@ -54,7 +68,6 @@ public:
 	float			GetPower() const;
 	void			SetDir(int dir);
 	void			SetSpeed(float speed);
-	void			InterractMap(sf::Int64 time, Map & map);
 	void			SetHP(std::ostringstream & HeatPoints);
 	void			PushScore(std::ostringstream & ScoreString);
 	void			GetAir(std::ostringstream & ScoreAir);
@@ -64,24 +77,26 @@ public:
 	void			SetSelect(bool value);
 	void			SetMove(bool value);
 	void			IncCoord(const float x, const float y);
-	void PurpleStyle(sf::Int64 & time);
 	unsigned int	GetScore();
+	void ActionSwitch(/*double & CurFrame,*/ sf::Int64 & time/*, sf::RenderWindow & window, MyView & View*/);
+	void ChooseAction(Player::STATUS dir/*, double & CurFrame*/, sf::Int64 time/*, int X, int Y*/);
+	void CheckCollision(Map & map, float dx_, float dy_);
 };
 
 Player::Player(std::string file, float x, float y, float w, float h) :
-	PurpleTimer(0),
-	Heatpoints(100),
-	Power(10),
-	Speed(0),
-	Alive(true),
-	IsMove(false),
-	IsSelect(false),
-	OnGround(false),
-	Score(0),
-	Air(10),
-	Width(w),
-	Height(h),
-	File(file)
+	Heatpoints			(100),
+	Power				(10),
+	Speed				(0),
+	Alive				(true),
+	IsMove				(false),
+	IsSelect			(false),
+	OnGround			(false),
+	Score				(0),
+	Air					(10),
+	Width				(w),
+	Height				(h),
+	File				(file),
+	Status				(STAY)
 {
 	Speed = 0;
 	Player::Dir = SETDIR;
@@ -92,26 +107,99 @@ Player::Player(std::string file, float x, float y, float w, float h) :
 	sprite.setTextureRect(sf::IntRect(int(x), int(y), int(Width), int(Height))); // set lower height!!!!
 	sprite.setPosition(XPOS, YPOS);
 
+	sprite.setOrigin(w / 2, h / 2);   // new
+
 	fout << "Player constructor was called!" << std::endl;
 }
 
 
 
+//for (int i(int(Ycoord / HGRASS)); i < (Ycoord + Height) / HGRASS; i++)
+//{
+//	for (int j(int(Xcoord / WGRASS)); j < (Xcoord + Width) / WGRASS; j++)
+//	{
+//
+//		if ((i >= 0) && (i < HEIGHT) && (j >= 0) && (j < WIDTH))
+//		{
 
 
-void Player::PurpleStyle(sf::Int64 & time)
+void Player::CheckCollision(Map & map, float dx_, float dy_)
 {
-	//std::cout << "time: " << time << std::endl;
-	if (IsPurple) {
-		PurpleTimer += int(time);
-		if (PurpleTimer > 5000)
+	for(int i(int(Ycoord/HGRASS)); i < int(Ycoord  + Height)/HGRASS; i++)
+		for (int j(int(Xcoord / WGRASS)); j < (int(Xcoord + Width)/WGRASS); j++)
 		{
-			IsPurple = false;
-			sprite.setColor(sf::Color::White);
-			PurpleTimer = 0;
+			if (map.GetElemMap(i, j) == '0')
+			{
+				if (dy_ > 0)
+				{
+					Ycoord = i * HGRASS - Height;
+					dy = 0;
+					OnGround = true;
+				}
+				if (dy_ < 0)
+				{
+					Ycoord = i * HGRASS + Height;
+					dy = 0;
+				}
+				if (dx_ > 0)
+				{
+					Xcoord = j * WGRASS - Width;
+					dx = 0;
+				}
+				if (dx_ < 0)
+				{
+					Xcoord = j * WGRASS + Width;
+					dx = 0;
+				}
+			}
 		}
+}
+
+void Player::ChooseAction(Player::STATUS dir/*, double & CurFrame*/, sf::Int64 time/*, int X, int Y*/)
+{
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift))
+	{
+		if (SetPower(time))
+			SetSpeed(n_speed * 2);
+		else
+			SetSpeed(n_speed);
+	}
+	else
+	{
+		SetSpeed(n_speed);
+		ReducePower(time);
+	}
+	Status = dir;
+
+}
+
+void Player::ActionSwitch(/*double & CurFrame,*/ sf::Int64 & time/*, sf::RenderWindow & window,
+	MyView & View*/)
+{
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+	{
+		ChooseAction( LEFT/*, CurFrame*/, time/*, HEROX * int(CurFrame), HEROY*/);
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+		ChooseAction( RIGHT/*, CurFrame*/, time/*, HEROX * int(CurFrame), 3 * HEROY*/);
+	}
+	if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) && (OnGround)) {
+		//ChooseAction( UP, CurFrame, time, 93 * int(CurFrame), 0);
+		Status = JUMP;
+		Speed = j_speed;
+		OnGround = false;
+
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
+		ChooseAction( DOWN/*, CurFrame*/, time/*, 93 * int(CurFrame), 2 * HEROY*/);
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
+		//window.close();
 	}
 }
+
+
+
 
 void Player::IncCoord(const float x, const float y)
 {
@@ -211,99 +299,6 @@ Player::~Player()
 	fout << "Player Destructor was called!" << std::endl;
 }
 
-void Player::InterractMap(sf::Int64 time, Map & map)
-{
-	for (int i(int(Ycoord / HGRASS)); i < (Ycoord + Height) / HGRASS; i++)
-	{
-		for (int j(int(Xcoord / WGRASS)); j < (Xcoord + Width) / WGRASS; j++)
-		{
-
-			if ((i >= 0) && (i < HEIGHT) && (j >= 0) && (j < WIDTH))
-			{
-
-				char sym = map.GetElemMap(i, j);
-
-				if ((sym == '0') || (sym == 'B') || (sym == 'T'))
-				{
-					if (dy > 0)
-						Ycoord = i*HGRASS - Height;
-					if (dy < 0)
-						Ycoord = i*HGRASS + Height / 2 + 18;
-					if (dx > 0)
-						Xcoord = j*WGRASS - Width;
-					if (dx < 0)
-						Xcoord = j*WGRASS + Width / 2 + 1;
-
-				}
-				if (sym == 'R')
-				{
-					Score++;
-
-					map.SetElemMap(i, j, ' ');
-					fout << "Interract with Rubin!" << std::endl;
-
-				}
-				if (sym == 'M')
-				{
-					if (Heatpoints > 5)
-						Heatpoints -= 5;
-					else
-						Heatpoints = 0;
-					if (Power < 7)
-						Power += 3;
-					else
-						Power = 10;
-					map.SetElemMap(i, j, ' ');
-					IsPurple = true;
-					PurpleTimer = 0;
-					sprite.setColor(sf::Color::Magenta);
-				}
-				if (sym == 'w')
-				{
-					if (Air <= 0) {
-						Heatpoints -= float(time) / 5000;
-						Air = 0;
-					}
-					else
-						Air -= float(time) / 5000;
-					//fout << "Water on " << i << " " << j << "time: " << time << std::endl;
-
-				}
-				else
-				{
-					if (Air <= 10)
-						Air += float(time) / 5000;
-				}
-				if (sym == 'H')
-				{
-					if (Heatpoints <= 90)
-						Heatpoints += 10;
-					else
-						Heatpoints = 100;
-					map.SetElemMap(i, j, ' ');
-					fout << "Take HP bonus. Now HP = " << Heatpoints << std::endl;
-				}
-				if (sym == 'D')
-				{
-					if (Heatpoints >= 30)
-						Heatpoints -= 30;
-					else
-					{
-						Heatpoints = 0;
-						Alive = false;
-					}
-					map.SetElemMap(i, j, ' ');
-
-					fout << "Bourjua! Now HP = " << Heatpoints << std::endl;
-				}
-
-			}
-			else {
-				//std::cout << "i = " << i << std::ends << "j = " << j << std::endl;
-			}
-		}
-	}
-}
 
 
 unsigned int Player::GetScore()
@@ -326,27 +321,26 @@ float Player::GetCoordY() const {
 
 bool Player::Update(sf::Int64 time, Map & map)
 {
-	switch (Dir)
+	ActionSwitch(time);
+	switch (Status)
 	{
-	case 0: {
-		dx = -Speed, dy = 0;
+	case RIGHT:
+	{
+		dx = Speed;
 		break;
 	}
-	case 1: {
-		dx = Speed, dy = 0;
+	case LEFT:
+	{
+		dx = -Speed;
 		break;
 	}
-	case 2: {
-		dx = 0, dy = -Speed;
-		break;
+	case UP:
+	{
+		break; // empty before adding new states
 	}
-	case 3: {
-		dx = 0, dy = Speed;
+	case DOWN:
+	{
 		break;
-	}
-	case 4: {
-		dx = Speed, dy = -Speed;
-		//dx = 0, dy = 0;
 	}
 	default: {
 		dx = 0; dy = 0;
@@ -356,11 +350,13 @@ bool Player::Update(sf::Int64 time, Map & map)
 
 
 	Xcoord += dx * time;
+	CheckCollision(map, dx, 0);
 	Ycoord += dy * time;
+	CheckCollision(map, dy, 0);
 
-	Speed = 0;
-	sprite.setPosition(Xcoord, Ycoord);
-	InterractMap(time, map);
+	if(!IsMove)
+		Speed = 0;
+	sprite.setPosition(Xcoord + Width/2, Ycoord + Height/2);
 
 	if (Heatpoints <= 0)
 	{
@@ -368,14 +364,18 @@ bool Player::Update(sf::Int64 time, Map & map)
 		Heatpoints = 0;
 	}
 
+	if (!OnGround)
+		dy += 0.0015f * time;
+
+
 	return true;
 }
 
 void Player::SetDir(int dir)
 {
-	Player::Dir = dir;
+	Dir = dir;
 }
 void Player::SetSpeed(float speed)
 {
-	Player::Speed = speed;
+	Speed = speed;
 }

@@ -11,28 +11,28 @@ void Process(sf::RenderWindow & window, Map & map, MyView & View, Player & Hero)
 {
 	// ref
 
-	double			CurFrame(0.0);
+	//double			CurFrame(0.0);
 	sf::Clock		clock;
-	sf::Clock		game_time_clock;
-	int				game_time(0);
-	bool			show_mission_text(true);
+	//sf::Clock		game_time_clock;
+	//int				game_time(0);
+	//bool			show_mission_text(true);
 
 
-	sf::Font font;
+	//sf::Font font;
 
-	if (!font.loadFromFile("Text/ARIAL.TTF"))		// check how it works (reference in init. list)
-		fout << "Text has not loaded!" << std::endl;
+	//if (!font.loadFromFile("Text/ARIAL.TTF"))
+	//	fout << "Text has not loaded!" << std::endl;
 
-	sf::Text text, water, hp, game_over, task_txt, power, time_t;
+	//sf::Text text, water, hp, game_over, task_txt, power, time_t;
 
-	AllText fulltxt(font, text, water, hp, game_over, task_txt, power, time_t);
-	fulltxt.PrintAll();
+	//AllText fulltxt(font, text, water, hp, game_over, task_txt, power, time_t);
+	//fulltxt.PrintAll();
 
-	sf::Sprite		Kumach_s;
-	sf::Texture		Kumach_texture;
+	//sf::Sprite		Kumach_s;
+	//sf::Texture		Kumach_texture;
 //	LoadMission(Kumach_s, Kumach_texture);
 
-	sf::Int64		timer(0);
+	//sf::Int64		timer(0);
 
 
 	DragAndDrop dnd(window);
@@ -43,8 +43,8 @@ void Process(sf::RenderWindow & window, Map & map, MyView & View, Player & Hero)
 		dnd.SetVectors(window);
 		sf::Int64 time = clock.getElapsedTime().asMicroseconds();
 
-		if (Hero.GetAlive())
-			game_time = int(game_time_clock.getElapsedTime().asSeconds());
+		//if (Hero.GetAlive())
+		//	game_time = int(game_time_clock.getElapsedTime().asSeconds());
 
 		clock.restart();
 		time /= 800;
@@ -67,14 +67,15 @@ void Process(sf::RenderWindow & window, Map & map, MyView & View, Player & Hero)
 
 		//dnd.Action(Hero);
 
-		ActionSwitch(Hero, CurFrame, time, window, View);
+		//ActionSwitch(Hero, CurFrame, time, window, View);
+		Hero.ActionSwitch(time);
 
 		//View.ScrollMouse(window, time, Hero);
 
-		map.GenerateInTime(timer, time, 15000, ' ', 'H', 1);
-		map.GenerateInTime(timer, time, 15000, ' ', 'M', 1);
+		//map.GenerateInTime(timer, time, 15000, ' ', 'H', 1);
+		//map.GenerateInTime(timer, time, 15000, ' ', 'M', 1);
 
-		Hero.PurpleStyle(time);
+		
 
 		Hero.Update(time, map);
 		View.ScrollMap(time);
@@ -86,7 +87,7 @@ void Process(sf::RenderWindow & window, Map & map, MyView & View, Player & Hero)
 		//fulltxt.DrawAll(View, window, Hero, time, game_time);
 		//fulltxt.DrawTXT(View, Hero, window);
 
-		fulltxt.DrawSprite(View, window, show_mission_text, Kumach_s);
+		//fulltxt.DrawSprite(View, window, show_mission_text, Kumach_s);
 
 		window.draw(Hero.sprite);
 		window.display();
@@ -127,6 +128,7 @@ void ActionSwitch(Player & Hero, double & CurFrame, sf::Int64 & time, sf::Render
 
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
 			ChooseAction(Hero, 0, CurFrame, time, HEROX * int(CurFrame), HEROY);
+			
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
 			ChooseAction(Hero, 1, CurFrame, time, HEROX * int(CurFrame), 3 * HEROY);
