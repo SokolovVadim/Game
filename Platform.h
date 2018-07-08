@@ -2,10 +2,10 @@
 
 
 
-void	ChooseAction(Player & Hero, int dir, double & CurFrame, sf::Int64 time, int X, int Y);
+//void	ChooseAction(Player & Hero, int dir, double & CurFrame, sf::Int64 time, int X, int Y);
 void	Process(sf::RenderWindow & window, Map & map, MyView & View, Player & Hero);
-void	ActionSwitch(Player & Hero, double & CurFrame, sf::Int64 & time,
-	sf::RenderWindow & window, MyView & View);
+//void	ActionSwitch(Player & Hero, double & CurFrame, sf::Int64 & time,
+//	sf::RenderWindow & window, MyView & View);
 
 void Process(sf::RenderWindow & window, Map & map, MyView & View, Player & Hero)
 {
@@ -35,12 +35,12 @@ void Process(sf::RenderWindow & window, Map & map, MyView & View, Player & Hero)
 	//sf::Int64		timer(0);
 
 
-	DragAndDrop dnd(window);
+	//DragAndDrop dnd(window);
 
 	while (window.isOpen())
 	{
 
-		dnd.SetVectors(window);
+		//dnd.SetVectors(window);
 		sf::Int64 time = clock.getElapsedTime().asMicroseconds();
 
 		//if (Hero.GetAlive())
@@ -61,14 +61,12 @@ void Process(sf::RenderWindow & window, Map & map, MyView & View, Player & Hero)
 			//dnd.Select(window, event, Hero);
 			//dnd.Rpg(event, Hero);
 
-			
 		}
 		//dnd.MoveSprite(Hero, time);
 
 		//dnd.Action(Hero);
 
 		//ActionSwitch(Hero, CurFrame, time, window, View);
-		Hero.ActionSwitch(time);
 
 		//View.ScrollMouse(window, time, Hero);
 
@@ -94,73 +92,73 @@ void Process(sf::RenderWindow & window, Map & map, MyView & View, Player & Hero)
 	}
 }
 
-void ChooseAction(Player & Hero, int dir, double & CurFrame, sf::Int64 time, int X, int Y)
-{
-	Hero.SetDir(dir);
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift))
-	{
-		if (Hero.SetPower(time))
-			Hero.SetSpeed(Hero.n_speed * 2);
-		else
-			Hero.SetSpeed(Hero.n_speed);
-	}
-	else
-	{
-		Hero.SetSpeed(Hero.n_speed);
-		Hero.ReducePower(time);
-	}
-	CurFrame += 0.0052 * time;
-
-	if (CurFrame > 9)
-	{
-		CurFrame -= 9;
-	}
-	Hero.sprite.setTextureRect(sf::IntRect(X, Y, HEROX, HEROY));
-}
-
-
-
-
-void ActionSwitch(Player & Hero, double & CurFrame, sf::Int64 & time, sf::RenderWindow & window,
-	MyView & View)
-{
-	if (Hero.GetAlive()) {
-
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-			ChooseAction(Hero, 0, CurFrame, time, HEROX * int(CurFrame), HEROY);
-			
-		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-			ChooseAction(Hero, 1, CurFrame, time, HEROX * int(CurFrame), 3 * HEROY);
-		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-			ChooseAction(Hero, 2, CurFrame, time, 93 * int(CurFrame), 0);
-		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
-			ChooseAction(Hero, 3, CurFrame, time, 93 * int(CurFrame), 2 * HEROY);
-		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
-			window.close();
-		}
-//		if (!IsWalk())
-		{
-			;
-		}
-		if (!((sf::Keyboard::isKeyPressed(sf::Keyboard::W)) || (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) ||
-			(sf::Keyboard::isKeyPressed(sf::Keyboard::S)) || (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) ||
-			(sf::Mouse::isButtonPressed(sf::Mouse::Left))))
-			View.GetCoordView(Hero.GetCoordX(), Hero.GetCoordY());
-	}
-	else
-	{
-		if (View.view.getCenter().x < W - SETCAMX / 2)
-		{
-			View.view.move(0.5, 0);
-			fout << "CoordX: " << View.view.getCenter().x << std::endl;
-
-		}
-	}
-}
+//void ChooseAction(Player & Hero, int dir, double & CurFrame, sf::Int64 time, int X, int Y)
+//{
+//	Hero.SetDir(dir);
+//	if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift))
+//	{
+//		if (Hero.SetPower(time))
+//			Hero.SetSpeed(Hero.n_speed * 2);
+//		else
+//			Hero.SetSpeed(Hero.n_speed);
+//	}
+//	else
+//	{
+//		Hero.SetSpeed(Hero.n_speed);
+//		Hero.ReducePower(time);
+//	}
+//	CurFrame += 0.0052 * time;
+//
+//	if (CurFrame > 9)
+//	{
+//		CurFrame -= 9;
+//	}
+//	Hero.sprite.setTextureRect(sf::IntRect(X, Y, HEROX, HEROY));
+//}
+//
+//
+//
+//
+//void ActionSwitch(Player & Hero, double & CurFrame, sf::Int64 & time, sf::RenderWindow & window,
+//	MyView & View)
+//{
+//	if (Hero.GetAlive()) {
+//
+//		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
+//			ChooseAction(Hero, 0, CurFrame, time, HEROX * int(CurFrame), HEROY);
+//			
+//		}
+//		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+//			ChooseAction(Hero, 1, CurFrame, time, HEROX * int(CurFrame), 3 * HEROY);
+//		}
+//		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+//			ChooseAction(Hero, 2, CurFrame, time, 93 * int(CurFrame), 0);
+//		}
+//		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
+//			ChooseAction(Hero, 3, CurFrame, time, 93 * int(CurFrame), 2 * HEROY);
+//		}
+//		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
+//			window.close();
+//		}
+////		if (!IsWalk())
+//		{
+//			;
+//		}
+//		if (!((sf::Keyboard::isKeyPressed(sf::Keyboard::W)) || (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) ||
+//			(sf::Keyboard::isKeyPressed(sf::Keyboard::S)) || (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) ||
+//			(sf::Mouse::isButtonPressed(sf::Mouse::Left))))
+//			View.GetCoordView(Hero.GetCoordX(), Hero.GetCoordY());
+//	}
+//	else
+//	{
+//		if (View.view.getCenter().x < W - SETCAMX / 2)
+//		{
+//			View.view.move(0.5, 0);
+//			fout << "CoordX: " << View.view.getCenter().x << std::endl;
+//
+//		}
+//	}
+//}
 
 
 

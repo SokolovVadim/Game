@@ -57,18 +57,18 @@ public:
 
 	Player(std::string Str, float x, float y, float w, float h);
 	~Player();
-	bool			Update(sf::Int64 time, Map & map);
+	bool			Update(sf::Int64 & time, Map & map);
 	bool			GetAlive();
-	bool			SetPower(sf::Int64 time);
-	bool			GetSelect();
-	bool			GetMove();
+	//bool			SetPower(sf::Int64 time);
+	//bool			GetSelect();
+	//bool			GetMove();
 	float			GetCoordX() const;
 	float			GetCoordY() const;
-	float			GetSpeed() const;
-	float			GetPower() const;
+	//float			GetSpeed() const;
+	//float			GetPower() const;
 	void			SetDir(int dir);
 	void			SetSpeed(float speed);
-	void			SetHP(std::ostringstream & HeatPoints);
+	/*void			SetHP(std::ostringstream & HeatPoints);
 	void			PushScore(std::ostringstream & ScoreString);
 	void			GetAir(std::ostringstream & ScoreAir);
 	void			PushPower(std::ostringstream & Power_str);
@@ -76,7 +76,7 @@ public:
 	void			SetCoord(const float x, const float y);
 	void			SetSelect(bool value);
 	void			SetMove(bool value);
-	void			IncCoord(const float x, const float y);
+	void			IncCoord(const float x, const float y);*/
 	unsigned int	GetScore();
 	void ActionSwitch(/*double & CurFrame,*/ sf::Int64 & time/*, sf::RenderWindow & window, MyView & View*/);
 	void ChooseAction(Player::STATUS dir/*, double & CurFrame*/, sf::Int64 time/*, int X, int Y*/);
@@ -105,9 +105,9 @@ Player::Player(std::string file, float x, float y, float w, float h) :
 	Texture.loadFromImage(Image);
 	sprite.setTexture(Texture);
 	sprite.setTextureRect(sf::IntRect(int(x), int(y), int(Width), int(Height))); // set lower height!!!!
-	sprite.setPosition(XPOS, YPOS);
+	//sprite.setPosition(XPOS, YPOS);
 
-	sprite.setOrigin(w / 2, h / 2);   // new
+	sprite.setOrigin(w/2 , h/2);   // new
 
 	fout << "Player constructor was called!" << std::endl;
 }
@@ -128,7 +128,8 @@ void Player::CheckCollision(Map & map, float dx_, float dy_)
 	for(int i(int(Ycoord/HGRASS)); i < int(Ycoord  + Height)/HGRASS; i++)
 		for (int j(int(Xcoord / WGRASS)); j < (int(Xcoord + Width)/WGRASS); j++)
 		{
-			if (map.GetElemMap(i, j) == '0')
+			char sym = map.GetElemMap(i, j);
+			if ((sym == '0') || (sym == 'B'))
 			{
 				if (dy_ > 0)
 				{
@@ -157,7 +158,7 @@ void Player::CheckCollision(Map & map, float dx_, float dy_)
 
 void Player::ChooseAction(Player::STATUS dir/*, double & CurFrame*/, sf::Int64 time/*, int X, int Y*/)
 {
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift))
+	/*if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift))
 	{
 		if (SetPower(time))
 			SetSpeed(n_speed * 2);
@@ -165,10 +166,10 @@ void Player::ChooseAction(Player::STATUS dir/*, double & CurFrame*/, sf::Int64 t
 			SetSpeed(n_speed);
 	}
 	else
-	{
+	{*/
 		SetSpeed(n_speed);
-		ReducePower(time);
-	}
+		//ReducePower(time);
+	/*}*/
 	Status = dir;
 
 }
@@ -178,20 +179,26 @@ void Player::ActionSwitch(/*double & CurFrame,*/ sf::Int64 & time/*, sf::RenderW
 {
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
 	{
-		ChooseAction( LEFT/*, CurFrame*/, time/*, HEROX * int(CurFrame), HEROY*/);
+		//ChooseAction( LEFT/*, CurFrame*/, time/*, HEROX * int(CurFrame), HEROY*/);
+		Status = LEFT;
+		Speed = n_speed;
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-		ChooseAction( RIGHT/*, CurFrame*/, time/*, HEROX * int(CurFrame), 3 * HEROY*/);
+		//ChooseAction( RIGHT/*, CurFrame*/, time/*, HEROX * int(CurFrame), 3 * HEROY*/);
+		Status = RIGHT;
+		Speed = n_speed;
 	}
 	if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) && (OnGround)) {
 		//ChooseAction( UP, CurFrame, time, 93 * int(CurFrame), 0);
 		Status = JUMP;
-		Speed = j_speed;
+		dy = j_speed;
 		OnGround = false;
 
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
-		ChooseAction( DOWN/*, CurFrame*/, time/*, 93 * int(CurFrame), 2 * HEROY*/);
+		//ChooseAction( DOWN/*, CurFrame*/, time/*, 93 * int(CurFrame), 2 * HEROY*/);
+		Status = DOWN;
+		Speed = n_speed;
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
 		//window.close();
@@ -200,92 +207,92 @@ void Player::ActionSwitch(/*double & CurFrame,*/ sf::Int64 & time/*, sf::RenderW
 
 
 
-
-void Player::IncCoord(const float x, const float y)
-{
-	Xcoord += x;
-	Ycoord += y;
-}
-
-bool Player::GetMove()
-{
-	return IsMove;
-}
-
-void Player::SetMove(bool value)
-{
-	IsMove = value;
-}
-
-bool Player::GetSelect()
-{
-	return IsSelect;
-}
-
-void Player::SetSelect(bool value)
-{
-	IsSelect = value;
-}
-
-void Player::SetCoord(const float x, const float y)
-{
-	Xcoord = x;
-	Ycoord = y;
-}
-
-float Player::GetPower() const
-{
-	return Power;
-}
-
-bool Player::SetPower(sf::Int64 time)
-{
-	bool power_flag(true);
-	if (Power <= 0) {
-		Power = 0;
-		power_flag = false;
-	}
-	else
-		Power -= float(time) / 1000;
-	return power_flag;
-}
-
-void Player::ReducePower(sf::Int64 time)
-{
-	if (Power <= 10)
-		Power += float(time) / 5000;
-}
-
-void Player::PushPower(std::ostringstream & Power_str)
-{
-	Power_str.str(std::string());
-	Power_str << int(Player::Power);
-}
-
-float Player::GetSpeed()const
-{
-	return Speed;
-}
-
-void Player::SetHP(std::ostringstream & HeatPoints)
-{
-	HeatPoints.str(std::string());
-	HeatPoints << int(Player::Heatpoints);
-}
-
-
-
-void Player::PushScore(std::ostringstream & ScoreString)
-{
-	ScoreString.str(std::string());
-	ScoreString << Score;
-}
-
-void Player::GetAir(std::ostringstream & ScoreAir)
-{
-	ScoreAir.str(std::string());
-	ScoreAir << int(Air);
-}
+//
+//void Player::IncCoord(const float x, const float y)
+//{
+//	Xcoord += x;
+//	Ycoord += y;
+//}
+//
+//bool Player::GetMove()
+//{
+//	return IsMove;
+//}
+//
+//void Player::SetMove(bool value)
+//{
+//	IsMove = value;
+//}
+//
+//bool Player::GetSelect()
+//{
+//	return IsSelect;
+//}
+//
+//void Player::SetSelect(bool value)
+//{
+//	IsSelect = value;
+//}
+//
+//void Player::SetCoord(const float x, const float y)
+//{
+//	Xcoord = x;
+//	Ycoord = y;
+//}
+//
+//float Player::GetPower() const
+//{
+//	return Power;
+//}
+//
+//bool Player::SetPower(sf::Int64 time)
+//{
+//	bool power_flag(true);
+//	if (Power <= 0) {
+//		Power = 0;
+//		power_flag = false;
+//	}
+//	else
+//		Power -= float(time) / 1000;
+//	return power_flag;
+//}
+//
+//void Player::ReducePower(sf::Int64 time)
+//{
+//	if (Power <= 10)
+//		Power += float(time) / 5000;
+//}
+//
+//void Player::PushPower(std::ostringstream & Power_str)
+//{
+//	Power_str.str(std::string());
+//	Power_str << int(Player::Power);
+//}
+//
+//float Player::GetSpeed()const
+//{
+//	return Speed;
+//}
+//
+//void Player::SetHP(std::ostringstream & HeatPoints)
+//{
+//	HeatPoints.str(std::string());
+//	HeatPoints << int(Player::Heatpoints);
+//}
+//
+//
+//
+//void Player::PushScore(std::ostringstream & ScoreString)
+//{
+//	ScoreString.str(std::string());
+//	ScoreString << Score;
+//}
+//
+//void Player::GetAir(std::ostringstream & ScoreAir)
+//{
+//	ScoreAir.str(std::string());
+//	ScoreAir << int(Air);
+//}
 
 bool Player::GetAlive()
 {
@@ -319,7 +326,7 @@ float Player::GetCoordY() const {
 
 
 
-bool Player::Update(sf::Int64 time, Map & map)
+bool Player::Update(sf::Int64 & time, Map & map)
 {
 	ActionSwitch(time);
 	switch (Status)
@@ -342,6 +349,10 @@ bool Player::Update(sf::Int64 time, Map & map)
 	{
 		break;
 	}
+	case JUMP:
+		break;
+	/*case STAY:
+		break;*/
 	default: {
 		dx = 0; dy = 0;
 		//std::cout << "No switch choose" << std::endl;
@@ -352,7 +363,7 @@ bool Player::Update(sf::Int64 time, Map & map)
 	Xcoord += dx * time;
 	CheckCollision(map, dx, 0);
 	Ycoord += dy * time;
-	CheckCollision(map, dy, 0);
+	CheckCollision(map, 0, dy);
 
 	if(!IsMove)
 		Speed = 0;
