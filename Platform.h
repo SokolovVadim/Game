@@ -75,7 +75,7 @@ void Process(sf::RenderWindow & window, Map & map, MyView & View, Player & Hero)
 
 		
 
-		Hero.Update(time, map);
+		Hero.Update(time, map, View);
 		View.ScrollMap(time);
 		window.setView(View.view);
 		window.clear(sf::Color(175, 140, 90, 0));
@@ -177,7 +177,15 @@ void SecondLevel(sf::RenderWindow & window)
 	map.RandomGenerator(' ', 'D', 8);
 	map.RandomGenerator(' ', 'R', 2);
 
-	Player Hero("sheet2.png", 0, SETBEGIN, HEROX, HEROY);
+	sf::Image player_image;
+	player_image.loadFromFile("Images/sheet2.png");
+
+	Player Hero(player_image, "Player1", W/2, H/2, HEROX, HEROY);
+
+	sf::Image archer_image;
+	archer_image.loadFromFile("Images/Enemy.png");
+
+	Enemy Archer(archer_image, "Archer1", W/2, 200, 64, 66);       // random values
 
 	Process(window, map, View, Hero);
 }
