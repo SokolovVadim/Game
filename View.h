@@ -8,8 +8,6 @@ enum VIEW
 	SETCAMY = 400,
 	TEXTX = SETCAMX / 2 - 10,
 	TEXTY = SETCAMY / 2 - 10,
-	AIR = TEXTY - 30,
-	HPY = AIR - 30
 };
 
 enum WALLS
@@ -26,7 +24,7 @@ public:
 	sf::View view;
 	sf::View GetCoordView	(float xcoord, float ycoord);
 	sf::View ScrollMap		(sf::Int64 time);
-	void ScrollMouse(sf::Window & window, sf::Int64 time, Actor & Hero);
+	void ScrollMouse		(sf::Window & window, sf::Int64 time, Actor & Hero);
 
 };
 
@@ -61,7 +59,6 @@ sf::View MyView::ScrollMap(sf::Int64 time)
 		view.move(0,  0.1f * time);
 	return view;
 }
-
 
 
 

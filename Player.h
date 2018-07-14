@@ -1,116 +1,114 @@
 #pragma once
 
 
-class Player
-{
+//class Player
+//{
+//
+//private:
+//
+//	int				Dir;
+//
+//	unsigned int	Score;
+//
+//	float			Heatpoints;
+//	float			Power;
+//	float			Xcoord;
+//	float			Ycoord;
+//
+//	float			Speed;
+//	float			Width;
+//	float			Height;
+//	float			Air;
+//
+//	bool			Alive;
+//	bool			IsMove;
+//
+//
+//	bool			OnGround;
+//	sf::Image		Image;
+//	sf::Texture		Texture;
+//	sf::Vertex		vertex;
+//
+//
+//	sf::Vector2f	PosPlayer;
+//	std::string		File; // directory to load
+//
+//	enum STATUS
+//	{
+//		LEFT,
+//		RIGHT,
+//		UP,
+//		DOWN,
+//		SHIFT,
+//		JUMP,
+//		STAY
+//	};
+//
+//	STATUS Status;
+//
+//public:
+//	float			dx;
+//	float			dy;
+//
+//	const float		n_speed = 0.2f;
+//	const float		j_speed = -0.4f;
+//	sf::Sprite		sprite;
+//
+//	Player(std::string Str, float x, float y, float w, float h);
+//	~Player();
+//	bool			Update(sf::Int64 & time, Map & map, MyView & View);
+//	bool			GetAlive();
+//	//bool			SetPower(sf::Int64 time);
+//
+//	//bool			GetMove();
+//	float			GetCoordX() const;
+//	float			GetCoordY() const;
+//	//float			GetSpeed() const;
+//	//float			GetPower() const;
+//	void			SetDir(int dir);
+//	void			SetSpeed(float speed);
+//	/*void			SetHP(std::ostringstream & HeatPoints);
+//	void			PushScore(std::ostringstream & ScoreString);
+//	void			GetAir(std::ostringstream & ScoreAir);
+//	void			PushPower(std::ostringstream & Power_str);
+//	void			ReducePower(sf::Int64 time);
+//	void			SetCoord(const float x, const float y);
+//
+//	void			SetMove(bool value);
+//	void			IncCoord(const float x, const float y);*/
+//	unsigned int	GetScore();
+//	void ActionSwitch(/*double & CurFrame,*/ sf::Int64 & time/*, sf::RenderWindow & window, MyView & View*/);
+//	void ChooseAction(Player::STATUS dir/*, double & CurFrame*/, sf::Int64 time/*, int X, int Y*/);
+//	void CheckCollision(Map & map, float dx_, float dy_);
+//};
 
-private:
-
-	int				Dir;
-
-	unsigned int	Score;
-
-	float			Heatpoints;
-	float			Power;
-	float			Xcoord;
-	float			Ycoord;
-
-	float			Speed;
-	float			Width;
-	float			Height;
-	float			Air;
-
-	bool			Alive;
-	bool			IsMove;
-	bool			IsSelect;
-
-
-	bool			OnGround;
-	sf::Image		Image;
-	sf::Texture		Texture;
-	sf::Vertex		vertex;
-
-
-	sf::Vector2f	PosPlayer;
-	std::string		File; // directory to load
-
-	enum STATUS
-	{
-		LEFT,
-		RIGHT,
-		UP,
-		DOWN,
-		SHIFT,
-		JUMP,
-		STAY
-	};
-
-	STATUS Status;
-
-public:
-	float			dx;
-	float			dy;
-
-	const float		n_speed = 0.2f;
-	const float		j_speed = -0.4f;
-	sf::Sprite		sprite;
-
-	Player(std::string Str, float x, float y, float w, float h);
-	~Player();
-	bool			Update(sf::Int64 & time, Map & map);
-	bool			GetAlive();
-	//bool			SetPower(sf::Int64 time);
-	//bool			GetSelect();
-	//bool			GetMove();
-	float			GetCoordX() const;
-	float			GetCoordY() const;
-	//float			GetSpeed() const;
-	//float			GetPower() const;
-	void			SetDir(int dir);
-	void			SetSpeed(float speed);
-	/*void			SetHP(std::ostringstream & HeatPoints);
-	void			PushScore(std::ostringstream & ScoreString);
-	void			GetAir(std::ostringstream & ScoreAir);
-	void			PushPower(std::ostringstream & Power_str);
-	void			ReducePower(sf::Int64 time);
-	void			SetCoord(const float x, const float y);
-	void			SetSelect(bool value);
-	void			SetMove(bool value);
-	void			IncCoord(const float x, const float y);*/
-	unsigned int	GetScore();
-	void ActionSwitch(/*double & CurFrame,*/ sf::Int64 & time/*, sf::RenderWindow & window, MyView & View*/);
-	void ChooseAction(Player::STATUS dir/*, double & CurFrame*/, sf::Int64 time/*, int X, int Y*/);
-	void CheckCollision(Map & map, float dx_, float dy_);
-};
-
-Player::Player(std::string file, float x, float y, float w, float h) :
-	Heatpoints			(100),
-	Power				(10),
-	Speed				(0),
-	Alive				(true),
-	IsMove				(false),
-	IsSelect			(false),
-	OnGround			(false),
-	Score				(0),
-	Air					(10),
-	Width				(w),
-	Height				(h),
-	File				(file),
-	Status				(STAY)
-{
-	Speed = 0;
-	Player::Dir = SETDIR;
-	Xcoord = XPOS, Ycoord = YPOS;
-	Image.loadFromFile("Images/" + File);
-	Texture.loadFromImage(Image);
-	sprite.setTexture(Texture);
-	sprite.setTextureRect(sf::IntRect(int(x), int(y), int(Width), int(Height))); // set lower height!!!!
-	//sprite.setPosition(XPOS, YPOS);
-
-	sprite.setOrigin(w/2 , h/2);   // new
-
-	fout << "Player constructor was called!" << std::endl;
-}
+//Player::Player(std::string file, float x, float y, float w, float h) :
+//	Heatpoints			(100),
+//	Power				(10),
+//	Speed				(0),
+//	Alive				(true),
+//	IsMove				(false),
+//	OnGround			(false),
+//	Score				(0),
+//	Air					(10),
+//	Width				(w),
+//	Height				(h),
+//	File				(file),
+//	Status				(STAY)
+//{
+//	Speed = 0;
+//	Player::Dir = SETDIR;
+//	Xcoord = XPOS, Ycoord = YPOS;
+//	Image.loadFromFile("Images/" + File);
+//	Texture.loadFromImage(Image);
+//	sprite.setTexture(Texture);
+//	sprite.setTextureRect(sf::IntRect(int(x), int(y), int(Width), int(Height))); // set lower height!!!!
+//	//sprite.setPosition(XPOS, YPOS);
+//
+//	sprite.setOrigin(w/2 , h/2);   // new
+//
+//	fout << "Player constructor was called!" << std::endl;
+//}
 
 
 
@@ -123,33 +121,45 @@ Player::Player(std::string file, float x, float y, float w, float h) :
 //		{
 
 
+
+//if (dy > 0)
+//Ycoord = i*HGRASS - Height;
+//if (dy < 0)
+//	Ycoord = i*HGRASS + Height / 2 + 18;
+//if (dx > 0)
+//Xcoord = j*WGRASS - Width;
+//if (dx < 0)
+//	Xcoord = j*WGRASS + Width / 2 + 1;
+
+
+
 void Player::CheckCollision(Map & map, float dx_, float dy_)
 {
-	for(int i(int(Ycoord/HGRASS)); i < int(Ycoord  + Height)/HGRASS; i++)
-		for (int j(int(Xcoord / WGRASS)); j < (int(Xcoord + Width)/WGRASS); j++)
+	for(int i(int(pos.y/HGRASS)); i < int(pos.y + Height + 48)/HGRASS; i++)
+		for (int j(int((pos.x) / WGRASS)); j < (int(pos.x + Width)/WGRASS); j++)
 		{
 			char sym = map.GetElemMap(i, j);
 			if ((sym == '0') || (sym == 'B'))
 			{
 				if (dy_ > 0)
 				{
-					Ycoord = i * HGRASS - Height;
+					pos.y = i * HGRASS - Height + 15.9999f;
 					dy = 0;
 					OnGround = true;
 				}
 				if (dy_ < 0)
 				{
-					Ycoord = i * HGRASS + Height;
+					pos.y = i * HGRASS + Height / 2 + 18;
 					dy = 0;
 				}
 				if (dx_ > 0)
 				{
-					Xcoord = j * WGRASS - Width;
+					pos.x = j * WGRASS - Width + 47.99f;
 					dx = 0;
 				}
 				if (dx_ < 0)
 				{
-					Xcoord = j * WGRASS + Width;
+					pos.x = j * WGRASS + Width / 2 + 1;
 					dx = 0;
 				}
 			}
@@ -224,16 +234,6 @@ void Player::ActionSwitch(/*double & CurFrame,*/ sf::Int64 & time/*, sf::RenderW
 //	IsMove = value;
 //}
 //
-//bool Player::GetSelect()
-//{
-//	return IsSelect;
-//}
-//
-//void Player::SetSelect(bool value)
-//{
-//	IsSelect = value;
-//}
-//
 //void Player::SetCoord(const float x, const float y)
 //{
 //	Xcoord = x;
@@ -296,7 +296,7 @@ void Player::ActionSwitch(/*double & CurFrame,*/ sf::Int64 & time/*, sf::RenderW
 
 bool Player::GetAlive()
 {
-	return Player::Alive;
+	return Alive;
 }
 
 
@@ -310,23 +310,23 @@ Player::~Player()
 
 unsigned int Player::GetScore()
 {
-	return Player::Score;
+	return Score;
 }
 
 
 float Player::GetCoordX() const {
 
-	return Player::Xcoord;
+	return pos.x;
 }
 
 
 float Player::GetCoordY() const {
-	return Player::Ycoord;
+	return pos.y;
 }
 
 
 
-bool Player::Update(sf::Int64 & time, Map & map)
+bool Player::Update(sf::Int64 & time, Map & map, MyView & View)
 {
 	ActionSwitch(time);
 	switch (Status)
@@ -347,6 +347,7 @@ bool Player::Update(sf::Int64 & time, Map & map)
 	}
 	case DOWN:
 	{
+		dx = 0;
 		break;
 	}
 	case JUMP:
@@ -360,32 +361,36 @@ bool Player::Update(sf::Int64 & time, Map & map)
 	}
 
 
-	Xcoord += dx * time;
+	pos.x += dx * time;
 	CheckCollision(map, dx, 0);
-	Ycoord += dy * time;
+	pos.y += dy * time;
 	CheckCollision(map, 0, dy);
 
 	if(!IsMove)
 		Speed = 0;
-	sprite.setPosition(Xcoord + Width/2, Ycoord + Height/2);
+	sprite.setPosition(pos.x + Width / 2, pos.y + Height / 2);
+
+	/*if (!OnGround)
+		dy += 0.0005f * time;*/
+	dy += 0.0005f * time;
+	CheckCollision(map, 0, dy);
+
 
 	if (Heatpoints <= 0)
 	{
 		Alive = false;
 		Heatpoints = 0;
 	}
-
-	if (!OnGround)
-		dy += 0.0015f * time;
-
+	else
+		View.GetCoordView(pos.x, pos.y);
 
 	return true;
 }
 
-void Player::SetDir(int dir)
-{
-	Dir = dir;
-}
+//void Player::SetDir(int dir)
+//{
+//	Dir = dir;
+//}
 void Player::SetSpeed(float speed)
 {
 	Speed = speed;

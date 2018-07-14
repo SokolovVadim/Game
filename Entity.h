@@ -5,13 +5,12 @@ class Entity
 public:
 
 	float			Heatpoints;
-	float			Xcoord;
-	float			Ycoord;
+	sf::Vector2f	pos;
 
 	float			Speed;
 	float			Width;
 	float			Height;
-	float			Timer;
+	sf::Int64		Timer;
 
 	bool			Alive;
 	bool			IsMove;
@@ -39,18 +38,19 @@ Entity::~Entity()
 }
 Entity::Entity(sf::Image & image, std::string name_, float x, float y, float w, float h) :
 	Heatpoints			(100.0f),
-	Xcoord				(x),
-	Ycoord				(y),
+	pos(x, y),
 	Speed				(0.0f),
 	Width				(w),
 	Height				(h),
-	Timer				(0.0f),
+	Timer				(0),
 	Alive				(true),
 	IsMove				(false),
 	OnGround			(false),
+	Texture				({sf::Texture()}),
 	Name				(name_),
 	dx					(0.0f),
-	dy					(0.0f)
+	dy					(0.0f),
+	sprite				({sf::Sprite()})
 {
 	Texture.loadFromImage(image);
 	sprite.setTexture(Texture);
@@ -89,15 +89,15 @@ public:
 
 	Player(sf::Image & image_, std::string name_, float x, float y, float w, float h);
 	~Player();
-	bool			Update(sf::Int64 & time, Map & map, MyView & View);
-	bool			GetAlive();
-	float			GetCoordX() const;
-	float			GetCoordY() const;
-	void			SetSpeed(float speed);
-	unsigned int	GetScore();
-	void ActionSwitch(/*double & CurFrame,*/ sf::Int64 & time/*, sf::RenderWindow & window, MyView & View*/);
-	void ChooseAction(Player::STATUS dir/*, double & CurFrame*/, sf::Int64 time/*, int X, int Y*/);
-	void CheckCollision(Map & map, float dx_, float dy_);
+	bool			Update		(sf::Int64 & time, Map & map, MyView & View);
+	bool			GetAlive	();
+	float			GetCoordX	() const;
+	float			GetCoordY	() const;
+	void			SetSpeed	(float speed);
+	unsigned int	GetScore	();
+	void ActionSwitch			(/*double & CurFrame,*/ sf::Int64 & time/*, sf::RenderWindow & window, MyView & View*/);
+	void ChooseAction			(Player::STATUS dir/*, double & CurFrame*/, sf::Int64 time/*, int X, int Y*/);
+	void CheckCollision			(Map & map, float dx_, float dy_);
 };
 
 

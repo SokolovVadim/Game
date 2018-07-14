@@ -11,8 +11,7 @@ private:
 
 	float			Heatpoints;
 	float			Power;
-	float			Xcoord;
-	float			Ycoord;
+	sf::Vector2f	Pos;
 
 	float			Speed;
 	float			Width;
@@ -31,6 +30,16 @@ private:
 	
 	sf::Vector2f	PosActor;
 	std::string		File; // directory to load
+
+	enum STATUS
+	{
+		LEFT,
+		RIGHT,
+		UP,
+		DOWN,
+		SHIFT
+	};
+
 
 public:
 	float			dx;
@@ -66,6 +75,35 @@ public:
 	unsigned int	GetScore		();
 };
 
+
+Actor::Actor(std::string file, unsigned int HP, float x, float y, float w, float h) :
+	Dir					(SETDIR),
+	PurpleTimer			(0),
+	Score				(0),
+	Heatpoints			(100),
+	Power				(10),
+	Pos					(XPOS, YPOS),
+	Speed				(0),
+	Alive				(true),
+	IsMove				(false),
+	IsSelect			(false),
+	Air					(10),
+	Width				(w),
+	Height				(h),
+	File				(file)
+{
+	Speed = 0;
+	Image.loadFromFile			("Images/" + File);
+	Texture.loadFromImage		(Image);
+	sprite.setTexture			(Texture);
+	sprite.setTextureRect		(sf::IntRect(int(x), int(y), int(Width), int(Height)));
+	sprite.setPosition			(XPOS, YPOS);
+
+	fout << "Actor constructor was called!" << std::endl;
+}
+
+
+
 void Actor::PurpleStyle(sf::Int64 & time)
 {
 	//std::cout << "time: " << time << std::endl;
@@ -82,8 +120,8 @@ void Actor::PurpleStyle(sf::Int64 & time)
 
 void Actor::IncCoord(const float x, const float y)
 {
-	Xcoord += x;
-	Ycoord += y;
+	Pos.x += x;
+	Pos.y += y;
 }
 
 bool Actor::GetMove()
@@ -108,8 +146,8 @@ void Actor::SetSelect(bool value)
 
 void Actor::SetCoord(const float x, const float y)
 {
-	Xcoord = x;
-	Ycoord = y;
+	Pos.x = x;
+	Pos.y = y;
 }
 
 float Actor::GetPower() const
@@ -180,9 +218,9 @@ Actor::~Actor()
 
 void Actor::InterractMap(sf::Int64 time, Map & map)
 {
-	for (int i(int(Ycoord / HGRASS)); i < (Ycoord + Height)/HGRASS; i++)
+	for (int i(int(Pos.y / HGRASS)); i < (Pos.y + Height)/HGRASS; i++)
 	{
-		for (int j(int(Xcoord / WGRASS)); j < (Xcoord + Width) / WGRASS; j++)
+		for (int j(int(Pos.x / WGRASS)); j < (Pos.x + Width) / WGRASS; j++)
 		{
 		
 			if ((i >= 0) && (i < HEIGHT) && (j >= 0) && (j < WIDTH))
@@ -193,13 +231,13 @@ void Actor::InterractMap(sf::Int64 time, Map & map)
 				if ((sym == '0') || (sym == 'B') || (sym == 'T'))
 				{
 					if (dy > 0)
-						Ycoord = i*HGRASS - Height;
+						Pos.y = i*HGRASS - Height;
 					if (dy < 0)
-						Ycoord = i*HGRASS + Height/2 + 18;
+						Pos.y = i*HGRASS + Height/2 + 18;
 					if (dx > 0)
-						Xcoord = j*WGRASS - Width;
+						Pos.x = j*WGRASS - Width;
 					if (dx < 0)
-						Xcoord = j*WGRASS + Width/2 + 1;
+						Pos.x = j*WGRASS + Width/2 + 1;
 
 				}
 				if (sym == 'R')
@@ -212,8 +250,8 @@ void Actor::InterractMap(sf::Int64 time, Map & map)
 				}
 				if (sym == 'M')
 				{
-					if (Heatpoints > 5)
-						Heatpoints -= 5;
+					if (Heatpoints > 10)
+						Heatpoints -= 10;
 					else
 						Heatpoints = 0;
 					if (Power < 7)
@@ -274,48 +312,20 @@ void Actor::InterractMap(sf::Int64 time, Map & map)
 
 unsigned int Actor::GetScore()
 {
-	return Actor::Score;
+	return Score;
 }
 
 
 float Actor::GetCoordX() const {
 
-	return Actor::Xcoord;
+	return Pos.x;
 }
 
 
 float Actor::GetCoordY() const {
-	return Actor::Ycoord;
+	return Pos.y;
 }
 
-
-
-
-Actor::Actor(std::string file, unsigned int HP, float x, float y, float w, float h) :
-	PurpleTimer(0),
-	Heatpoints	(100),
-	Power		(10),
-	Speed		(0),
-	Alive       (true),
-	IsMove		(false),
-	IsSelect	(false),
-	Score       (0),
-	Air         (10),
-	Width		(w),
-	Height		(h),
-	File		(file)
-{
-	Speed = 0;
-	Actor::Dir = SETDIR;
-	Xcoord = XPOS, Ycoord = YPOS;
-	Image.loadFromFile           ("Images/" + File);
-	Texture.loadFromImage		 (Image);
-	sprite.setTexture		     (Texture);
-	sprite.setTextureRect	     (sf::IntRect(int(x), int(y), int(Width), int(Height)));
-	sprite.setPosition           (XPOS, YPOS);
-	
-	fout << "Actor constructor was called!" << std::endl;
-}
 
 
 bool Actor::Update(sf::Int64 time, Map & map)
@@ -349,11 +359,11 @@ bool Actor::Update(sf::Int64 time, Map & map)
 	}
 
 	
-	Xcoord += dx * time;
-	Ycoord += dy * time;
+	Pos.x += dx * time;
+	Pos.y += dy * time;
 
 	Speed = 0;
-	sprite.setPosition(Xcoord, Ycoord);
+	sprite.setPosition(Pos.x, Pos.y);
 	InterractMap(time, map);
 
 	if (Heatpoints <= 0)
@@ -367,9 +377,9 @@ bool Actor::Update(sf::Int64 time, Map & map)
 
 void Actor::SetDir(int dir)
 {
-	Actor::Dir = dir;
+	Dir = dir;
 }
 void Actor::SetSpeed(float speed)
 {
-	Actor::Speed = speed;
+	Speed = speed;
 }

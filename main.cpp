@@ -9,7 +9,7 @@ void PlayKotik()
 
 bool	IsWalk				();
 void	ChooseAction		(Actor & Hero, int dir, double & CurFrame, sf::Int64 time, int X, int Y);
-void	LoadMission			(sf::Sprite & Kumach_s, sf::Texture & Kumach_texture);
+//void	LoadMission			(sf::Sprite & Kumach_s, sf::Texture & Kumach_texture);
 void	Process				(sf::RenderWindow & window, Map & map, MyView & View, Actor & Hero);
 void	ActionSwitch		(Actor & Hero, double & CurFrame, sf::Int64 & time,
 							sf::RenderWindow & window, MyView & View);
@@ -22,7 +22,10 @@ void Process (sf::RenderWindow & window, Map & map, MyView & View, Actor & Hero)
 	sf::Clock		clock;
 	sf::Clock		game_time_clock;
 	int				game_time(0);
-	bool			show_mission_text(true);
+
+	Mission mission("Kumach.png");
+
+	//bool			show_mission_text(true);
 	
 
 	sf::Font font;
@@ -35,19 +38,13 @@ void Process (sf::RenderWindow & window, Map & map, MyView & View, Actor & Hero)
 	AllText fulltxt(font, text, water, hp, game_over, task_txt, power, time_t);
 	fulltxt.PrintAll();
 
-	sf::Sprite		Kumach_s;
-	sf::Texture		Kumach_texture;
-	LoadMission		(Kumach_s, Kumach_texture);
+
+
+	mission.LoadMission();
+	//LoadMission		(Kumach_s, Kumach_texture);
 
 	sf::Int64		timer	(0);
 
-	// rpg interface  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-	int tempX(0);
-	int tempY(0);
-	float distance(0.0f);
-
-	// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 	DragAndDrop dnd(window);
 
@@ -70,7 +67,7 @@ void Process (sf::RenderWindow & window, Map & map, MyView & View, Actor & Hero)
 		{
 			if (event.type == sf::Event::Closed)
 				window.close();
-			fulltxt.React(event, window, show_mission_text, View, Hero, Kumach_s);
+			fulltxt.React(event, window, mission, View, Hero);
 			dnd.MainEffect(event, Hero);
 			dnd.Select(window, event, Hero);
 			dnd.Rpg(event, Hero);
@@ -78,6 +75,8 @@ void Process (sf::RenderWindow & window, Map & map, MyView & View, Actor & Hero)
 			//dnd.MoveMouse(window);
 		}
 		dnd.MoveSprite(Hero, time);
+		
+
 		//dnd.DropColor(Hero, event);
 		dnd.Action(Hero);
 
@@ -85,7 +84,10 @@ void Process (sf::RenderWindow & window, Map & map, MyView & View, Actor & Hero)
 
 		View.ScrollMouse(window, time, Hero);
 
-		map.GenerateInTime(timer, time, 10000, ' ', 'H', 1);
+		map.GenerateInTime(timer, time, 15000, ' ', 'H', 1);
+		map.GenerateInTime(timer, time, 15000, ' ', 'M', 1);
+
+		Hero.PurpleStyle(time);
 
 		Hero.Update			(time, map);
 		View.ScrollMap		(time);
@@ -97,7 +99,7 @@ void Process (sf::RenderWindow & window, Map & map, MyView & View, Actor & Hero)
 		fulltxt.DrawAll(View, window, Hero, time, game_time);
 		fulltxt.DrawTXT(View, Hero, window);
 
-		fulltxt.DrawSprite(View, window, show_mission_text, Kumach_s); 
+		fulltxt.DrawSprite(View, window, mission);  ////!!!!!!!!!!
 
 		window.draw(Hero.sprite);
 		window.display();
@@ -137,16 +139,16 @@ bool IsWalk()
 		return false;
 }
 
-void LoadMission(sf::Sprite & Kumach_s, sf::Texture & Kumach_texture)
-{
-	sf::Image Kumach;
-	Kumach.loadFromFile("Images/Kumach.png");
-	
-	Kumach_texture.loadFromImage	(Kumach);
-	Kumach_s.setTexture				(Kumach_texture);
-	Kumach_s.setTextureRect			(sf::IntRect(20, 0, 300, 100));
-	//Kumach_s.setScale(1.0, 1.0);
-}
+//void LoadMission(sf::Sprite & Kumach_s, sf::Texture & Kumach_texture)
+//{
+//	sf::Image Kumach;
+//	Kumach.loadFromFile("Images/Kumach.png");
+//	
+//	Kumach_texture.loadFromImage	(Kumach);
+//	Kumach_s.setTexture				(Kumach_texture);
+//	Kumach_s.setTextureRect			(sf::IntRect(20, 0, 300, 100));
+//	//Kumach_s.setScale(1.0, 1.0);
+//}
 
 
 void ActionSwitch(Actor & Hero, double & CurFrame, sf::Int64 & time, sf::RenderWindow & window,
@@ -190,12 +192,8 @@ void ActionSwitch(Actor & Hero, double & CurFrame, sf::Int64 & time, sf::RenderW
 }
 
 
-int main()
+void FirstLevel(sf::RenderWindow & window)
 {
-
-	//PlayKotik();
-
-	sf::RenderWindow window(sf::VideoMode(W, H), "Jeday");
 	MyView View;
 	View.view.reset(sf::FloatRect(XPOS - SETCAMX / 2, YPOS - SETCAMY / 2, SETCAMX, SETCAMY));
 
@@ -203,14 +201,36 @@ int main()
 	sf::Texture map_texture;
 	sf::Sprite	map_sprite;
 
-	Map    map(map_image, map_texture, map_sprite);
+	Map    map(map_image, map_texture, map_sprite, "map.png");
 
 	map.RandomGenerator(' ', 's', 1);
 	map.RandomGenerator(' ', 'D', 8);
-	map.RandomGenerator(' ', 'R', 1);
+	map.RandomGenerator(' ', 'R', 2);
 
 	Actor Hero("sheet2.png", HEALTH, 0, SETBEGIN, HEROX, HEROY);
 
 	Process(window, map, View, Hero);
+}
+
+
+
+
+int main()
+{
+
+	//PlayKotik();
+
+	sf::RenderWindow window(sf::VideoMode(W, H), "Jeday");
+
+	switch (LEVEL)
+	{
+	case 1:
+		FirstLevel(window);
+		break;
+	case 2:
+		SecondLevel(window);
+		break;
+	}
+
 	return 0;
 }

@@ -1,4 +1,6 @@
 #pragma once
+#define _USE_MATH_DEFINES
+#include <cmath>
 #include <iostream>
 #include <fstream>
 #include <SFML/Graphics.hpp>
@@ -6,10 +8,14 @@
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Window.hpp>
 #include <vector>
+//#include "tinyxml\tinystr.h"
+//#include "tinyxml\tinyxml.h"
+//#include "TiledMapLoader0.1\level.h"
 #include <Windows.h>
 #include <sstream>
 #include <Mmsystem.h>
 #pragma comment(lib, "winmm.lib")
+
 
 
 std::ofstream fout("LOG.txt");
@@ -39,15 +45,23 @@ enum ENGINE {
 };
 
 
+
 #include "Map.h"
 #include "Actor.h"
 #include "View.h"
 #include "Mission.h"
 #include "Text.h"
 #include "DragAndDrop.h"
+#include "Level.h"
+#include "Entity.h"
+#include "Player.h"
+#include "Enemy.h"
+#include "Platform.h"
 
 
 #define asserted || fout << "WARNING! ASSERT WAS CALLED ON LINE %d\n" << __LINE__;
 
 
 void PlayKotik();
+	
+#undef _USE_MATH_DEFINES

@@ -8,22 +8,23 @@ class Map
 		"BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB",
 		"B                            wwB",
 		"B                           wwwB",
-		"B      TTT     0   0000000wwwwwB",
-		"B       TT    0             wwwB",
-		"B   ss       0                 B",
-		"B                    000       B",
+		"B      TTT         0000000wwwwwB",
+		"B       TT                  wwwB",
+		"B                              B",
+		"B                              B",
 		"B                      0  BBB  B",
-		"B         PNBL   TT    0  BH   B",
-		"B             TTTT     0  B   DB",
+		"B      TT    0         0  BH   B",
+		"B   TTTT     0         0  B   DB",
 		"BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB",
 	};
 
 	sf::Image			map_image;
 	sf::Texture			map;
 	sf::Sprite			map_sprite;
+	std::string			File;
 	 
 public:
-	Map						(sf::Image & image, sf::Texture & texture, sf::Sprite & sprite);
+	Map						(sf::Image & image, sf::Texture & texture, sf::Sprite & sprite, const std::string file);
 	~Map					();
 	void LoadIm				();
 	void LoadMap			();
@@ -36,6 +37,25 @@ public:
 
 
 };
+
+Map::Map(sf::Image & image, sf::Texture & texture, sf::Sprite & sprite, const std::string file) :
+	map_image		(image),
+	map				(texture),
+	map_sprite		(sprite),
+	File(file)
+{
+	TileMap;
+	LoadIm();
+	LoadMap();
+	SetSprite();
+	std::cout << "Map was constructed!" << std::endl;
+	fout << "Map was constructed!" << std::endl;
+}
+
+Map::~Map()
+{
+	fout << "Map has destructed!" << std::endl;
+}
 
 
 void Map::SetElemMap(unsigned int first, unsigned int second, char sym)
@@ -124,24 +144,6 @@ void Map::DrawMap(sf::RenderWindow & window)
 }
 
 
-Map::Map(sf::Image & image, sf::Texture & texture, sf::Sprite & sprite):
-	map_image	(image),
-	map			(texture),
-	map_sprite	(sprite)
-{
-	TileMap;
-	LoadIm		();
-	LoadMap		();
-	SetSprite	();
-	std::cout << "Map was constructed!" << std::endl;
-	fout << "Map was constructed!" << std::endl;
-}
-
-Map::~Map()
-{
-	fout << "Map has destructed!" << std::endl;
-}
-
 void Map::SetSprite()
 {
 	map_sprite.setTexture(map);
@@ -159,7 +161,7 @@ void Map::LoadMap()
 
 void Map::LoadIm()
 {
-	if (!map_image.loadFromFile("Images/map.png")) {
+	if (!map_image.loadFromFile("Images/" + File)) {
 		fout << "Map was not loaded from file!" << std::endl;
 	}
 }
@@ -167,7 +169,10 @@ void Map::LoadIm()
 
 char Map::GetElemMap(unsigned int first, unsigned int second)
 {
-	return TileMap[first][second];
+	if ((first <= HEIGHT) && (second <= WIDTH))
+		return TileMap[first][second];
+	else
+		return '`';
 }
 
 

@@ -3,11 +3,11 @@
 
 
 //void	ChooseAction(Player & Hero, int dir, double & CurFrame, sf::Int64 time, int X, int Y);
-void	Process(sf::RenderWindow & window, Map & map, MyView & View, Player & Hero);
+void	Process(sf::RenderWindow & window, Map & map, MyView & View, Player & Hero, Enemy & Archer);
 //void	ActionSwitch(Player & Hero, double & CurFrame, sf::Int64 & time,
 //	sf::RenderWindow & window, MyView & View);
 
-void Process(sf::RenderWindow & window, Map & map, MyView & View, Player & Hero)
+void Process(sf::RenderWindow & window, Map & map, MyView & View, Player & Hero, Enemy & Archer)
 {
 	// ref
 
@@ -76,6 +76,7 @@ void Process(sf::RenderWindow & window, Map & map, MyView & View, Player & Hero)
 		
 
 		Hero.Update(time, map, View);
+		Archer.Update(map, time);
 		View.ScrollMap(time);
 		window.setView(View.view);
 		window.clear(sf::Color(175, 140, 90, 0));
@@ -88,6 +89,7 @@ void Process(sf::RenderWindow & window, Map & map, MyView & View, Player & Hero)
 		//fulltxt.DrawSprite(View, window, show_mission_text, Kumach_s);
 
 		window.draw(Hero.sprite);
+		window.draw(Archer.sprite);
 		window.display();
 	}
 }
@@ -171,7 +173,7 @@ void SecondLevel(sf::RenderWindow & window)
 	sf::Texture map_texture;
 	sf::Sprite	map_sprite;
 
-	Map    map(map_image, map_texture, map_sprite);
+	Map    map(map_image, map_texture, map_sprite, "map.png");
 
 	map.RandomGenerator(' ', 's', 1);
 	map.RandomGenerator(' ', 'D', 8);
@@ -185,7 +187,7 @@ void SecondLevel(sf::RenderWindow & window)
 	sf::Image archer_image;
 	archer_image.loadFromFile("Images/Enemy.png");
 
-	Enemy Archer(archer_image, "Archer1", W/2, 200, 64, 66);       // random values
+	Enemy Archer(archer_image, "Archer1", W/2 + 280, H - 160, 64, 66);       // random values
 
-	Process(window, map, View, Hero);
+	Process(window, map, View, Hero, Archer);
 }
