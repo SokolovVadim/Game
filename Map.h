@@ -24,7 +24,7 @@ class Map
 	std::string			File;
 	 
 public:
-	Map						(sf::Image & image, sf::Texture & texture, sf::Sprite & sprite, const std::string file);
+	Map						(const std::string file);
 	~Map					();
 	void LoadIm				();
 	void LoadMap			();
@@ -38,11 +38,11 @@ public:
 
 };
 
-Map::Map(sf::Image & image, sf::Texture & texture, sf::Sprite & sprite, const std::string file) :
-	map_image		(image),
-	map				(texture),
-	map_sprite		(sprite),
-	File(file)
+Map::Map(const std::string file) :
+	map_image		({sf::Image()}),
+	map				({sf::Texture()}),
+	map_sprite		({sf::Sprite()}),
+	File			(file)
 {
 	TileMap;
 	LoadIm();

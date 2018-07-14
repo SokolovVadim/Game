@@ -16,10 +16,11 @@ public:
 	bool			IsMove;
 	bool			OnGround;
 
-	//sf::Image		Image;
+	sf::Image		Image;
 	sf::Texture		Texture;
 	
 	std::string		Name;
+	std::string		File;
 
 
 	float			dx;
@@ -27,7 +28,7 @@ public:
 
 	sf::Sprite		sprite;
 
-	Entity(sf::Image & image, std::string name_, float x, float y, float w, float h);
+	Entity(const std::string file, const std::string name_, float x, float y, float w, float h);
 	~Entity();
 };
 
@@ -36,9 +37,9 @@ Entity::~Entity()
 {
 	fout << "Entity has destructed" << std::endl;
 }
-Entity::Entity(sf::Image & image, std::string name_, float x, float y, float w, float h) :
+Entity::Entity(const std::string file, const std::string name_, float x, float y, float w, float h) :
 	Heatpoints			(100.0f),
-	pos(x, y),
+	pos					(x, y),
 	Speed				(0.0f),
 	Width				(w),
 	Height				(h),
@@ -46,13 +47,16 @@ Entity::Entity(sf::Image & image, std::string name_, float x, float y, float w, 
 	Alive				(true),
 	IsMove				(false),
 	OnGround			(false),
+	Image				({sf::Image()}),
 	Texture				({sf::Texture()}),
 	Name				(name_),
+	File(file),
 	dx					(0.0f),
 	dy					(0.0f),
 	sprite				({sf::Sprite()})
 {
-	Texture.loadFromImage(image);
+	Image.loadFromFile("Images/" + File);
+	Texture.loadFromImage(Image);
 	sprite.setTexture(Texture);
 	sprite.setOrigin(w / 2, h / 2);
 }
@@ -87,7 +91,7 @@ public:
 	const float		j_speed = -0.4f;
 
 
-	Player(sf::Image & image_, std::string name_, float x, float y, float w, float h);
+	Player(const std::string file, std::string name_, float x, float y, float w, float h);
 	~Player();
 	bool			Update		(sf::Int64 & time, Map & map, MyView & View);
 	bool			GetAlive	();
@@ -101,13 +105,14 @@ public:
 };
 
 
-Player::Player(sf::Image & image_, std::string name_, float x, float y, float w, float h):
-	Entity(image_, name_, x, y, w, h),
+Player::Player(const std::string file, std::string name_, float x, float y, float w, float h):
+	Entity(file, name_, x, y, w, h),
 	Score(0),
 	Power(0.0f),
 	Air(0.0f),
 	Status(STAY)
 {
+	//Image.loadFromFile("Images/" + File);
 	if (name_ == "Player1")
 		sprite.setTextureRect(sf::IntRect(0, SETBEGIN, HEROX, HEROY));
 }

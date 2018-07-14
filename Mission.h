@@ -1,29 +1,29 @@
 class Mission
 {
 private:
-	sf::Image Kumach;
-	sf::Texture Kumach_texture;
-	sf::Sprite		Kumach_s;
-	bool			show_mission_text;
-	std::string File;
+	sf::Image			Kumach;
+	sf::Texture			Kumach_texture;
+	sf::Sprite			Kumach_s;
+	bool				show_mission_text;
+	std::string			File;
 public:
-	Mission(const std::string file_);
-	~Mission();
-	unsigned int GetCurMission(float coord_x);
-	std::string GetTextMission(unsigned int mission_numb);
-	void LoadMission();
-	bool & IsShow();
-	void SetShow(bool value);
-	void SetSpr(float coord_x, float coord_y);
-	void Draw(sf::RenderWindow & window);
+	Mission							(const std::string file_);
+	~Mission						();
+	unsigned int	GetCurMission	(float coord_x);
+	std::string		GetTextMission	(unsigned int mission_numb);
+	void			LoadMission		();
+	bool	 &		IsShow			();
+	void			SetShow			(bool value);
+	void			SetSpr			(float coord_x, float coord_y);
+	void			Draw			(sf::RenderWindow & window);
 };
 
 Mission::Mission(const std::string file_) :
-	Kumach({ sf::Image() }),
-	Kumach_texture({ sf::Texture() }),
-	Kumach_s({ sf::Sprite() }),
-	show_mission_text(true),
-	File(file_)
+	Kumach				({ sf::Image() }),
+	Kumach_texture		({ sf::Texture() }),
+	Kumach_s			({ sf::Sprite() }),
+	show_mission_text	(true),
+	File				(file_)
 {}
 
 Mission::~Mission()

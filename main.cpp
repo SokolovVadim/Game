@@ -9,7 +9,6 @@ void PlayKotik()
 
 bool	IsWalk				();
 void	ChooseAction		(Actor & Hero, int dir, double & CurFrame, sf::Int64 time, int X, int Y);
-//void	LoadMission			(sf::Sprite & Kumach_s, sf::Texture & Kumach_texture);
 void	Process				(sf::RenderWindow & window, Map & map, MyView & View, Actor & Hero);
 void	ActionSwitch		(Actor & Hero, double & CurFrame, sf::Int64 & time,
 							sf::RenderWindow & window, MyView & View);
@@ -22,29 +21,16 @@ void Process (sf::RenderWindow & window, Map & map, MyView & View, Actor & Hero)
 	sf::Clock		clock;
 	sf::Clock		game_time_clock;
 	int				game_time(0);
+	sf::Int64		timer(0);
 
 	Mission mission("Kumach.png");
 
-	//bool			show_mission_text(true);
-	
+	//sf::Text text, water, hp, game_over, task_txt, power, time_t;
 
-	sf::Font font;
-
-	if (!font.loadFromFile("Text/ARIAL.TTF"))		// check how it works (reference in init. list)
-		fout << "Text has not loaded!" << std::endl;
-
-	sf::Text text, water, hp, game_over, task_txt, power, time_t;
-
-	AllText fulltxt(font, text, water, hp, game_over, task_txt, power, time_t);
+	AllText fulltxt;
 	fulltxt.PrintAll();
 
-
-
 	mission.LoadMission();
-	//LoadMission		(Kumach_s, Kumach_texture);
-
-	sf::Int64		timer	(0);
-
 
 	DragAndDrop dnd(window);
 
@@ -139,18 +125,6 @@ bool IsWalk()
 		return false;
 }
 
-//void LoadMission(sf::Sprite & Kumach_s, sf::Texture & Kumach_texture)
-//{
-//	sf::Image Kumach;
-//	Kumach.loadFromFile("Images/Kumach.png");
-//	
-//	Kumach_texture.loadFromImage	(Kumach);
-//	Kumach_s.setTexture				(Kumach_texture);
-//	Kumach_s.setTextureRect			(sf::IntRect(20, 0, 300, 100));
-//	//Kumach_s.setScale(1.0, 1.0);
-//}
-
-
 void ActionSwitch(Actor & Hero, double & CurFrame, sf::Int64 & time, sf::RenderWindow & window,
 	MyView & View)
 {
@@ -197,11 +171,8 @@ void FirstLevel(sf::RenderWindow & window)
 	MyView View;
 	View.view.reset(sf::FloatRect(XPOS - SETCAMX / 2, YPOS - SETCAMY / 2, SETCAMX, SETCAMY));
 
-	sf::Image	map_image;
-	sf::Texture map_texture;
-	sf::Sprite	map_sprite;
 
-	Map    map(map_image, map_texture, map_sprite, "map.png");
+	Map    map("map.png");
 
 	map.RandomGenerator(' ', 's', 1);
 	map.RandomGenerator(' ', 'D', 8);

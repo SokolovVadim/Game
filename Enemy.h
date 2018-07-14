@@ -12,13 +12,13 @@ private:
 	};
 	const float enemy_speed = 0.1f;
 public: 
-	Enemy							(sf::Image & image_, std::string name_, float x, float y, float w, float h);
+	Enemy							(const std::string file, std::string name_, float x, float y, float w, float h);
 	void			CheckCollision	(Map & map, float dx_, float dy_);
 	void			Update			(Map & map, sf::Int64 time);
 };
 
-Enemy::Enemy(sf::Image & image_, std::string name_, float x, float y, float w, float h) :
-	Entity(image_, name_, x, y, w, h)
+Enemy::Enemy(const std::string file, std::string name_, float x, float y, float w, float h) :
+	Entity(file, name_, x, y, w, h)
 {
 	if (name_ == "Archer1") {
 		dx = -enemy_speed;
@@ -30,7 +30,7 @@ Enemy::Enemy(sf::Image & image_, std::string name_, float x, float y, float w, f
 
 void Enemy::CheckCollision(Map & map, float dx_, float dy_)
 {
-	for (int i(int(pos.x / HGRASS)); i < int(pos.y + Height + 48) / HGRASS; i++)
+	for (int i(int(pos.y / HGRASS)); i < int(pos.y + Height + 48) / HGRASS; i++)
 		for (int j(int(pos.x / WGRASS)); j < (int(pos.x + Width) / WGRASS); j++)
 		{
 			char sym = map.GetElemMap(i, j);

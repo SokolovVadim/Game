@@ -99,9 +99,9 @@ private:
 	Text		time_;
 	Text		go_t;
 	Text		task_t;
+	sf::Font    font;
 public:
-	AllText(sf::Font & font_, sf::Text & text, sf::Text & water, sf::Text & hp,
-		sf::Text & game_over, sf::Text & task, sf::Text & power, sf::Text & time);
+	AllText();
 	void DrawAll	(MyView & View, sf::RenderWindow & window, Actor & Hero, sf::Int64 & time, int & game_time);
 	void PrintAll	();
 	void DrawSprite (MyView & View, sf::RenderWindow & window, Mission & mission);
@@ -110,16 +110,19 @@ public:
 	Text & GetText	();
 };
 
-AllText::AllText(sf::Font & font_, sf::Text & text, sf::Text & water, sf::Text & hp,
-	sf::Text & game_over,	   sf::Text & task,  sf::Text & power, sf::Text & time) :
-	score_t (font_, text,      sf::Color::Black, sf::Text::Bold, std::string("Rubins: " ), 24u ),
-	water_t (font_, water,     sf::Color::Blue,  sf::Text::Bold, std::string("Air: "    ), 24u ),
-	hp_t	(font_, hp,        sf::Color::Red,   sf::Text::Bold, std::string("Health: " ), 24u ),
-	power_t	(font_, power,	   sf::Color::Red,   sf::Text::Bold, std::string("Power: "  ), 24u ),
-	time_	(font_, time,	   sf::Color::Red,   sf::Text::Bold, std::string("Time: "   ), 24u ),
-	go_t    (font_, game_over, sf::Color::Red,   sf::Text::Bold, std::string("Game over"), 128u),
-	task_t  (font_, task,      sf::Color::Black, sf::Text::Bold, std::string("Task: "   ), 16u )
-{ }
+AllText::AllText() :
+	font({sf::Font()}),
+	score_t (font, sf::Text(), sf::Color::Black, sf::Text::Bold, std::string("Rubins: " ), 24u ),
+	water_t (font, sf::Text(), sf::Color::Blue,  sf::Text::Bold, std::string("Air: "    ), 24u ),
+	hp_t	(font, sf::Text(), sf::Color::Red,   sf::Text::Bold, std::string("Health: " ), 24u ),
+	power_t	(font, sf::Text(), sf::Color::Red,   sf::Text::Bold, std::string("Power: "  ), 24u ),
+	time_	(font, sf::Text(), sf::Color::Red,   sf::Text::Bold, std::string("Time: "   ), 24u ),
+	go_t    (font, sf::Text(), sf::Color::Red,   sf::Text::Bold, std::string("Game over"), 128u),
+	task_t  (font, sf::Text(), sf::Color::Black, sf::Text::Bold, std::string("Task: "   ), 16u )
+{
+	if (!font.loadFromFile("Text/ARIAL.TTF"))		// check how it works (reference in init. list)
+		fout << "Text has not loaded!" << std::endl;
+}
 
 Text & AllText::GetText()
 {
