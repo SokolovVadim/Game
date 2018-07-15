@@ -110,7 +110,6 @@ void Mission::LoadMission()
 
 void Mission::SetCurMission(float coord_x)
 {
-	//unsigned int mission;
 	if (coord_x < RUBINS * 500) {
 		miss_numb = RUBINS;
 	}

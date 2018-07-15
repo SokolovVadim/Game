@@ -109,6 +109,7 @@ public:
 	void DrawTXT	(MyView & View, Actor & Hero, sf::RenderWindow & window);
 	void React		(sf::Event & event, sf::RenderWindow & window, Mission & mission, MyView & View, Actor & Hero);
 	void SetIntro	(Mission & mission, Actor & Hero, MyView & View, sf::RenderWindow & window);
+	void DrawIntro(MyView & View, sf::RenderWindow & window, Mission & mission);
 	Text & GetText	();
 };
 
@@ -206,7 +207,17 @@ void AllText::SetIntro(Mission & mission, Actor & Hero, MyView & View, sf::Rende
 	if (mission.GetCurMission() == 1)
 	{
 		mission.SetIntro(View.view.getCenter().x - 120, View.view.getCenter().y + 100);
+	}
+}
+
+
+void AllText::DrawIntro(MyView & View, sf::RenderWindow & window, Mission & mission)
+{
+	if (mission.GetCurMission() == 1)
+	{
 		mission.DrawIntro(window);
 		intro_t.Draw(View, window, -120, 100);
 	}
 }
+
+
