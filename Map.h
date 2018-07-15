@@ -33,7 +33,7 @@ public:
 	char GetElemMap			(unsigned int first, unsigned int second);
 	void SetElemMap			(unsigned int first, unsigned int second, char sym);
 	void RandomGenerator	(char src, char dest, unsigned int number_);
-	void GenerateInTime(sf::Int64 & timer, sf::Int64 time, sf::Int64 period, char src, char dest, unsigned int number_);
+	void GenerateInTime		(sf::Int64 & timer, sf::Int64 time, sf::Int64 period, char src, char dest, unsigned int number_);
 
 
 };

@@ -27,8 +27,6 @@ private:
 	sf::Texture		Texture;
 	sf::Vertex		vertex;
 
-	
-	sf::Vector2f	PosActor;
 	std::string		File; // directory to load
 
 	enum STATUS
@@ -66,12 +64,12 @@ public:
 	void			PushScore		(std::ostringstream & ScoreString);
 	void			GetAir			(std::ostringstream & ScoreAir);
 	void			PushPower		(std::ostringstream & Power_str);
-	void			ReducePower		(sf::Int64 time);
+	void			IncreasePower	(sf::Int64 time);
 	void			SetCoord		(const float x, const float y);
 	void			SetSelect		(bool value);
 	void			SetMove			(bool value);
 	void			IncCoord		(const float x, const float y);
-	void PurpleStyle(sf::Int64 & time);
+	void			PurpleStyle		(sf::Int64 & time);
 	unsigned int	GetScore		();
 };
 
@@ -167,7 +165,7 @@ bool Actor::SetPower(sf::Int64 time)
 	return power_flag;
 }
 
-void Actor::ReducePower(sf::Int64 time)
+void Actor::IncreasePower(sf::Int64 time)
 {
 	if (Power <= 10)
 		Power += float(time) / 5000;

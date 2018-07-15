@@ -21,9 +21,9 @@ void Process (sf::RenderWindow & window, Map & map, MyView & View, Actor & Hero)
 	sf::Clock		clock;
 	sf::Clock		game_time_clock;
 	int				game_time(0);
-	sf::Int64		timer(0);
+	sf::Int64		timer(0); 
 
-	Mission mission("Kumach.png");
+	Mission mission("Kumach.png", "Intro.png");
 
 	//sf::Text text, water, hp, game_over, task_txt, power, time_t;
 
@@ -54,6 +54,7 @@ void Process (sf::RenderWindow & window, Map & map, MyView & View, Actor & Hero)
 			if (event.type == sf::Event::Closed)
 				window.close();
 			fulltxt.React(event, window, mission, View, Hero);
+			fulltxt.SetIntro(mission, Hero, View, window);
 			dnd.MainEffect(event, Hero);
 			dnd.Select(window, event, Hero);
 			dnd.Rpg(event, Hero);
@@ -105,8 +106,10 @@ void ChooseAction(Actor & Hero, int dir, double & CurFrame, sf::Int64 time, int 
 		else
 		{
 			Hero.SetSpeed(Hero.n_speed);
-			Hero.ReducePower(time);
+			Hero.IncreasePower(time);
 		}
+
+
 		CurFrame += 0.0052 * time;
 		
 		if (CurFrame > 9)
@@ -147,7 +150,7 @@ void ActionSwitch(Actor & Hero, double & CurFrame, sf::Int64 & time, sf::RenderW
 		}
 		if (!IsWalk())
 		{
-			;
+			Hero.IncreasePower(time);
 		}
 		if (!((sf::Keyboard::isKeyPressed(sf::Keyboard::W)) || (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) ||
 			(sf::Keyboard::isKeyPressed(sf::Keyboard::S)) || (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) ||

@@ -92,6 +92,7 @@ void Text::Print()
 class AllText
 {
 private:
+	sf::Font    font;
 	Text		score_t;
 	Text		water_t;
 	Text		hp_t;
@@ -99,7 +100,7 @@ private:
 	Text		time_;
 	Text		go_t;
 	Text		task_t;
-	sf::Font    font;
+	Text		intro_t;
 public:
 	AllText();
 	void DrawAll	(MyView & View, sf::RenderWindow & window, Actor & Hero, sf::Int64 & time, int & game_time);
@@ -107,6 +108,7 @@ public:
 	void DrawSprite (MyView & View, sf::RenderWindow & window, Mission & mission);
 	void DrawTXT	(MyView & View, Actor & Hero, sf::RenderWindow & window);
 	void React		(sf::Event & event, sf::RenderWindow & window, Mission & mission, MyView & View, Actor & Hero);
+	void SetIntro	(Mission & mission, Actor & Hero, MyView & View, sf::RenderWindow & window);
 	Text & GetText	();
 };
 
@@ -118,7 +120,8 @@ AllText::AllText() :
 	power_t	(font, sf::Text(), sf::Color::Red,   sf::Text::Bold, std::string("Power: "  ), 24u ),
 	time_	(font, sf::Text(), sf::Color::Red,   sf::Text::Bold, std::string("Time: "   ), 24u ),
 	go_t    (font, sf::Text(), sf::Color::Red,   sf::Text::Bold, std::string("Game over"), 128u),
-	task_t  (font, sf::Text(), sf::Color::Black, sf::Text::Bold, std::string("Task: "   ), 16u )
+	task_t  (font, sf::Text(), sf::Color::Black, sf::Text::Bold, std::string("Task: "   ), 16u ),
+	intro_t (font, sf::Text(), sf::Color::White, sf::Text::Bold, std::string("gun"      ), 24u )
 {
 	if (!font.loadFromFile("Text/ARIAL.TTF"))		// check how it works (reference in init. list)
 		fout << "Text has not loaded!" << std::endl;
@@ -160,8 +163,8 @@ void AllText::DrawSprite(MyView & View, sf::RenderWindow & window, Mission & mis
 {
 	if (!mission.IsShow()) {
 		
-		mission.SetSpr	(View.view.getCenter().x + 120, View.view.getCenter().y - 100);
-		mission.Draw	(window);
+		mission.SetKum	(View.view.getCenter().x + 120, View.view.getCenter().y - 100);
+		mission.DrawKum	(window);
 		task_t.Draw		(View, window, 200, -100);
 	}
 }
@@ -181,8 +184,9 @@ void AllText::React(sf::Event & event, sf::RenderWindow & window, Mission & miss
 		{
 		case true:
 		{
-			task_t.PushStr	( mission.GetTextMission(mission.GetCurMission(Hero.GetCoordX())));
-			mission.SetSpr	(View.view.getCenter().x + 120, View.view.getCenter().y - 100);
+			mission.SetCurMission(Hero.GetCoordX());
+			task_t.PushStr(mission.GetTextMission(mission.GetCurMission()));
+			mission.SetKum	(View.view.getCenter().x + 120, View.view.getCenter().y - 100);
 			mission.SetShow	(false);
 			break;
 		}
@@ -192,5 +196,17 @@ void AllText::React(sf::Event & event, sf::RenderWindow & window, Mission & miss
 			break;
 		}
 		}
+	}
+}
+
+
+void AllText::SetIntro(Mission & mission, Actor & Hero, MyView & View, sf::RenderWindow & window)
+{
+	mission.SetCurMission(Hero.GetCoordX());
+	if (mission.GetCurMission() == 1)
+	{
+		mission.SetIntro(View.view.getCenter().x - 120, View.view.getCenter().y + 100);
+		mission.DrawIntro(window);
+		intro_t.Draw(View, window, -120, 100);
 	}
 }
