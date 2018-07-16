@@ -102,7 +102,8 @@ void Mission::LoadMission()
 
 	Intro_texture.loadFromImage(Intro);
 	Intro_s.setTexture(Intro_texture);
-	Intro_s.setTextureRect(sf::IntRect(0, 0, 100, 100));
+	Intro_s.setTextureRect(sf::IntRect(0, 0, 230, 260));
+	//Intro_s.setPosition()
 
 	//Kumach_s.setScale(1.0, 1.0);
 }
