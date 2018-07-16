@@ -100,16 +100,18 @@ private:
 	Text		time_;
 	Text		go_t;
 	Text		task_t;
+	Text		lazer_t;
 	
 public:
 	AllText();
 	void DrawAll	(MyView & View, sf::RenderWindow & window, Actor & Hero, sf::Int64 & time, int & game_time);
 	void PrintAll	();
 	void DrawSprite (MyView & View, sf::RenderWindow & window, Mission & mission);
-	void DrawTXT	(MyView & View, Actor & Hero, sf::RenderWindow & window);
+	void DrawTXT	(MyView & View, sf::RenderWindow & window, Actor & Hero);
 	void React		(sf::Event & event, sf::RenderWindow & window, Mission & mission, MyView & View, Actor & Hero);
 	void SetIntro	(Mission & mission, Actor & Hero, MyView & View, sf::RenderWindow & window);
-	void DrawIntro(MyView & View, sf::RenderWindow & window, Mission & mission, Actor & Hero);
+	void DrawIntro	(MyView & View, sf::RenderWindow & window, Mission & mission, Actor & Hero);
+	void DrawLazer(MyView & View, sf::RenderWindow & window, Actor & Hero);
 	Text & GetText	();
 };
 
@@ -121,10 +123,19 @@ AllText::AllText() :
 	power_t	(font, sf::Text(), sf::Color::Red,   sf::Text::Bold, std::string("Power: "  ), 24u ),
 	time_	(font, sf::Text(), sf::Color::Red,   sf::Text::Bold, std::string("Time: "   ), 24u ),
 	go_t    (font, sf::Text(), sf::Color::Red,   sf::Text::Bold, std::string("Game over"), 128u),
-	task_t  (font, sf::Text(), sf::Color::Black, sf::Text::Bold, std::string("Task: "   ), 16u )
+	task_t  (font, sf::Text(), sf::Color::Black, sf::Text::Bold, std::string("Task: "   ), 16u ),
+	lazer_t (font, sf::Text(), sf::Color::Red,   sf::Text::Bold, std::string("         You have took"
+		" all rubins\n             for lazer of justice!\nPress SPACE to go to the next level!\n"
+			"	 P.S. do't eat a lot of mushrooms"), 32u)
 {
 	if (!font.loadFromFile("Text/ARIAL.TTF"))		// check how it works (reference in init. list)
 		fout << "Text has not loaded!" << std::endl;
+}
+
+void AllText::DrawLazer(MyView & View, sf::RenderWindow & window, Actor & Hero)
+{
+	if (Hero.GetScore() >= 3)
+		lazer_t.Draw(View, window, -210, -100);
 }
 
 Text & AllText::GetText()
@@ -150,7 +161,7 @@ void AllText::DrawAll(MyView & View, sf::RenderWindow & window, Actor & Hero, sf
 	time_.Draw(View, window, -TEXTX, -TEXTY + 120);
 }
 
-void AllText::DrawTXT(MyView & View, Actor & Hero, sf::RenderWindow & window)
+void AllText::DrawTXT(MyView & View, sf::RenderWindow & window, Actor & Hero)
 {
 	if ((View.view.getCenter().x >= W - SETCAMX / 2) && (!Hero.GetAlive()))
 		{
