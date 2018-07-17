@@ -12,11 +12,11 @@ void	ChooseAction		(Actor & Hero, int dir, double & CurFrame, sf::Int64 time, in
 void	Process				(sf::RenderWindow & window, Map & map, MyView & View, Actor & Hero);
 void	ActionSwitch		(Actor & Hero, double & CurFrame, sf::Int64 & time,
 							sf::RenderWindow & window, MyView & View);
+void	SetCam				(sf::Event & event, sf::RenderWindow & window, bool & IsFullscreen);
 
 void Process (sf::RenderWindow & window, Map & map, MyView & View, Actor & Hero)
 {
-	// ref
-
+	bool			IsFullscreen(true);
 	double			CurFrame(0.0);
 	sf::Clock		clock;
 	sf::Clock		game_time_clock;
@@ -24,8 +24,6 @@ void Process (sf::RenderWindow & window, Map & map, MyView & View, Actor & Hero)
 	sf::Int64		timer(0); 
 
 	Mission mission("Kumach.png", "Intro.png");
-
-	//sf::Text text, water, hp, game_over, task_txt, power, time_t;
 
 	AllText fulltxt;
 	fulltxt.PrintAll();
@@ -45,19 +43,17 @@ void Process (sf::RenderWindow & window, Map & map, MyView & View, Actor & Hero)
 
 		clock.restart();
 		time /= 800;
-		
-		
 
 		sf::Event event;
 		while (window.pollEvent(event))
 		{
-			if (event.type == sf::Event::Closed)
-				window.close();
-			fulltxt.React(event, window, mission, View, Hero);
-			fulltxt.SetIntro(mission, Hero, View, window);
-			dnd.MainEffect(event, Hero);
-			dnd.Select(window, event, Hero);
-			dnd.Rpg(event, Hero);
+			SetCam(event, window, IsFullscreen);
+			
+			fulltxt.React		(event, window, mission, View, Hero);
+			fulltxt.SetIntro	(mission, Hero, View, window);
+			dnd.MainEffect		(event, Hero);
+			dnd.Select			(window, event, Hero);
+			dnd.Rpg				(event, Hero);
 			
 			//dnd.MoveMouse(window);
 		}
@@ -84,12 +80,41 @@ void Process (sf::RenderWindow & window, Map & map, MyView & View, Actor & Hero)
 		map.DrawMap(window);
 
 		fulltxt.DrawAll(View, window, Hero, time, game_time);
-		fulltxt.DrawTXT(View, Hero, window);
+		fulltxt.DrawTXT(View, window, Hero);
+		fulltxt.DrawLazer(View, window, Hero);
 
 		fulltxt.DrawSprite(View, window, mission);  ////!!!!!!!!!!
 
+		fulltxt.DrawIntro(View, window, mission, Hero);
+
 		window.draw(Hero.sprite);
 		window.display();
+	}
+}
+
+void SetCam(sf::Event & event, sf::RenderWindow & window, bool & IsFullscreen)
+{
+	switch (event.type)
+	{
+	case sf::Event::KeyReleased:
+		switch (event.key.code)
+		{
+		case sf::Keyboard::Return:
+			if (IsFullscreen) {
+				window.create(sf::VideoMode(SETCAMX, SETCAMY), "Game", sf::Style::Default);
+				IsFullscreen = false;
+			}
+			else {
+				window.create(sf::VideoMode(SETCAMX, SETCAMY), "Game", sf::Style::Fullscreen);
+				IsFullscreen = true;
+			}
+
+			break;
+		}
+		break;
+	case sf::Event::Closed:
+		window.close();
+		break;
 	}
 }
 
@@ -173,13 +198,14 @@ void FirstLevel(sf::RenderWindow & window)
 {
 	MyView View;
 	View.view.reset(sf::FloatRect(XPOS - SETCAMX / 2, YPOS - SETCAMY / 2, SETCAMX, SETCAMY));
+	window.create(sf::VideoMode(SETCAMX, SETCAMY), "Game", sf::Style::Fullscreen);
 
 
 	Map    map("map.png");
 
 	map.RandomGenerator(' ', 's', 1);
 	map.RandomGenerator(' ', 'D', 8);
-	map.RandomGenerator(' ', 'R', 2);
+	map.RandomGenerator(' ', 'R', 3);
 
 	Actor Hero("sheet2.png", HEALTH, 0, SETBEGIN, HEROX, HEROY);
 
