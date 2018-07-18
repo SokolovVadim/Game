@@ -22,7 +22,7 @@ class MyView
 {
 public:
 	sf::View view;
-	sf::RenderWindow		Window;
+	sf::RenderWindow		window;
 
 	//MyView();
 	sf::View GetCoordView	(float xcoord, float ycoord);
@@ -31,10 +31,19 @@ public:
 
 };
 
+
+//MyView View;
+//View.view.reset(sf::FloatRect(XPOS - SETCAMX / 2, YPOS - SETCAMY / 2, SETCAMX, SETCAMY));
+//window.create(sf::VideoMode(SETCAMX, SETCAMY), "Game", sf::Style::Fullscreen);
+
+
 //MyView::MyView():
 //	view		(sf::View()),
-//	Window		({})
-//{}
+//	window		({})
+//{
+//	view.reset		(sf::FloatRect(XPOS - SETCAMX / 2, YPOS - SETCAMY / 2, SETCAMX, SETCAMY));
+//	window.create	(sf::VideoMode(SETCAMX, SETCAMY), "Game", sf::Style::Fullscreen);
+//}
 
 sf::View MyView::GetCoordView(float xcoord, float ycoord)
 {
