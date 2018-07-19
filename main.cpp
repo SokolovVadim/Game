@@ -205,7 +205,7 @@ void FirstLevel(/*sf::RenderWindow & window*/)
 
 	Map    map("map.png");
 
-	map.RandomGenerator(' ', 's', 1);
+	map.RandomGenerator(' ', 'P', 12);
 	map.RandomGenerator(' ', 'D', 8);
 	map.RandomGenerator(' ', 'R', 3);
 

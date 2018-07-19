@@ -5,17 +5,27 @@
 class Map
 {
 	sf::String TileMap[HEIGHT] = {
-		"BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB",
-		"B                            wwB",
-		"B                           wwwB",
-		"B      TTT         0000000wwwwwB",
-		"B       TT                  wwwB",
-		"B                              B",
-		"B                              B",
-		"B                      0  BBB  B",
-		"B      TT    0         0  BH   B",
-		"B   TTTT     0         0  B   DB",
-		"BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB",
+		"BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB",
+		"B                     LLLLLLLL                                                           B",
+		"B                       LLLLLLL                                                          B",
+		"BT     TTT               LLLLLL                                                          B",
+		"BTT     TT                  LLLLL                                                       wB",
+		"BTTT                          LLLLLL                                                  wwwB",
+		"BTTTT                            LLLLLLL                                           wwwwwwB",
+		"BTTT                              LLLLLL                                       wwwwwwwwwwB",
+		"BTT                                 LLLLLL                                   wwwwwwwwww  B",
+		"B                                    LLLLL                                    wwwwwwww   B",
+		"B                                     LLLLLL                                wwwwwwww     B",
+		"B                                      LLLLL                              wwwwwww        B",
+		"B                                     LLLL                             wwwwwwwww         B",
+		"B                                    LLLLLL                        wwwwwwwwwwwww         B",
+		"B                                 LLLLLLL                             wwwwwwwNwww        B",
+		"B                               LLLLLLL                                 wwwwwwwwwwww     B",
+		"B                              LLLLLLLLL                                   wwwwwwwwwww   B",
+		"B                              LLLLLLLL                                      wwwwNNwwww  B",
+		"B                               LLLLLLL                                     wwwwwNNNwwwwwB",
+		"B                                 LLLLLLL                                  wwwwwwwwwwwwwwB",
+		"BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB",
 	};
 
 	sf::Image			map_image;
@@ -49,7 +59,7 @@ Map::Map(const std::string file) :
 	LoadMap();
 	SetSprite();
 	std::cout << "Map was constructed!" << std::endl;
-	fout << "Map was constructed!" << std::endl;
+	fout      << "Map was constructed!" << std::endl;
 }
 
 Map::~Map()
