@@ -7,6 +7,7 @@ private:
 
 	int				Dir;
 	int				PurpleTimer;
+	int				FireTimer;
 	unsigned int	Score;
 
 	float			Heatpoints;
@@ -22,6 +23,7 @@ private:
 	bool			IsMove;
 	bool			IsSelect;
 	bool			IsPurple;
+	bool			IsOnFire;
 
 	sf::Image		Image;
 	sf::Texture		Texture;
@@ -70,6 +72,9 @@ public:
 	void			SetMove			(bool value);
 	void			IncCoord		(const float x, const float y);
 	void			PurpleStyle		(sf::Int64 & time);
+	void			OnFire			(sf::Int64 & time);
+	void SetPurple();
+	void SetRed();
 	unsigned int	GetScore		();
 };
 
@@ -77,6 +82,7 @@ public:
 Actor::Actor(std::string file, unsigned int HP, float x, float y, float w, float h) :
 	Dir					(SETDIR),
 	PurpleTimer			(0),
+	FireTimer			(0),
 	Score				(0),
 	Heatpoints			(100),
 	Power				(10),
@@ -85,6 +91,8 @@ Actor::Actor(std::string file, unsigned int HP, float x, float y, float w, float
 	Alive				(true),
 	IsMove				(false),
 	IsSelect			(false),
+	IsPurple			(false),
+	IsOnFire			(false),
 	Air					(10),
 	Width				(w),
 	Height				(h),
@@ -100,6 +108,34 @@ Actor::Actor(std::string file, unsigned int HP, float x, float y, float w, float
 	fout << "Actor constructor was called!" << std::endl;
 }
 
+void Actor::SetRed()
+{
+
+	IsOnFire = true;
+	FireTimer = 0;
+	sprite.setColor(sf::Color::Red);
+}
+
+void Actor::SetPurple()
+{
+	IsPurple = true;
+	PurpleTimer = 0;
+	sprite.setColor(sf::Color::Magenta);
+}
+
+void Actor::OnFire(sf::Int64 & time)
+{
+	if (IsOnFire) {
+		FireTimer += int(time);
+		Heatpoints -= float(time) / 500;
+		if (FireTimer > 3000)
+		{
+			IsOnFire = false;
+			sprite.setColor(sf::Color::White);
+			FireTimer = 0;
+		}
+	}
+}
 
 
 void Actor::PurpleStyle(sf::Int64 & time)
@@ -257,9 +293,11 @@ void Actor::InterractMap(sf::Int64 time, Map & map)
 					else
 						Power = 10;
 					map.SetElemMap(i, j, ' ');
-					IsPurple = true;
-					PurpleTimer = 0;
-					sprite.setColor(sf::Color::Magenta);
+					SetPurple();
+				}
+				if (sym == 'L')
+				{
+					SetRed();
 				}
 				if (sym == 'w')
 				{

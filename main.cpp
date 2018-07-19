@@ -71,6 +71,7 @@ void Process (sf::RenderWindow & window, Map & map, MyView & View, Actor & Hero)
 		map.GenerateInTime(timer, time, 15000, ' ', 'M', 1);
 
 		Hero.PurpleStyle(time);
+		Hero.OnFire(time);
 
 		Hero.Update			(time, map);
 		View.ScrollMap		(time);
@@ -100,6 +101,7 @@ void SetCam(sf::Event & event, sf::RenderWindow & window, bool & IsFullscreen)
 		switch (event.key.code)
 		{
 		case sf::Keyboard::Return:
+
 			if (IsFullscreen) {
 				window.create(sf::VideoMode(SETCAMX, SETCAMY), "Game", sf::Style::Default);
 				IsFullscreen = false;
@@ -108,7 +110,6 @@ void SetCam(sf::Event & event, sf::RenderWindow & window, bool & IsFullscreen)
 				window.create(sf::VideoMode(SETCAMX, SETCAMY), "Game", sf::Style::Fullscreen);
 				IsFullscreen = true;
 			}
-
 			break;
 		}
 		break;
@@ -194,8 +195,9 @@ void ActionSwitch(Actor & Hero, double & CurFrame, sf::Int64 & time, sf::RenderW
 }
 
 
-void FirstLevel(sf::RenderWindow & window)
+void FirstLevel(/*sf::RenderWindow & window*/)
 {
+	sf::RenderWindow window(sf::VideoMode(W, H), "Jeday");
 	MyView View;
 	View.view.reset(sf::FloatRect(XPOS - SETCAMX / 2, YPOS - SETCAMY / 2, SETCAMX, SETCAMY));
 	window.create(sf::VideoMode(SETCAMX, SETCAMY), "Game", sf::Style::Fullscreen);
@@ -220,17 +222,16 @@ int main()
 
 	//PlayKotik();
 
-	sf::RenderWindow window(sf::VideoMode(W, H), "Jeday");
-
-	switch (LEVEL)
-	{
-	case 1:
-		FirstLevel(window);
-		break;
-	case 2:
-		SecondLevel(window);
-		break;
-	}
+	FirstLevel(/*window*/);
+	//switch (LEVEL)
+	//{
+	//case 1:
+	//	FirstLevel(window);
+	//	break;
+	//case 2:
+	//	SecondLevel(window);
+	//	break;
+	//}
 
 	return 0;
 }
