@@ -27,7 +27,7 @@ public:
 	//MyView();
 	sf::View GetCoordView	(float xcoord, float ycoord);
 	sf::View ScrollMap		(sf::Int64 time);
-	void ScrollMouse		(sf::Window & window, sf::Int64 time, Actor & Hero);
+	void ScrollMouse		(sf::Window & window, sf::Int64 time, Player & Hero);
 
 };
 
@@ -79,7 +79,7 @@ sf::View MyView::ScrollMap(sf::Int64 time)
 
 
 
-void MyView::ScrollMouse(sf::Window & window, sf::Int64 time, Actor & Hero)
+void MyView::ScrollMouse(sf::Window & window, sf::Int64 time, Player & Hero)
 {
 	sf::Vector2i position = sf::Mouse::getPosition(window);
 

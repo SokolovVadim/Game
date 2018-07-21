@@ -104,14 +104,14 @@ private:
 	
 public:
 	AllText();
-	void DrawAll	(MyView & View, sf::RenderWindow & window, Actor & Hero, sf::Int64 & time, int & game_time);
+	void DrawAll	(MyView & View, sf::RenderWindow & window, Player & Hero, sf::Int64 & time, int & game_time);
 	void PrintAll	();
 	void DrawSprite (MyView & View, sf::RenderWindow & window, Mission & mission);
-	void DrawTXT	(MyView & View, sf::RenderWindow & window, Actor & Hero);
-	void React		(sf::Event & event, sf::RenderWindow & window, Mission & mission, MyView & View, Actor & Hero);
-	void SetIntro	(Mission & mission, Actor & Hero, MyView & View, sf::RenderWindow & window);
-	void DrawIntro	(MyView & View, sf::RenderWindow & window, Mission & mission, Actor & Hero);
-	void DrawLazer(MyView & View, sf::RenderWindow & window, Actor & Hero);
+	void DrawTXT	(MyView & View, sf::RenderWindow & window, Player & Hero);
+	void React		(sf::Event & event, sf::RenderWindow & window, Mission & mission, MyView & View, Player & Hero);
+	void SetIntro	(Mission & mission, Player & Hero, MyView & View, sf::RenderWindow & window);
+	void DrawIntro	(MyView & View, sf::RenderWindow & window, Mission & mission, Player & Hero);
+	void DrawLazer(MyView & View, sf::RenderWindow & window, Player & Hero);
 	Text & GetText	();
 };
 
@@ -126,15 +126,15 @@ AllText::AllText() :
 	task_t  (font, sf::Text(), sf::Color::Black, sf::Text::Bold, std::string("Task: "   ), 16u ),
 	lazer_t (font, sf::Text(), sf::Color::Red,   sf::Text::Bold, std::string("         You have took"
 		" all rubins\n             for lazer of justice!\nPress SPACE to go to the next level!\n"
-			"	 P.S. do't eat a lot of mushrooms"), 32u)
+			"	P.S. don't eat a lot of mushrooms"), 32u)
 {
 	if (!font.loadFromFile("Text/ARIAL.TTF"))		// check how it works (reference in init. list)
 		fout << "Text has not loaded!" << std::endl;
 }
 
-void AllText::DrawLazer(MyView & View, sf::RenderWindow & window, Actor & Hero)
+void AllText::DrawLazer(MyView & View, sf::RenderWindow & window, Player & Hero)
 {
-	if (Hero.GetScore() >= 3)
+	if ((Hero.GetScore() >= 3) && (Hero.GetAlive()))
 		lazer_t.Draw(View, window, -210, -100);
 }
 
@@ -143,7 +143,7 @@ Text & AllText::GetText()
 	return task_t;
 }
 
-void AllText::DrawAll(MyView & View, sf::RenderWindow & window, Actor & Hero, sf::Int64 & time, int & game_time)
+void AllText::DrawAll(MyView & View, sf::RenderWindow & window, Player & Hero, sf::Int64 & time, int & game_time)
 {
 	Hero.PushScore(score_t.GetStream());
 	score_t.Draw(View, window, -TEXTX, -TEXTY);
@@ -161,7 +161,7 @@ void AllText::DrawAll(MyView & View, sf::RenderWindow & window, Actor & Hero, sf
 	time_.Draw(View, window, -TEXTX, -TEXTY + 120);
 }
 
-void AllText::DrawTXT(MyView & View, sf::RenderWindow & window, Actor & Hero)
+void AllText::DrawTXT(MyView & View, sf::RenderWindow & window, Player & Hero)
 {
 	if ((View.view.getCenter().x >= W - SETCAMX / 2) && (!Hero.GetAlive()))
 		{
@@ -187,7 +187,7 @@ void AllText::PrintAll()
 	hp_t.Print();
 }
 
-void AllText::React(sf::Event & event, sf::RenderWindow & window, Mission & mission, MyView & View, Actor & Hero)
+void AllText::React(sf::Event & event, sf::RenderWindow & window, Mission & mission, MyView & View, Player & Hero)
 {
 	if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Tab)) {
 		fout << "TAB has pressed" << std::endl;
@@ -211,7 +211,7 @@ void AllText::React(sf::Event & event, sf::RenderWindow & window, Mission & miss
 }
 
 
-void AllText::SetIntro(Mission & mission, Actor & Hero, MyView & View, sf::RenderWindow & window)
+void AllText::SetIntro(Mission & mission, Player & Hero, MyView & View, sf::RenderWindow & window)
 {
 	if (Hero.GetCoordX() < 100.0f)
 	{
@@ -220,7 +220,7 @@ void AllText::SetIntro(Mission & mission, Actor & Hero, MyView & View, sf::Rende
 }
 
 
-void AllText::DrawIntro(MyView & View, sf::RenderWindow & window, Mission & mission, Actor & Hero)
+void AllText::DrawIntro(MyView & View, sf::RenderWindow & window, Mission & mission, Player & Hero)
 {
 	if (Hero.GetCoordX() < 100.0f)
 	{

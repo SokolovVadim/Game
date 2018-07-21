@@ -8,20 +8,20 @@ void PlayKotik()
 }
 
 bool	IsWalk				();
-void	ChooseAction		(Actor & Hero, int dir, double & CurFrame, sf::Int64 time, int X, int Y);
-void	Process				(sf::RenderWindow & window, Map & map, MyView & View, Actor & Hero);
-void	ActionSwitch		(Actor & Hero, double & CurFrame, sf::Int64 & time,
+void	ChooseAction		(Player & Hero, int dir, double & CurFrame, sf::Int64 time, int X, int Y);
+void	Process				(sf::RenderWindow & window, Map & map, MyView & View, Player & Hero, Enemy & Archer1, Enemy & Archer2);
+void	ActionSwitch		(Player & Hero, double & CurFrame, sf::Int64 & time,
 							sf::RenderWindow & window, MyView & View);
 void	SetCam				(sf::Event & event, sf::RenderWindow & window, bool & IsFullscreen);
 
-void Process (sf::RenderWindow & window, Map & map, MyView & View, Actor & Hero)
+void Process (sf::RenderWindow & window, Map & map, MyView & View, Player & Hero, Enemy & Archer1, Enemy & Archer2)
 {
-	bool			IsFullscreen(true);
-	double			CurFrame(0.0);
+	bool			IsFullscreen		(true);
+	double			CurFrame			(0.0);
 	sf::Clock		clock;
 	sf::Clock		game_time_clock;
-	int				game_time(0);
-	sf::Int64		timer(0); 
+	int				game_time			(0);
+	sf::Int64		timer				(0); 
 
 	Mission mission("Kumach.png", "Intro.png");
 
@@ -57,39 +57,43 @@ void Process (sf::RenderWindow & window, Map & map, MyView & View, Actor & Hero)
 			
 			//dnd.MoveMouse(window);
 		}
-		dnd.MoveSprite(Hero, time);
+		dnd.MoveSprite		(Hero, time);
 		
 
 		//dnd.DropColor(Hero, event);
-		dnd.Action(Hero);
+		dnd.Action			(Hero);
 
-		ActionSwitch(Hero, CurFrame, time, window, View);
+		ActionSwitch		(Hero, CurFrame, time, window, View);
 
-		View.ScrollMouse(window, time, Hero);
+ 		View.ScrollMouse	(window, time, Hero);
 
-		map.GenerateInTime(timer, time, 15000, ' ', 'H', 1);
-		map.GenerateInTime(timer, time, 15000, ' ', 'M', 1);
+		map.GenerateInTime	(timer, time, 15000, ' ', 'H', 1);
+		map.GenerateInTime	(timer, time, 15000, ' ', 'M', 1);
 
-		Hero.PurpleStyle(time);
-		Hero.OnFire(time);
+		Hero.PurpleStyle	(time);
+		Hero.OnFire			(time);
 
 		Hero.Update			(time, map);
+		Archer1.Update		(map, time);
+		Archer2.Update(map, time);
 		View.ScrollMap		(time);
 		window.setView		(View.view);
 		window.clear		(sf::Color(175, 140, 90, 0));
 
-		map.DrawMap(window);
+		map.DrawMap			(window);
 
-		fulltxt.DrawAll(View, window, Hero, time, game_time);
-		fulltxt.DrawTXT(View, window, Hero);
-		fulltxt.DrawLazer(View, window, Hero);
+		fulltxt.DrawAll		(View, window, Hero, time, game_time);
+		fulltxt.DrawTXT		(View, window, Hero);
+		fulltxt.DrawLazer	(View, window, Hero);
 
-		fulltxt.DrawSprite(View, window, mission);  ////!!!!!!!!!!
+		fulltxt.DrawSprite	(View, window, mission);  ////!!!!!!!!!!
 
-		fulltxt.DrawIntro(View, window, mission, Hero);
+		fulltxt.DrawIntro	(View, window, mission, Hero);
 
-		window.draw(Hero.sprite);
-		window.display();
+		window.draw		(Hero.sprite);
+		window.draw		(Archer1.sprite);
+		window.draw(Archer2.sprite);
+		window.display	();
 	}
 }
 
@@ -119,7 +123,7 @@ void SetCam(sf::Event & event, sf::RenderWindow & window, bool & IsFullscreen)
 	}
 }
 
-void ChooseAction(Actor & Hero, int dir, double & CurFrame, sf::Int64 time, int X, int Y)
+void ChooseAction(Player & Hero, int dir, double & CurFrame, sf::Int64 time, int X, int Y)
 {
 		Hero.SetDir(dir);
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift))
@@ -154,7 +158,7 @@ bool IsWalk()
 		return false;
 }
 
-void ActionSwitch(Actor & Hero, double & CurFrame, sf::Int64 & time, sf::RenderWindow & window,
+void ActionSwitch(Player & Hero, double & CurFrame, sf::Int64 & time, sf::RenderWindow & window,
 	MyView & View)
 {
 	if (Hero.GetAlive()) {
@@ -209,9 +213,11 @@ void FirstLevel(/*sf::RenderWindow & window*/)
 	map.RandomGenerator(' ', 'D', 8);
 	map.RandomGenerator(' ', 'R', 3);
 
-	Actor Hero("sheet2.png", HEALTH, 0, SETBEGIN, HEROX, HEROY);
+	Player Hero("sheet2.png", "Player", 200, SETBEGIN, HEROX, HEROY);
+	Enemy Archer1("Enemy.png", "Archer1", W / 2 + 280, H - 160, 64, 66);
+	Enemy Archer2("Enemy.png", "Archer1", W / 2 + 180, H - 160, 64, 66);
 
-	Process(window, map, View, Hero);
+	Process(window, map, View, Hero, Archer1, Archer2);
 }
 
 

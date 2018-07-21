@@ -21,14 +21,14 @@ private:
 public:
 	DragAndDrop				(sf::RenderWindow & window);
 	void MoveMouse			(sf::RenderWindow & window);
-	void MainEffect			(sf::Event & event, Actor & Hero);
-	void Action				(Actor & Hero);
+	void MainEffect			(sf::Event & event, Player & Hero);
+	void Action				(Player & Hero);
 	void SetVectors			(sf::RenderWindow & window);
-	void Select				(sf::RenderWindow & window, sf::Event & event, Actor & Hero);
-	void Rpg				(sf::Event & event, Actor & Hero);
-	void MoveSprite			(Actor & Hero, sf::Int64 & time);
-	void DropColor			(Actor & Hero, sf::Event & event);
-	void Rotate				(Actor & Hero);
+	void Select				(sf::RenderWindow & window, sf::Event & event, Player & Hero);
+	void Rpg				(sf::Event & event, Player & Hero);
+	void MoveSprite			(Player & Hero, sf::Int64 & time);
+	void DropColor			(Player & Hero, sf::Event & event);
+	void Rotate				(Player & Hero);
 };
 
 
@@ -47,7 +47,7 @@ DragAndDrop::DragAndDrop(sf::RenderWindow & window) :
 {}
 
 
-void DragAndDrop::Rotate(Actor & Hero)
+void DragAndDrop::Rotate(Player & Hero)
 {
 	DeltaX = WindPos.x - Hero.GetCoordX();
 	DeltaY = WindPos.y - Hero.GetCoordY();
@@ -57,7 +57,7 @@ void DragAndDrop::Rotate(Actor & Hero)
 
 
 
-void DragAndDrop::DropColor(Actor & Hero, sf::Event & event)
+void DragAndDrop::DropColor(Player & Hero, sf::Event & event)
 {
 	if (event.type == sf::Event::MouseButtonPressed)
 		if (event.key.code == sf::Mouse::Left)
@@ -69,7 +69,7 @@ void DragAndDrop::DropColor(Actor & Hero, sf::Event & event)
 				}
 }
 
-void DragAndDrop::MoveSprite(Actor & Hero, sf::Int64 & time)
+void DragAndDrop::MoveSprite(Player & Hero, sf::Int64 & time)
 {
 	if (Hero.GetMove()) {
 		distance = sqrt((pow(tempX - Hero.GetCoordX(), 2) + pow(tempY - Hero.GetCoordY(), 2)));
@@ -86,7 +86,7 @@ void DragAndDrop::MoveSprite(Actor & Hero, sf::Int64 & time)
 }
 
 
-void DragAndDrop::Select(sf::RenderWindow & window, sf::Event & event, Actor & Hero)
+void DragAndDrop::Select(sf::RenderWindow & window, sf::Event & event, Player & Hero)
 {
 	if(event.type == sf::Event::KeyPressed)
 		if (event.key.code == sf::Keyboard::C)
@@ -97,7 +97,7 @@ void DragAndDrop::Select(sf::RenderWindow & window, sf::Event & event, Actor & H
 			}
 }
 
-void DragAndDrop::Rpg(sf::Event & event, Actor & Hero)
+void DragAndDrop::Rpg(sf::Event & event, Player & Hero)
 {
 	if (Hero.GetSelect())
 		if (event.type == sf::Event::MouseButtonPressed)
@@ -125,7 +125,7 @@ void DragAndDrop::MoveMouse(sf::RenderWindow & window)
 	fout << "Mouse window coord.x = " << WindPos.x << " coord.y = " << WindPos.y << std::endl;
 }
 
-void DragAndDrop::MainEffect(sf::Event & event, Actor & Hero)
+void DragAndDrop::MainEffect(sf::Event & event, Player & Hero)
 {
 	if (event.type == sf::Event::MouseButtonPressed)
 			if (event.key.code == sf::Mouse::Left)
@@ -143,7 +143,7 @@ void DragAndDrop::MainEffect(sf::Event & event, Actor & Hero)
 		}
 }
 
-void DragAndDrop::Action(Actor & Hero)
+void DragAndDrop::Action(Player & Hero)
 {
 	if (isMove)
 	{

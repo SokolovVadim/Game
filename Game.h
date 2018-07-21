@@ -21,8 +21,8 @@
 std::ofstream fout("LOG.txt");
 
 enum MAP {
-	HEIGHT = 11,
-	WIDTH  = 32,
+	HEIGHT = 21,
+	WIDTH  = 90,
 	WGRASS = 48,
 	HGRASS = 64
 };
@@ -35,8 +35,8 @@ enum SCREEN {
 enum ENGINE {
 	HEALTH   =	 100,
 	BSPEED   =	 0,
-	XPOS     =	 W/2,
-	YPOS     =	 H/2,
+	XPOS     =	 WGRASS + 1,
+	YPOS     =	 HGRASS + 1,
 	SETDIR   =	 10,
 	HEROX    =	 95,
 	HEROY    =	 100,
@@ -47,14 +47,13 @@ enum ENGINE {
 
 
 #include "Map.h"
-#include "Actor.h"
+#include "Entity.h"
+#include "Player.h"
 #include "View.h"
 #include "Mission.h"
 #include "Text.h"
 #include "DragAndDrop.h"
 #include "Level.h"
-#include "Entity.h"
-#include "Player.h"
 #include "Enemy.h"
 #include "Platform.h"
 
