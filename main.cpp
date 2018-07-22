@@ -9,12 +9,12 @@ void PlayKotik()
 
 bool	IsWalk				();
 void	ChooseAction		(Player & Hero, int dir, double & CurFrame, sf::Int64 time, int X, int Y);
-void	Process				(sf::RenderWindow & window, Map & map, MyView & View, Player & Hero, Enemy & Archer1, Enemy & Archer2);
+void	Process				(sf::RenderWindow & window, Map & map, MyView & View, Player & Hero, std::list<Enemy> & list);
 void	ActionSwitch		(Player & Hero, double & CurFrame, sf::Int64 & time,
 							sf::RenderWindow & window, MyView & View);
 void	SetCam				(sf::Event & event, sf::RenderWindow & window, bool & IsFullscreen);
 
-void Process (sf::RenderWindow & window, Map & map, MyView & View, Player & Hero, Enemy & Archer1, Enemy & Archer2)
+void Process (sf::RenderWindow & window, Map & map, MyView & View, Player & Hero, std::list<Enemy> & list)
 {
 	bool			IsFullscreen		(true);
 	double			CurFrame			(0.0);
@@ -24,6 +24,8 @@ void Process (sf::RenderWindow & window, Map & map, MyView & View, Player & Hero
 	sf::Int64		timer				(0); 
 
 	Mission mission("Kumach.png", "Intro.png");
+
+	std::list<Enemy>::iterator it;
 
 	AllText fulltxt;
 	fulltxt.PrintAll();
@@ -72,6 +74,8 @@ void Process (sf::RenderWindow & window, Map & map, MyView & View, Player & Hero
 
 		Hero.PurpleStyle	(time);
 		Hero.OnFire			(time);
+
+	
 
 		Hero.Update			(time, map);
 		Archer1.Update		(map, time);
@@ -199,6 +203,7 @@ void ActionSwitch(Player & Hero, double & CurFrame, sf::Int64 & time, sf::Render
 }
 
 
+
 void FirstLevel(/*sf::RenderWindow & window*/)
 {
 	sf::RenderWindow window(sf::VideoMode(W, H), "Jeday");
@@ -213,11 +218,18 @@ void FirstLevel(/*sf::RenderWindow & window*/)
 	map.RandomGenerator(' ', 'D', 8);
 	map.RandomGenerator(' ', 'R', 3);
 
-	Player Hero("sheet2.png", "Player", 200, SETBEGIN, HEROX, HEROY);
+
 	Enemy Archer1("Enemy.png", "Archer1", W / 2 + 280, H - 160, 64, 66);
 	Enemy Archer2("Enemy.png", "Archer1", W / 2 + 180, H - 160, 64, 66);
 
-	Process(window, map, View, Hero, Archer1, Archer2);
+	std::list<Enemy> enemies;
+	enemies.push_front(Archer1);
+	enemies.push_back(Archer2);
+	
+
+	Player Hero("sheet2.png", "Player", 200, SETBEGIN, HEROX, HEROY);
+
+	Process(window, map, View, Hero, enemies);
 }
 
 
