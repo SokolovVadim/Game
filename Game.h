@@ -8,6 +8,7 @@
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Window.hpp>
 #include <vector>
+#include <list>
 //#include "tinyxml\tinystr.h"
 //#include "tinyxml\tinyxml.h"
 //#include "TiledMapLoader0.1\level.h"
@@ -56,10 +57,10 @@ enum ENGINE {
 #include "Level.h"
 #include "Enemy.h"
 #include "Platform.h"
-
+#include "PoolEnemies.h"
+//#include "PoolEnemies.cpp"
 
 #define asserted || fout << "WARNING! ASSERT WAS CALLED ON LINE %d\n" << __LINE__;
-
 
 void PlayKotik();
 	
