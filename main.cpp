@@ -75,11 +75,11 @@ void Process (sf::RenderWindow & window, Map & map, MyView & View, Player & Hero
 		Hero.PurpleStyle	(time);
 		Hero.OnFire			(time);
 
-	
+		
 
 		Hero.Update			(time, map);
-		Archer1.Update		(map, time);
-		Archer2.Update(map, time);
+		list.front().Update		(map, time);
+		list.back().Update(map, time);
 		View.ScrollMap		(time);
 		window.setView		(View.view);
 		window.clear		(sf::Color(175, 140, 90, 0));
@@ -87,7 +87,7 @@ void Process (sf::RenderWindow & window, Map & map, MyView & View, Player & Hero
 		map.DrawMap			(window);
 
 		fulltxt.DrawAll		(View, window, Hero, time, game_time);
-		fulltxt.DrawTXT		(View, window, Hero);
+		fulltxt.DrawTXT		(View, window, Hero); 
 		fulltxt.DrawLazer	(View, window, Hero);
 
 		fulltxt.DrawSprite	(View, window, mission);  ////!!!!!!!!!!
@@ -95,8 +95,8 @@ void Process (sf::RenderWindow & window, Map & map, MyView & View, Player & Hero
 		fulltxt.DrawIntro	(View, window, mission, Hero);
 
 		window.draw		(Hero.sprite);
-		window.draw		(Archer1.sprite);
-		window.draw(Archer2.sprite);
+		window.draw		(list.front().sprite);
+		window.draw(list.back().sprite);
 		window.display	();
 	}
 }
@@ -223,7 +223,7 @@ void FirstLevel(/*sf::RenderWindow & window*/)
 	Enemy Archer2("Enemy.png", "Archer1", W / 2 + 180, H - 160, 64, 66);
 
 	std::list<Enemy> enemies;
-	enemies.push_front(Archer1);
+	enemies.push_back(Archer1);
 	enemies.push_back(Archer2);
 	
 
