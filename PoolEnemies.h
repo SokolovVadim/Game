@@ -3,35 +3,64 @@
 class PoolEnemies
 {
 public:
-	explicit PoolEnemies(size_t size, const std::string file
-		, std::string name_, float x, float y, float w, float h);
+	explicit PoolEnemies();
 	~PoolEnemies();
-
+	void Init(const std::string file, std::string name_, float x, float y, float w, float h);
+	void Create(Enemy* enemy, const std::string file, std::string name_, float x, float y, float w, float h);
+	size_t GetSize(Enemy* enemy);
 private:
-	size_t size_;
+	size_t   size_;
 	Enemy ** m_enemies;
-	Enemy* first_enemy;
+	Enemy*   first_enemy;
 };
 
-PoolEnemies::PoolEnemies(size_t size, const std::string file,
-	std::string name_, float x, float y, float w, float h):
-	size_(size),
-	first_enemy(nullptr)
+PoolEnemies::PoolEnemies():
+	size_			(0u),
+	first_enemy		(nullptr)
 {
-	m_enemies = new Enemy*[size_];
+	/*m_enemies = new Enemy*[size_];
 	for (int i(0); i < size_; i++)
 	{
 		m_enemies[i] = new Enemy(file, name_, x, y, w, h);
-	}
+	}*/
+
+}
+
+void PoolEnemies::Create(Enemy* enemy, const std::string file, std::string name_, float x, float y, float w, float h)
+{
+	Enemy * cur_enemy = new Enemy(file, name_, x, y, w, h);
+	enemy->SetNext(cur_enemy);
+	cur_enemy->SetNext(nullptr);
+	first_enemy = cur_enemy;
+	size_++;
 }
 
 PoolEnemies::~PoolEnemies()
 {
-	for (int i(0); i < size_; i++)
+	/*for (int i(0); i < size_; i++)
 	{
 		delete[] m_enemies[i];
 	}
-	delete[] m_enemies; 
+	delete[] m_enemies;*/
+	size_ = 0;
+}
+
+void PoolEnemies::Init(const std::string file, std::string name_, float x, float y, float w, float h)
+{
+	Enemy * cur_enemy = new Enemy(file, name_, x, y, w, h);
+	cur_enemy->SetNext(nullptr);
+	size_++;
+
+
+	/*first_enemy = m_enemies[0];
+	
+	for (int i(0); i < size_ - 1; i++)
+	{
+		m_enemies[i]->SetNext(m_enemies[i + 1]);
+	}
+
+	m_enemies[size_]->SetNext(nullptr);*/
+
 }
 
 
