@@ -23,6 +23,9 @@ void Process (sf::RenderWindow & window, Map & map, MyView & View, Player & Hero
 	int				game_time			(0);
 	sf::Int64		timer				(0); 
 
+
+	PoolEnemies enemy_pool(2, "Enemy.png", "Archer1", 300, 300, 64, 66);
+
 	Mission mission("Kumach.png", "Intro.png");
 
 	std::list<Enemy>::iterator it;
@@ -94,11 +97,15 @@ void Process (sf::RenderWindow & window, Map & map, MyView & View, Player & Hero
 
 		fulltxt.DrawIntro	(View, window, mission, Hero);
 
+		enemy_pool.DrawPool(window);
+
 		window.draw		(Hero.sprite);
 		window.draw		(list.front().sprite);
 		window.draw(list.back().sprite);
 		window.display	();
 	}
+
+	enemy_pool.~PoolEnemies();
 }
 
 void SetCam(sf::Event & event, sf::RenderWindow & window, bool & IsFullscreen)
@@ -217,6 +224,7 @@ void FirstLevel(/*sf::RenderWindow & window*/)
 	map.RandomGenerator(' ', 'P', 12);
 	map.RandomGenerator(' ', 'D', 8);
 	map.RandomGenerator(' ', 'R', 3);
+
 
 
 	Enemy Archer1("Enemy.png", "Archer1", W / 2 + 280, H - 160, 64, 66);
