@@ -12,7 +12,10 @@ void	ChooseAction		(Player & Hero, int dir, double & CurFrame, sf::Int64 time, i
 void	Process				(sf::RenderWindow & window, Map & map, MyView & View, Player & Hero, std::list<Enemy> & list);
 void	ActionSwitch		(Player & Hero, double & CurFrame, sf::Int64 & time,
 							sf::RenderWindow & window, MyView & View);
+void	Hit					(Player & Hero, sf::Int64 & time,
+							sf::RenderWindow & window, MyView & View);
 void	SetCam				(sf::Event & event, sf::RenderWindow & window, bool & IsFullscreen);
+void	ChooseHit			(Player & Hero, int dir, double & CurFrame, sf::Int64 time, int X, int Y);
 
 void Process (sf::RenderWindow & window, Map & map, MyView & View, Player & Hero, std::list<Enemy> & list)
 {
@@ -24,11 +27,12 @@ void Process (sf::RenderWindow & window, Map & map, MyView & View, Player & Hero
 	sf::Int64		timer				(0); 
 
 
-	PoolEnemies enemy_pool(2, "Enemy.png", "Archer1", 300, 300, 64, 66);
+
+	PoolEnemies enemy_pool(30, "Enemy.png", "Archer1", W/2 + 200, H - 200, 64, 66);
 
 	Mission mission("Kumach.png", "Intro.png");
 
-	std::list<Enemy>::iterator it;
+	//std::list<Enemy>::iterator it;
 
 	AllText fulltxt;
 	fulltxt.PrintAll();
@@ -81,8 +85,9 @@ void Process (sf::RenderWindow & window, Map & map, MyView & View, Player & Hero
 		
 
 		Hero.Update			(time, map);
-		list.front().Update		(map, time);
-		list.back().Update(map, time);
+		list.front			().Update		 (map, time);
+		list.back			().Update		 (map, time);
+		enemy_pool.Update(map, time);
 		View.ScrollMap		(time);
 		window.setView		(View.view);
 		window.clear		(sf::Color(175, 140, 90, 0));
@@ -101,11 +106,9 @@ void Process (sf::RenderWindow & window, Map & map, MyView & View, Player & Hero
 
 		window.draw		(Hero.sprite);
 		window.draw		(list.front().sprite);
-		window.draw(list.back().sprite);
+		window.draw		(list.back().sprite);
 		window.display	();
 	}
-
-	enemy_pool.~PoolEnemies();
 }
 
 void SetCam(sf::Event & event, sf::RenderWindow & window, bool & IsFullscreen)
@@ -181,13 +184,17 @@ void ActionSwitch(Player & Hero, double & CurFrame, sf::Int64 & time, sf::Render
 			ChooseAction(Hero, 1, CurFrame, time, HEROX * int(CurFrame), 3 * HEROY);
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-			ChooseAction(Hero, 2, CurFrame, time, 93 * int(CurFrame), 0);
+			ChooseAction(Hero, 2, CurFrame, time, HEROX * int(CurFrame), 0);
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
-			ChooseAction(Hero, 3, CurFrame, time, 93 * int(CurFrame), 2 * HEROY);
+			ChooseAction(Hero, 3, CurFrame, time, HEROX * int(CurFrame), 2 * HEROY);
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
 			window.close();
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+		{
+			Hit(Hero, time, window, View);
 		}
 		if (!IsWalk())
 		{
@@ -207,6 +214,43 @@ void ActionSwitch(Player & Hero, double & CurFrame, sf::Int64 & time, sf::Render
 
 		}
 	}
+}
+
+//void ChooseHit(Player & Hero, int dir, double & CurFrame, sf::Int64 time, int X, int Y)
+//{
+//
+//}
+
+void Hit(Player & Hero, sf::Int64 & time, sf::RenderWindow & window,
+	MyView & View)
+{
+	switch (Hero.GetDir())
+	{
+	case 0:
+	{
+		Hero.Hit(time, 5 * HEROY);
+		break;
+	}
+	case 1:
+	{
+		Hero.Hit(time, 7 * HEROY);
+		break;
+	}
+	case 2:
+	{
+		Hero.Hit(time, 4 * HEROY);
+		break;
+
+	}
+	case 3:
+	{
+		Hero.Hit(time, 6 * HEROY);
+		break;
+	}
+
+}
+
+	//Hero.sprite.setTextureRect(sf::IntRect(X, Y, HEROX, HEROY));
 }
 
 
@@ -235,7 +279,7 @@ void FirstLevel(/*sf::RenderWindow & window*/)
 	enemies.push_back(Archer2);
 	
 
-	Player Hero("sheet2.png", "Player", 200, SETBEGIN, HEROX, HEROY);
+	Player Hero("player1.png", "Player", 200, SETBEGIN, HEROX, HEROY);
 
 	Process(window, map, View, Hero, enemies);
 }

@@ -10,10 +10,12 @@ private:
 
 	float			Power;
 	float			Air;
+	float			HitTimer;
 
 	bool			IsSelect;
 	bool			IsPurple;
 	bool			IsOnFire;
+	bool			IsHit;
 
 	enum STATUS
 	{
@@ -56,7 +58,10 @@ public:
 	void			OnFire(sf::Int64 & time);
 	void			SetPurple();
 	void			SetRed();
+	void			SetHit();
+	void			Hit(sf::Int64 & time, int Y);
 	unsigned int	GetScore();
+	int				GetDir	() const;
 };
 
 
@@ -65,11 +70,13 @@ Player::Player(const std::string file, const std::string name, float x, float y,
 	Dir(SETDIR),
 	PurpleTimer(0),
 	FireTimer(0),
+	HitTimer(0.f),
 	Score(0),
 	Power(10),
 	IsSelect(false),
 	IsPurple(false),
 	IsOnFire(false),
+	IsHit(false),
 	Air(10)
 {
 	Image.loadFromFile("Images/" + File);
@@ -81,6 +88,27 @@ Player::Player(const std::string file, const std::string name, float x, float y,
 	fout << "Player constructor was called!" << std::endl;
 }
 
+void Player::Hit(sf::Int64 & time, int Y)
+{
+	if (IsHit) {
+
+		HitTimer += 0.052f * time;              // find normal value!!!!!!
+		
+
+		if (HitTimer > 9)  /// maybe equals
+		{
+			IsHit = false;
+			HitTimer = 0;
+		}
+		sprite.setTextureRect(sf::IntRect(HEROX * int(HitTimer), Y, HEROX, HEROY));
+	}
+}
+
+void Player::SetHit()
+{
+	IsHit = true;
+	HitTimer = 0;
+}
 
 void Player::SetRed()
 {
@@ -244,7 +272,7 @@ void Player::InterractMap(sf::Int64 time, Map & map)
 					if (dx > 0)
 						Pos.x = j*WGRASS - Width;
 					if (dx < 0)
-						Pos.x = j*WGRASS + Width - 16.f;
+						Pos.x = j*WGRASS + 0.75f * Width;
 
 				}
 				if (sym == 'R')
@@ -336,6 +364,10 @@ float Player::GetCoordY() const {
 	return Pos.y;
 }
 
+
+int Player::GetDir() const {
+	return Dir;
+}
 
 
 bool Player::Update(sf::Int64 time, Map & map)
