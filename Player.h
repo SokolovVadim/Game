@@ -240,11 +240,11 @@ void Player::InterractMap(sf::Int64 time, Map & map)
 					if (dy > 0)
 						Pos.y = i*HGRASS - Height;
 					if (dy < 0)
-						Pos.y = i*HGRASS + Height / 2 + 18;
+						Pos.y = i*HGRASS + Height;
 					if (dx > 0)
 						Pos.x = j*WGRASS - Width;
 					if (dx < 0)
-						Pos.x = j*WGRASS + Width / 2 + 1;
+						Pos.x = j*WGRASS + Width - 16.f;
 
 				}
 				if (sym == 'R')
