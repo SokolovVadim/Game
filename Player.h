@@ -95,7 +95,7 @@ void Player::Hit(sf::Int64 & time, int Y)
 		HitTimer += 0.052f * time;              // find normal value!!!!!!
 		
 
-		if (HitTimer > 9)  /// maybe equals
+		if (HitTimer > 6)  /// maybe equals
 		{
 			IsHit = false;
 			HitTimer = 0;

@@ -85,6 +85,7 @@ void Process (sf::RenderWindow & window, Map & map, MyView & View, Player & Hero
 		
 
 		Hero.Update			(time, map);
+		Hit(Hero, time, window, View);
 		list.front			().Update		 (map, time);
 		list.back			().Update		 (map, time);
 		enemy_pool.Update(map, time);
@@ -194,7 +195,8 @@ void ActionSwitch(Player & Hero, double & CurFrame, sf::Int64 & time, sf::Render
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
 		{
-			Hit(Hero, time, window, View);
+			Hero.SetHit();
+			//Hit(Hero, time, window, View);
 		}
 		if (!IsWalk())
 		{
@@ -247,6 +249,11 @@ void Hit(Player & Hero, sf::Int64 & time, sf::RenderWindow & window,
 		Hero.Hit(time, 6 * HEROY);
 		break;
 	}
+	default:
+	{
+		Hero.Hit(time, 5 * HEROY);
+		break;
+	}
 
 }
 
@@ -279,7 +286,7 @@ void FirstLevel(/*sf::RenderWindow & window*/)
 	enemies.push_back(Archer2);
 	
 
-	Player Hero("player1.png", "Player", 200, SETBEGIN, HEROX, HEROY);
+	Player Hero("move and hit.png", "Player", 200, SETBEGIN, HEROX, HEROY);
 
 	Process(window, map, View, Hero, enemies);
 }
