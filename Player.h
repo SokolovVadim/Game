@@ -91,8 +91,7 @@ Player::Player(const std::string file, const std::string name, float x, float y,
 void Player::Hit(sf::Int64 & time, int Y)
 {
 	if (IsHit) {
-
-		HitTimer += 0.052f * time;              // find normal value!!!!!!
+		HitTimer += 0.012f * time;              // find normal value!!!!!!
 		
 
 		if (HitTimer > 6)  /// maybe equals
