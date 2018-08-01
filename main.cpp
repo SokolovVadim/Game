@@ -15,7 +15,7 @@ void	ActionSwitch		(Player & Hero, double & CurFrame, sf::Int64 & time,
 void	Hit					(Player & Hero, sf::Int64 & time,
 							sf::RenderWindow & window, MyView & View);
 void	SetCam				(sf::Event & event, sf::RenderWindow & window, bool & IsFullscreen);
-void	ChooseHit			(Player & Hero, int dir, double & CurFrame, sf::Int64 time, int X, int Y);
+//void	ChooseHit			(Player & Hero, int dir, double & CurFrame, sf::Int64 time, int X, int Y);
 
 void Process (sf::RenderWindow & window, Map & map, MyView & View, Player & Hero, std::list<Enemy> & list)
 {
@@ -85,7 +85,7 @@ void Process (sf::RenderWindow & window, Map & map, MyView & View, Player & Hero
 		
 
 		Hero.Update			(time, map);
-		Hit(Hero, time, window, View);
+		Hit					(Hero, time, window, View);
 		list.front			().Update		 (map, time);
 		list.back			().Update		 (map, time);
 		enemy_pool.Update(map, time);
@@ -286,7 +286,7 @@ void FirstLevel(/*sf::RenderWindow & window*/)
 	enemies.push_back(Archer2);
 	
 
-	Player Hero("move and hit.png", "Player", 200, SETBEGIN, HEROX, HEROY);
+	Player Hero("with lazer1.png", "Player", 200, SETBEGIN, HEROX, HEROY);
 
 	Process(window, map, View, Hero, enemies);
 }

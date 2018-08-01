@@ -38,6 +38,7 @@ public:
 	bool			SetPower(sf::Int64 time);
 	bool			GetSelect();
 	bool			GetMove();
+	bool			GetHit();
 	float			GetCoordX() const;
 	float			GetCoordY() const;
 	float			GetSpeed() const;
@@ -66,18 +67,18 @@ public:
 
 
 Player::Player(const std::string file, const std::string name, float x, float y, float w, float h) :
-	Entity(file, name, x, y, w, h),
-	Dir(SETDIR),
-	PurpleTimer(0),
-	FireTimer(0),
-	HitTimer(0.f),
-	Score(0),
-	Power(10),
-	IsSelect(false),
-	IsPurple(false),
-	IsOnFire(false),
-	IsHit(false),
-	Air(10)
+	Entity			(file, name, x, y, w, h),
+	Dir				(SETDIR),
+	PurpleTimer		(0),
+	FireTimer		(0),
+	HitTimer		(0.f),
+	Score			(0),
+	Power			(10),
+	IsSelect		(false),
+	IsPurple		(false),
+	IsOnFire		(false),
+	IsHit			(false),
+	Air				(10)
 {
 	Image.loadFromFile("Images/" + File);
 	Texture.loadFromImage(Image);
@@ -88,9 +89,17 @@ Player::Player(const std::string file, const std::string name, float x, float y,
 	fout << "Player constructor was called!" << std::endl;
 }
 
+bool Player::GetHit()
+{
+	return IsHit;
+}
+
 void Player::Hit(sf::Int64 & time, int Y)
 {
 	if (IsHit) {
+
+		// set attacked!
+
 		HitTimer += 0.012f * time;              // find normal value!!!!!!
 		
 

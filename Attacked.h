@@ -3,22 +3,22 @@ class Attacked
 {
 private:
 
-	const float DISTANSE = HEROX; // (enemy + hero)/2
+	const float DISTANCE = HEROX; // (enemy + hero)/2
 
 	bool isAttacked;
 	bool isNear;
 
-	bool IsNear(Player & player, Enemy & enemy);
+	bool IsNear(Player & player, const float enx, const float eny);
 
 public:
 	Attacked();
 	~Attacked();
-	bool IsAttacked(Player & player, Enemy & enemy);
+	bool IsAttacked(Player & player, const float enx, const float eny);
 };
 
 Attacked::Attacked() :
-	isAttacked(false),
-	isNear(false)
+	isAttacked		(false),
+	isNear			(false)
 {}
 
 Attacked::~Attacked()
@@ -26,17 +26,17 @@ Attacked::~Attacked()
 	fout << "Attacked class has destructed!" << std::endl;
 }
 
-bool Attacked::IsNear(Player & player, Enemy & enemy)
+bool Attacked::IsNear(Player & player, const float enx, const float eny)
 {
-	if (pow(player.GetCoordX() - enemy.getCoord().x, 2) + pow(player.GetCoordY() - enemy.getCoord().y, 2) < DISTANSE)
+	if (pow(player.GetCoordX() - enx, 2) + pow(player.GetCoordY() - eny, 2) < pow(DISTANCE, 2))
 		return true;
 	else
 		return false;
 }
 
-bool Attacked::IsAttacked(Player & player, Enemy & enemy)
+bool Attacked::IsAttacked(Player & player, const float enx, const float eny)
 {
-	if ((IsNear(player, enemy)) && (player.GetHit()))
+	if ((IsNear(player, enx, eny)) && (player.GetHit()))
 	{
 		return true;
 	}

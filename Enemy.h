@@ -3,7 +3,8 @@
 class Enemy : public Entity
 {
 private:
-	enum ENTITY
+
+	enum ENEMY
 	{
 		W = 64,
 		H = 66,
@@ -11,14 +12,23 @@ private:
 		TOP = 5 * H 
 	};
 	const float enemy_speed = 0.1f;
+	Enemy* enemy_next;
+	Attacked * attack;
 public: 
-	Enemy							(const std::string file, std::string name_, float x, float y, float w, float h);
-	void			CheckCollision	(Map & map, float dx_, float dy_);
-	void			Update			(Map & map, sf::Int64 time);
+	Enemy							(const std::string file, std::string name_,
+										float x, float y, float w, float h);
+	~Enemy();
+	void				CheckCollision	(Map & map, float dx_, float dy_);
+	void				Update			(Map & map, sf::Int64 time);
+	void				SetNext			(Enemy * next_en);
+	const sf::Vector2f &    	getCoord		();
+	Enemy *				GetNext			();
 };
 
 Enemy::Enemy(const std::string file, std::string name_, float x, float y, float w, float h) :
-	Entity(file, name_, x, y, w, h)
+	Entity(file, name_, x, y, w, h),
+	enemy_next(nullptr),
+	attack(new Attacked)
 {
 	sprite.setOrigin(w / 2, h / 2);
 	if (name_ == "Archer1") {
@@ -27,7 +37,25 @@ Enemy::Enemy(const std::string file, std::string name_, float x, float y, float 
 	}
 }
 
+Enemy::~Enemy()
+{
+	fout << "Enemy has destructed!" << std::endl;
+}
 
+const sf::Vector2f & Enemy::getCoord()
+{
+	return Pos;
+}
+
+void Enemy::SetNext(Enemy * next_en)
+{
+	enemy_next = next_en;
+}
+
+Enemy * Enemy::GetNext()
+{
+	return enemy_next;
+}
 
 void Enemy::CheckCollision(Map & map, float dx_, float dy_)
 {
@@ -35,7 +63,7 @@ void Enemy::CheckCollision(Map & map, float dx_, float dy_)
 		for (int j(int(Pos.x / WGRASS)); j < (int(Pos.x + Width) / WGRASS); j++)
 		{
 			char sym = map.GetElemMap(i, j);
-			if ((sym == '0') || (sym == 'B'))
+			if ((sym == '0') || (sym == 'B') || (sym == 'T'))
 			{
 				if (dy_ > 0)
 				{
