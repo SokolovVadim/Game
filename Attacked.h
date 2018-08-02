@@ -8,12 +8,12 @@ private:
 	bool isAttacked;
 	bool isNear;
 
-	bool IsNear(Player & player, const float enx, const float eny);
+	bool IsNear(const sf::Vector2f & plPos, const sf::Vector2f & enPos);
 
 public:
 	Attacked();
 	~Attacked();
-	bool IsAttacked(Player & player, const float enx, const float eny);
+	bool IsAttacked(const sf::Vector2f & plPos, const sf::Vector2f & enPos);
 };
 
 Attacked::Attacked() :
@@ -26,20 +26,21 @@ Attacked::~Attacked()
 	fout << "Attacked class has destructed!" << std::endl;
 }
 
-bool Attacked::IsNear(Player & player, const float enx, const float eny)
+bool Attacked::IsNear(const sf::Vector2f & plPos, const sf::Vector2f & enPos)
 {
-	if (pow(player.GetCoordX() - enx, 2) + pow(player.GetCoordY() - eny, 2) < pow(DISTANCE, 2))
+	if (pow(plPos.x - enPos.x, 2) + pow(plPos.y - enPos.y, 2) < pow(DISTANCE, 2))
 		return true;
 	else
 		return false;
 }
 
-bool Attacked::IsAttacked(Player & player, const float enx, const float eny)
+bool Attacked::IsAttacked(const sf::Vector2f & plPos, const sf::Vector2f & enPos)
 {
-	if ((IsNear(player, enx, eny)) && (player.GetHit()))
+	if (IsNear(plPos, enPos))
 	{
 		return true;
 	}
 	else
 		return false;
 }
+

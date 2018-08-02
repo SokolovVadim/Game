@@ -39,8 +39,8 @@ enum ENGINE {
 	XPOS     =	 WGRASS + 1,
 	YPOS     =	 HGRASS + 1,
 	SETDIR   =	 10,
-	HEROX    =	 95,
-	HEROY    =	 100,
+	HEROX    =	 64,
+	HEROY    =	 64,
 	SETBEGIN =	 200,
 	MAXSCORE =   3
 };
@@ -55,6 +55,7 @@ enum ENGINE {
 #include "Text.h"
 #include "DragAndDrop.h"
 #include "Level.h"
+#include "Attacked.h"
 #include "Enemy.h"
 #include "Platform.h"
 #include "PoolEnemies.h"

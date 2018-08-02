@@ -2,6 +2,20 @@
 
 class Enemy : public Entity
 {
+public: 
+	Enemy										(const std::string file, std::string name_,
+													float x, float y, float w, float h);
+	~Enemy();
+	void						CheckCollision	(Map & map, float dx_, float dy_);
+	void						Update			(Map & map, sf::Int64 time);
+	void						SetNext			(Enemy * next_en);
+	void ReduceHP();
+	void Destruct();
+	const sf::Vector2f &    	getCoord		();
+	Enemy *						GetNext			();
+	bool						IsAttacked		(const sf::Vector2f & plPos);
+	const float					getHP			()const;
+
 private:
 
 	enum ENEMY
@@ -9,20 +23,12 @@ private:
 		W = 64,
 		H = 66,
 		LEFT = 0,       ///////////////////////////!!!!!!!!!!!!!!!!!!!!!!!! 
-		TOP = 5 * H 
+		TOP = 5 * H,
+		DAMAGE = 60             // from hero on enemy
 	};
-	const float enemy_speed = 0.1f;
-	Enemy* enemy_next;
+	const float			enemy_speed = 0.1f;
+	Enemy*				enemy_next;
 	Attacked * attack;
-public: 
-	Enemy							(const std::string file, std::string name_,
-										float x, float y, float w, float h);
-	~Enemy();
-	void				CheckCollision	(Map & map, float dx_, float dy_);
-	void				Update			(Map & map, sf::Int64 time);
-	void				SetNext			(Enemy * next_en);
-	const sf::Vector2f &    	getCoord		();
-	Enemy *				GetNext			();
 };
 
 Enemy::Enemy(const std::string file, std::string name_, float x, float y, float w, float h) :
@@ -40,6 +46,31 @@ Enemy::Enemy(const std::string file, std::string name_, float x, float y, float 
 Enemy::~Enemy()
 {
 	fout << "Enemy has destructed!" << std::endl;
+}
+
+const float Enemy::getHP()const
+{
+	return Heatpoints;
+}
+
+void Enemy::Destruct()
+{
+	this->~Enemy();
+}
+
+void Enemy::ReduceHP()
+{
+	Heatpoints -= DAMAGE;
+
+	if (Heatpoints <= 0)
+	{
+		Destruct();
+	}
+}
+
+bool Enemy::IsAttacked(const sf::Vector2f & plPos)
+{
+	return attack->IsAttacked(plPos, Pos);
 }
 
 const sf::Vector2f & Enemy::getCoord()

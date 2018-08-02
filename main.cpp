@@ -11,7 +11,7 @@ bool	IsWalk				();
 void	ChooseAction		(Player & Hero, int dir, double & CurFrame, sf::Int64 time, int X, int Y);
 void	Process				(sf::RenderWindow & window, Map & map, MyView & View, Player & Hero, std::list<Enemy> & list);
 void	ActionSwitch		(Player & Hero, double & CurFrame, sf::Int64 & time,
-							sf::RenderWindow & window, MyView & View);
+							sf::RenderWindow & window, MyView & View, PoolEnemies & poolEn);
 void	Hit					(Player & Hero, sf::Int64 & time,
 							sf::RenderWindow & window, MyView & View);
 void	SetCam				(sf::Event & event, sf::RenderWindow & window, bool & IsFullscreen);
@@ -28,7 +28,7 @@ void Process (sf::RenderWindow & window, Map & map, MyView & View, Player & Hero
 
 
 
-	PoolEnemies enemy_pool(30, "Enemy.png", "Archer1", W/2 + 200, H - 200, 64, 66);
+	PoolEnemies enemy_pool(3, "Enemy.png", "Archer1", W/2 + 200, H - 200, 64, 66);
 
 	Mission mission("Kumach.png", "Intro.png");
 
@@ -72,7 +72,7 @@ void Process (sf::RenderWindow & window, Map & map, MyView & View, Player & Hero
 		//dnd.DropColor(Hero, event);
 		dnd.Action			(Hero);
 
-		ActionSwitch		(Hero, CurFrame, time, window, View);
+		ActionSwitch		(Hero, CurFrame, time, window, View, enemy_pool);
 
  		View.ScrollMouse	(window, time, Hero);
 
@@ -174,7 +174,7 @@ bool IsWalk()
 }
 
 void ActionSwitch(Player & Hero, double & CurFrame, sf::Int64 & time, sf::RenderWindow & window,
-	MyView & View)
+	MyView & View, PoolEnemies & poolEn)
 {
 	if (Hero.GetAlive()) {
 
@@ -196,7 +196,10 @@ void ActionSwitch(Player & Hero, double & CurFrame, sf::Int64 & time, sf::Render
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
 		{
 			Hero.SetHit();
-			//Hit(Hero, time, window, View);
+
+			poolEn.isAttacked(Hero);
+			poolEn.PrintPosition();
+			
 		}
 		if (!IsWalk())
 		{
