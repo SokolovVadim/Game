@@ -11,7 +11,8 @@ bool	IsWalk				();
 void	ChooseAction		(Player & Hero, int dir, double & CurFrame, sf::Int64 time, int X, int Y);
 void	Process				(sf::RenderWindow & window, Map & map, MyView & View, Player & Hero, std::list<Enemy> & list);
 void	ActionSwitch		(Player & Hero, double & CurFrame, sf::Int64 & time,
-							sf::RenderWindow & window, MyView & View, PoolEnemies & poolEn);
+							sf::RenderWindow & window, MyView & View,
+							PoolEnemies & poolEn, bool & isHit, sf::Event & event);
 void	Hit					(Player & Hero, sf::Int64 & time,
 							sf::RenderWindow & window, MyView & View);
 void	SetCam				(sf::Event & event, sf::RenderWindow & window, bool & IsFullscreen);
@@ -20,6 +21,7 @@ void	SetCam				(sf::Event & event, sf::RenderWindow & window, bool & IsFullscree
 void Process (sf::RenderWindow & window, Map & map, MyView & View, Player & Hero, std::list<Enemy> & list)
 {
 	bool			IsFullscreen		(true);
+	bool			isHit			(false);
 	double			CurFrame			(0.0);
 	sf::Clock		clock;
 	sf::Clock		game_time_clock;
@@ -72,7 +74,7 @@ void Process (sf::RenderWindow & window, Map & map, MyView & View, Player & Hero
 		//dnd.DropColor(Hero, event);
 		dnd.Action			(Hero);
 
-		ActionSwitch		(Hero, CurFrame, time, window, View, enemy_pool);
+		ActionSwitch		(Hero, CurFrame, time, window, View, enemy_pool, isHit, event);
 
  		View.ScrollMouse	(window, time, Hero);
 
@@ -88,7 +90,8 @@ void Process (sf::RenderWindow & window, Map & map, MyView & View, Player & Hero
 		Hit					(Hero, time, window, View);
 		list.front			().Update		 (map, time);
 		list.back			().Update		 (map, time);
-		enemy_pool.Update(map, time);
+		enemy_pool.Update	(map, time);
+		//enemy_pool.PrintPosition();
 		View.ScrollMap		(time);
 		window.setView		(View.view);
 		window.clear		(sf::Color(175, 140, 90, 0));
@@ -174,41 +177,55 @@ bool IsWalk()
 }
 
 void ActionSwitch(Player & Hero, double & CurFrame, sf::Int64 & time, sf::RenderWindow & window,
-	MyView & View, PoolEnemies & poolEn)
+	MyView & View, PoolEnemies & poolEn, bool & isHit, sf::Event & event)
 {
 	if (Hero.GetAlive()) {
+		
 
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-			ChooseAction(Hero, 0, CurFrame, time, HEROX * int(CurFrame), HEROY);
-		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-			ChooseAction(Hero, 1, CurFrame, time, HEROX * int(CurFrame), 3 * HEROY);
-		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-			ChooseAction(Hero, 2, CurFrame, time, HEROX * int(CurFrame), 0);
-		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
-			ChooseAction(Hero, 3, CurFrame, time, HEROX * int(CurFrame), 2 * HEROY);
-		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
-			window.close();
-		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
-		{
-			Hero.SetHit();
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
+				ChooseAction(Hero, 0, CurFrame, time, HEROX * int(CurFrame), HEROY);
+			}
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+				ChooseAction(Hero, 1, CurFrame, time, HEROX * int(CurFrame), 3 * HEROY);
+			}
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+				ChooseAction(Hero, 2, CurFrame, time, HEROX * int(CurFrame), 0);
+			}
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
+				ChooseAction(Hero, 3, CurFrame, time, HEROX * int(CurFrame), 2 * HEROY);
+			}
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
+				window.close();
+			}
+			if (event.type == sf::Event::KeyPressed) {
+				if ((event.key.code == sf::Keyboard::LAlt))
+				{
+					if (isHit == false)
+					{
+						std::cout << "Hitted!" << std::endl;
+						isHit = true;
+						Hero.SetHit();
 
-			poolEn.isAttacked(Hero);
-			poolEn.PrintPosition();
-			
-		}
-		if (!IsWalk())
-		{
-			Hero.IncreasePower(time);
-		}
-		if (!((sf::Keyboard::isKeyPressed(sf::Keyboard::W)) || (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) ||
-			(sf::Keyboard::isKeyPressed(sf::Keyboard::S)) || (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) ||
-			(sf::Mouse::isButtonPressed(sf::Mouse::Left))))
-			View.GetCoordView(Hero.GetCoordX(), Hero.GetCoordY());
+
+						poolEn.isAttacked(Hero);
+					}
+
+				}
+			}
+			else if (event.type == sf::Event::KeyReleased)
+			{
+				isHit = false;
+			}
+			if (!IsWalk())
+			{
+				Hero.IncreasePower(time);
+			}
+			if (!((sf::Keyboard::isKeyPressed(sf::Keyboard::W)) || (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) ||
+				(sf::Keyboard::isKeyPressed(sf::Keyboard::S)) || (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) ||
+				(sf::Mouse::isButtonPressed(sf::Mouse::Left))))
+				View.GetCoordView(Hero.GetCoordX(), Hero.GetCoordY());
+		
+		
 	}
 	else
 	{
@@ -268,6 +285,9 @@ void Hit(Player & Hero, sf::Int64 & time, sf::RenderWindow & window,
 void FirstLevel(/*sf::RenderWindow & window*/)
 {
 	sf::RenderWindow window(sf::VideoMode(W, H), "Jeday");
+
+	//window.setKeyRepeatEnabled(false);
+
 	MyView View;
 	View.view.reset(sf::FloatRect(XPOS - SETCAMX / 2, YPOS - SETCAMY / 2, SETCAMX, SETCAMY));
 	window.create(sf::VideoMode(SETCAMX, SETCAMY), "Game", sf::Style::Fullscreen);

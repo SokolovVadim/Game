@@ -55,12 +55,15 @@ const float Enemy::getHP()const
 
 void Enemy::Destruct()
 {
-	this->~Enemy();
+	if(this != nullptr)
+		this->~Enemy();
 }
 
 void Enemy::ReduceHP()
 {
 	Heatpoints -= DAMAGE;
+
+	fout << "DAMAGED!" << std::endl;
 
 	if (Heatpoints <= 0)
 	{

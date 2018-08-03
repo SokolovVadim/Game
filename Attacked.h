@@ -29,7 +29,10 @@ Attacked::~Attacked()
 bool Attacked::IsNear(const sf::Vector2f & plPos, const sf::Vector2f & enPos)
 {
 	if (pow(plPos.x - enPos.x, 2) + pow(plPos.y - enPos.y, 2) < pow(DISTANCE, 2))
+	{
+		isNear = true;
 		return true;
+	}
 	else
 		return false;
 }
@@ -38,6 +41,7 @@ bool Attacked::IsAttacked(const sf::Vector2f & plPos, const sf::Vector2f & enPos
 {
 	if (IsNear(plPos, enPos))
 	{
+		isAttacked = true;
 		return true;
 	}
 	else

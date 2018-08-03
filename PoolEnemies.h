@@ -3,22 +3,22 @@
 class PoolEnemies
 {
 public:
-	explicit PoolEnemies(const size_t size, const std::string file, std::string name_,
+	explicit PoolEnemies	(const size_t size, const std::string file, std::string name_,
 		float x, float y, float w, float h);
-	~PoolEnemies		();
-	void Init			(const std::string file, std::string name_, float x, float y, float w, float h);
-	void Create			(Enemy* enemy, const std::string file, std::string name_,
+	~PoolEnemies			();
+	void Init				(const std::string file, std::string name_, float x, float y, float w, float h);
+	void Create				(Enemy* enemy, const std::string file, std::string name_,
 		float x, float y, float w, float h);
-	size_t GetSize		();
-	void DrawPool		(sf::RenderWindow & window);
-	void PrintPosition	();
-	void Update			(Map & map, sf::Int64 time);
-	void isAttacked		(const Player & Hero);
+	const size_t GetSize	();
+	void DrawPool			(sf::RenderWindow & window);
+	void PrintPosition		();
+	void Update				(Map & map, sf::Int64 time);
+	void isAttacked			(const Player & Hero);
 private:
-	static const size_t MAX_PULL_SIZE = 200;
-	size_t				size_;
-	Enemy **			m_enemies;
-	Enemy *				first_enemy;
+	static const size_t		MAX_PULL_SIZE = 200;
+	size_t					size_;
+	Enemy **				m_enemies;
+	Enemy *					first_enemy;
 };
 
 PoolEnemies::PoolEnemies(const size_t size, const std::string file, std::string name_,
@@ -58,8 +58,9 @@ void PoolEnemies::PrintPosition()
 {
 	for (int i(0); i < size_; i++)
 	{
-		if(m_enemies[i] != nullptr)
-			fout << "pos [" << i << "] = ( " << m_enemies[i]->Pos.x << ", " << m_enemies[i]->Pos.y << std::endl;
+		if (m_enemies[i] != nullptr) {
+			std::cout << "pos [" << i << "] = ( " << m_enemies[i]->Pos.x << ", " << m_enemies[i]->Pos.y << " )" << std::endl;
+		}
 	}
 }
 
@@ -76,7 +77,7 @@ void PoolEnemies::DrawPool(sf::RenderWindow & window)
 	}
 }
 
-size_t PoolEnemies::GetSize()
+const size_t PoolEnemies::GetSize()
 {
 	return size_;
 }
