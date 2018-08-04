@@ -49,7 +49,7 @@ void PoolEnemies::Update(Map & map, sf::Int64 time)
 {
 	for (int i(0); i < size_; i++)
 	{
-		if(m_enemies[i] != nullptr)
+		if(m_enemies[i]->isAlive())
 			m_enemies[i]->Update(map, time);
 	}
 }
@@ -58,7 +58,7 @@ void PoolEnemies::PrintPosition()
 {
 	for (int i(0); i < size_; i++)
 	{
-		if (m_enemies[i] != nullptr) {
+		if (m_enemies[i]->isAlive()) {
 			std::cout << "pos [" << i << "] = ( " << m_enemies[i]->Pos.x << ", " << m_enemies[i]->Pos.y << " )" << std::endl;
 		}
 	}
@@ -68,7 +68,7 @@ void PoolEnemies::DrawPool(sf::RenderWindow & window)
 {
 	for (int i(0); i < size_; i++)
 	{
-		if((m_enemies[i] != nullptr) && (m_enemies[i]->getHP() > 0.0f))
+		if((m_enemies[i]->isAlive()) && (m_enemies[i]->getHP() > 0.0f))
 			window.draw(m_enemies[i]->sprite);
 		else
 		{
@@ -120,7 +120,7 @@ void PoolEnemies::isAttacked(/*Attacked & attack,*/ const Player & Hero)
 {
 	for (int i(0); i < size_; ++i)
 	{
-		if (m_enemies[i] != nullptr) {
+		if (m_enemies[i]->isAlive()) {
 			if ((m_enemies[i]->IsAttacked(Hero.GetPos())) && (Hero.GetHit()) && (Hero.GetTimer()))
 			{
 				m_enemies[i]->ReduceHP();

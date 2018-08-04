@@ -61,7 +61,7 @@ const float Enemy::getHP()const
 
 void Enemy::Destruct()
 {
-	if(Alive = false)
+	if(Alive == false)
 		this->~Enemy();
 }
 
