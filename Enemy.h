@@ -9,6 +9,7 @@ public:
 	void						CheckCollision	(Map & map, float dx_, float dy_);
 	void						Update			(Map & map, sf::Int64 time);
 	void						SetNext			(Enemy * next_en);
+	const bool					isAlive			() const;
 	void ReduceHP();
 	void Destruct();
 	const sf::Vector2f &    	getCoord		();
@@ -48,6 +49,11 @@ Enemy::~Enemy()
 	fout << "Enemy has destructed!" << std::endl;
 }
 
+const bool Enemy::isAlive() const
+{
+	return Alive;
+}
+
 const float Enemy::getHP()const
 {
 	return Heatpoints;
@@ -55,7 +61,7 @@ const float Enemy::getHP()const
 
 void Enemy::Destruct()
 {
-	if(this != nullptr)
+	if(Alive = false)
 		this->~Enemy();
 }
 
@@ -67,6 +73,7 @@ void Enemy::ReduceHP()
 
 	if (Heatpoints <= 0)
 	{
+		Alive = false;
 		Destruct();
 	}
 }

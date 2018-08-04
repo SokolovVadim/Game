@@ -96,7 +96,7 @@ PoolEnemies::~PoolEnemies()
 	fout << "Pool start destructing" << std::endl;
 	for (int i(0); i < size_; i++)
 	{
-		if (m_enemies[i] != nullptr)
+		if (m_enemies[i]->isAlive())
 			delete m_enemies[i];
 	}
 	delete[] m_enemies;

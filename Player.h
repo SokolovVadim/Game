@@ -38,7 +38,8 @@ public:
 	bool			SetPower(sf::Int64 time);
 	bool			GetSelect();
 	bool			GetMove();
-	bool			GetHit();
+	bool			GetHit()const;
+	bool GetTimer() const;
 	float			GetCoordX() const;
 	float			GetCoordY() const;
 	float			GetSpeed() const;
@@ -63,6 +64,8 @@ public:
 	void			Hit(sf::Int64 & time, int Y);
 	unsigned int	GetScore();
 	int				GetDir	() const;
+
+	const sf::Vector2f & GetPos()const;
 };
 
 
@@ -89,7 +92,20 @@ Player::Player(const std::string file, const std::string name, float x, float y,
 	fout << "Player constructor was called!" << std::endl;
 }
 
-bool Player::GetHit()
+bool Player::GetTimer() const
+{
+	if (HitTimer == 0.0f)
+		return true;
+	else
+		return false;
+}
+
+const sf::Vector2f & Player::GetPos() const
+{
+	return Pos;
+}
+
+bool Player::GetHit()const
 {
 	return IsHit;
 }
