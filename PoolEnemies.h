@@ -10,10 +10,11 @@ public:
 	void Create				(Enemy* enemy, const std::string file, std::string name_,
 		float x, float y, float w, float h);
 	const size_t GetSize	();
-	void DrawPool			(sf::RenderWindow & window);
+	void DrawPool			(sf::RenderWindow & window, const sf::Int64 time);
 	void PrintPosition		();
 	void Update				(Map & map, sf::Int64 time);
 	void isAttacked			(const Player & Hero);
+
 private:
 	static const size_t		MAX_PULL_SIZE = 200;
 	size_t					size_;
@@ -64,12 +65,15 @@ void PoolEnemies::PrintPosition()
 	}
 }
 
-void PoolEnemies::DrawPool(sf::RenderWindow & window)
+void PoolEnemies::DrawPool(sf::RenderWindow & window, const sf::Int64 time)
 {
 	for (int i(0); i < size_; i++)
 	{
-		if((m_enemies[i]->isAlive()) && (m_enemies[i]->getHP() > 0.0f))
+		if ((m_enemies[i]->isAlive()) && (m_enemies[i]->getHP() > 0.0f))
+		{
+			m_enemies[i]->DisplayDamage(time);
 			window.draw(m_enemies[i]->sprite);
+		}
 		else
 		{
 			fout << "m_enemies[i] = nullptr" << std::endl;
@@ -123,10 +127,12 @@ void PoolEnemies::isAttacked(/*Attacked & attack,*/ const Player & Hero)
 		if (m_enemies[i]->isAlive()) {
 			if ((m_enemies[i]->IsAttacked(Hero.GetPos())) && (Hero.GetHit()) && (Hero.GetTimer()))
 			{
+				m_enemies[i]->SetAttacked();
 				m_enemies[i]->ReduceHP();
+				//m_enemies[i]->illustrateDamage();
 			}
+			//m_enemies[i]->DisplayDamage(time);
 		}
-		//attack.IsAttacked(Hero.GetPos(), m_enemies[i]->getCoord());
 	}
 }
 

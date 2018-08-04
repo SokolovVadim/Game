@@ -3,39 +3,46 @@
 class Enemy : public Entity
 {
 public: 
-	Enemy										(const std::string file, std::string name_,
-													float x, float y, float w, float h);
+	Enemy											(const std::string file, std::string name_,
+														float x, float y, float w, float h);
 	~Enemy();
-	void						CheckCollision	(Map & map, float dx_, float dy_);
-	void						Update			(Map & map, sf::Int64 time);
-	void						SetNext			(Enemy * next_en);
-	const bool					isAlive			() const;
-	void ReduceHP();
-	void Destruct();
-	const sf::Vector2f &    	getCoord		();
-	Enemy *						GetNext			();
-	bool						IsAttacked		(const sf::Vector2f & plPos);
-	const float					getHP			()const;
+	void						CheckCollision		(Map & map, float dx_, float dy_);
+	void						Update				(Map & map, sf::Int64 time);
+	void						SetNext				(Enemy * next_en);
+	void						ReduceHP			();
+	void						Destruct			();
+	void						illustrateDamage	();
+	void						SetAttacked			();
+	void						DisplayDamage		(const sf::Int64 time);
+	const bool					isAlive				() const;
+	const sf::Vector2f &    	getCoord			();
+	Enemy *						GetNext				();
+	bool						IsAttacked			(const sf::Vector2f & plPos);
+	const float					getHP				()const;
 
 private:
 
 	enum ENEMY
 	{
-		W = 64,
-		H = 66,
-		LEFT = 0,       ///////////////////////////!!!!!!!!!!!!!!!!!!!!!!!! 
-		TOP = 5 * H,
-		DAMAGE = 60             // from hero on enemy
+		W		= 64,
+		H		= 66,
+		LEFT	= 0,       ///////////////////////////!!!!!!!!!!!!!!!!!!!!!!!! 
+		TOP		= 5 * H,
+		DAMAGE	= 60             // from hero on enemy
 	};
 	const float			enemy_speed = 0.1f;
+	bool				isDamageDisplay;
+	int					attackedTimer;
 	Enemy*				enemy_next;
 	Attacked * attack;
 };
 
 Enemy::Enemy(const std::string file, std::string name_, float x, float y, float w, float h) :
-	Entity(file, name_, x, y, w, h),
-	enemy_next(nullptr),
-	attack(new Attacked)
+	Entity				(file, name_, x, y, w, h),
+	isDamageDisplay		(false),
+	attackedTimer		(0),
+	enemy_next			(nullptr),
+	attack				(new Attacked)
 {
 	sprite.setOrigin(w / 2, h / 2);
 	if (name_ == "Archer1") {
@@ -47,6 +54,19 @@ Enemy::Enemy(const std::string file, std::string name_, float x, float y, float 
 Enemy::~Enemy()
 {
 	fout << "Enemy has destructed!" << std::endl;
+}
+
+void Enemy::illustrateDamage()
+{
+	if (!attack->getAttackedValue())
+	{
+		sprite.setColor(sf::Color::Red);
+		attack->SetAttacked(false);
+	}
+	else
+	{
+		sprite.setColor(sf::Color::White);
+	}
 }
 
 const bool Enemy::isAlive() const
@@ -65,9 +85,31 @@ void Enemy::Destruct()
 		this->~Enemy();
 }
 
+void Enemy::SetAttacked()
+{
+	isDamageDisplay = true;
+	attackedTimer = 0;
+	sprite.setColor(sf::Color::Red);
+}
+
+void Enemy::DisplayDamage(const sf::Int64 time)
+{
+	if (isDamageDisplay) {
+		attackedTimer += int(time);
+		std::cout << "AttackedTimer = " << attackedTimer << std::endl;
+		if (attackedTimer > 300)
+		{
+			isDamageDisplay = false;
+			sprite.setColor(sf::Color::White);
+			attackedTimer = 0;
+		}
+	}
+}
+
 void Enemy::ReduceHP()
 {
 	Heatpoints -= DAMAGE;
+	//attack->SetAttacked(false);
 
 	fout << "DAMAGED!" << std::endl;
 

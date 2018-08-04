@@ -5,15 +5,18 @@ private:
 
 	const float DISTANCE = HEROX; // (enemy + hero)/2
 
-	bool isAttacked;
-	bool isNear;
+	bool	isAttacked;
+	bool	isNear;
 
-	bool IsNear(const sf::Vector2f & plPos, const sf::Vector2f & enPos);
+	bool	IsNear					(const sf::Vector2f & plPos, const sf::Vector2f & enPos);
 
 public:
 	Attacked();
 	~Attacked();
-	bool IsAttacked(const sf::Vector2f & plPos, const sf::Vector2f & enPos);
+	bool		IsAttacked				(const sf::Vector2f & plPos, const sf::Vector2f & enPos);
+	const bool	getAttackedValue		() const;
+	void		SetAttacked				(const bool isAtt);
+
 };
 
 Attacked::Attacked() :
@@ -24,6 +27,17 @@ Attacked::Attacked() :
 Attacked::~Attacked()
 {
 	fout << "Attacked class has destructed!" << std::endl;
+}
+
+
+const bool Attacked::getAttackedValue() const
+{
+	return isAttacked;
+}
+
+void Attacked::SetAttacked(const bool isAtt)
+{
+	isAttacked = isAtt;
 }
 
 bool Attacked::IsNear(const sf::Vector2f & plPos, const sf::Vector2f & enPos)

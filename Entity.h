@@ -31,7 +31,7 @@ public:
 	sf::Sprite		sprite;
 
 	Entity	(const std::string file, const std::string name_, float x, float y, float w, float h);
-	~Entity	();
+	~Entity();
 };
 
 Entity::Entity(const std::string file, const std::string name_, float x, float y, float w, float h) :
