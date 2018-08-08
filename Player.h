@@ -85,9 +85,9 @@ Player::Player(const std::string file, const std::string name, float x, float y,
 {
 	Image.loadFromFile("Images/" + File);
 	Texture.loadFromImage(Image);
-	sprite.setTexture(Texture);
-	sprite.setTextureRect(sf::IntRect(int(x), int(y), int(Width), int(Height)));
-	sprite.setPosition(XPOS, YPOS);
+	setTexture(Texture);
+	setTextureRect(sf::IntRect(int(x), int(y), int(Width), int(Height)));
+	setPosition(XPOS, YPOS);
 
 	fout << "Player constructor was called!" << std::endl;
 }
@@ -124,7 +124,7 @@ void Player::Hit(sf::Int64 & time, int Y)
 			IsHit = false;
 			HitTimer = 0;
 		}
-		sprite.setTextureRect(sf::IntRect(HEROX * int(HitTimer), Y, HEROX, HEROY));
+		setTextureRect(sf::IntRect(HEROX * int(HitTimer), Y, HEROX, HEROY));
 	}
 }
 
@@ -138,14 +138,14 @@ void Player::SetRed()
 {
 	IsOnFire = true;
 	FireTimer = 0;
-	sprite.setColor(sf::Color::Red);
+	setColor(sf::Color::Red);
 }
 
 void Player::SetPurple()
 {
 	IsPurple = true;
 	PurpleTimer = 0;
-	sprite.setColor(sf::Color::Magenta);
+	setColor(sf::Color::Magenta);
 }
 
 void Player::OnFire(sf::Int64 & time)
@@ -156,7 +156,7 @@ void Player::OnFire(sf::Int64 & time)
 		if (FireTimer > 3000)
 		{
 			IsOnFire = false;
-			sprite.setColor(sf::Color::White);
+			setColor(sf::Color::White);
 			FireTimer = 0;
 		}
 	}
@@ -171,7 +171,7 @@ void Player::PurpleStyle(sf::Int64 & time)
 		if (PurpleTimer > 5000)
 		{
 			IsPurple = false;
-			sprite.setColor(sf::Color::White);
+			setColor(sf::Color::White);
 			PurpleTimer = 0;
 		}
 	}
@@ -429,7 +429,7 @@ bool Player::Update(sf::Int64 time, Map & map)
 	Pos.y += dy * time;
 
 	Speed = 0;
-	sprite.setPosition(Pos.x, Pos.y);
+	setPosition(Pos.x, Pos.y);
 	InterractMap(time, map);
 
 	if (Heatpoints <= 0)

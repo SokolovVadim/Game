@@ -52,7 +52,7 @@ void DragAndDrop::Rotate(Player & Hero)
 	DeltaX = WindPos.x - Hero.GetCoordX();
 	DeltaY = WindPos.y - Hero.GetCoordY();
 	Rotation = (atan2(DeltaX, DeltaY)) * 180.0f / float(M_PI);
-	Hero.sprite.setRotation(Rotation);
+	Hero.setRotate(Rotation);
 }
 
 
@@ -61,10 +61,10 @@ void DragAndDrop::DropColor(Player & Hero, sf::Event & event)
 {
 	if (event.type == sf::Event::MouseButtonPressed)
 		if (event.key.code == sf::Mouse::Left)
-			if (Hero.sprite.getGlobalBounds().contains(WindPos))
+			if (Hero.getGlobalBounds(WindPos))
 				if(Hero.GetSelect())
 				{
-					Hero.sprite.setColor(sf::Color::Red);
+					Hero.setColor(sf::Color::Red);
 					Hero.SetSelect(false);
 				}
 }
@@ -90,9 +90,9 @@ void DragAndDrop::Select(sf::RenderWindow & window, sf::Event & event, Player & 
 {
 	if(event.type == sf::Event::KeyPressed)
 		if (event.key.code == sf::Keyboard::C)
-			if (Hero.sprite.getGlobalBounds().contains(WindPos))
+			if (Hero.getGlobalBounds(WindPos))
 			{
-				Hero.sprite.setColor(sf::Color::Red);
+				Hero.setColor(sf::Color::Red);
 				Hero.SetSelect(true);
 			}
 }
@@ -105,7 +105,7 @@ void DragAndDrop::Rpg(sf::Event & event, Player & Hero)
 			{
 				Hero.SetMove(true);
 				Hero.SetSelect(false);
-				Hero.sprite.setColor(sf::Color::White);
+				Hero.setColor(sf::Color::White);
 				tempX = WindPos.x;
 				tempY = WindPos.y;
 				//Rotate(Hero);  !!!  I banned it cas it didn't work correctly   !!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -129,17 +129,17 @@ void DragAndDrop::MainEffect(sf::Event & event, Player & Hero)
 {
 	if (event.type == sf::Event::MouseButtonPressed)
 			if (event.key.code == sf::Mouse::Left)
-				if (Hero.sprite.getGlobalBounds().contains(WindPos.x, WindPos.y))
+				if (Hero.getGlobalBounds(WindPos))
 				{
-					Dx = WindPos.x - Hero.sprite.getPosition().x;
-					Dy = WindPos.y - Hero.sprite.getPosition().y;
+					Dx = WindPos.x - Hero.getPosition().x;
+					Dy = WindPos.y - Hero.getPosition().y;
 					isMove = true;
 				}
 	if (event.type == sf::Event::MouseButtonReleased)
 		if (event.key.code == sf::Mouse::Left)
 		{
 			isMove = false;
-			Hero.sprite.setColor(sf::Color::White);
+			Hero.setColor(sf::Color::White);
 		}
 }
 
@@ -148,7 +148,7 @@ void DragAndDrop::Action(Player & Hero)
 	if (isMove)
 	{
 		fout << "Hero: x = " << Hero.GetCoordX() << ", y = " << Hero.GetCoordY() << " Window: x = " << (WindPos.x - Dx) << ", y = " << (WindPos.y - Dy) << std::endl;
-		Hero.sprite.setColor(sf::Color::Magenta);
+		Hero.setColor(sf::Color::Magenta);
 		Hero.SetCoord(WindPos.x - Dx, WindPos.y - Dy);
 	}
 }

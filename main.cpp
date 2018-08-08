@@ -21,7 +21,7 @@ void	SetCam				(sf::Event & event, sf::RenderWindow & window, bool & IsFullscree
 void Process (sf::RenderWindow & window, Map & map, MyView & View, Player & Hero, std::list<Enemy> & list)
 {
 	bool			IsFullscreen		(true);
-	bool			isHit			(false);
+	bool			isHit				(false);
 	double			CurFrame			(0.0);
 	sf::Clock		clock;
 	sf::Clock		game_time_clock;
@@ -30,18 +30,18 @@ void Process (sf::RenderWindow & window, Map & map, MyView & View, Player & Hero
 
 
 
-	PoolEnemies enemy_pool(3, "Enemy.png", "Archer1", W/2 + 200, H - 200, 64, 66);
+	PoolEnemies enemy_pool	(20, "Enemy.png", "Archer1", W/2 + 200, H - 200, 64, 66);
 
-	Mission mission("Kumach.png", "Intro.png");
+	Mission mission			("Kumach.png", "Intro.png");
 
 	//std::list<Enemy>::iterator it;
 
 	AllText fulltxt;
-	fulltxt.PrintAll();
+	fulltxt.PrintAll		();
 
-	mission.LoadMission();
+	mission.LoadMission		();
 
-	DragAndDrop dnd(window);
+	DragAndDrop dnd			(window);
 
 	while (window.isOpen())
 	{
@@ -106,11 +106,17 @@ void Process (sf::RenderWindow & window, Map & map, MyView & View, Player & Hero
 
 		fulltxt.DrawIntro	(View, window, mission, Hero);
 
-		enemy_pool.DrawPool(window);
+		enemy_pool.DrawPool(window, time);
 
-		window.draw		(Hero.sprite);
-		window.draw		(list.front().sprite);
-		window.draw		(list.back().sprite);
+		// draw func
+
+		Hero.draw			(window);
+		list.front().draw	(window);
+		list.back().draw	(window);
+		
+
+		//
+		
 		window.display	();
 	}
 }
@@ -164,7 +170,7 @@ void ChooseAction(Player & Hero, int dir, double & CurFrame, sf::Int64 time, int
 		{
 			CurFrame -= 9;
 		}
-		Hero.sprite.setTextureRect(sf::IntRect(X, Y, HEROX, HEROY));
+		Hero.setTextureRect(sf::IntRect(X, Y, HEROX, HEROY));
 }
 
 bool IsWalk()

@@ -44,10 +44,10 @@ Enemy::Enemy(const std::string file, std::string name_, float x, float y, float 
 	enemy_next			(nullptr),
 	attack				(new Attacked)
 {
-	sprite.setOrigin(w / 2, h / 2);
+	setOrigin(w / 2, h / 2);
 	if (name_ == "Archer1") {
 		dx = -enemy_speed;
-		sprite.setTextureRect(sf::IntRect(LEFT, TOP, W, H));
+		setTextureRect(sf::IntRect(LEFT, TOP, W, H));
 	}
 }
 
@@ -60,12 +60,12 @@ void Enemy::illustrateDamage()
 {
 	if (!attack->getAttackedValue())
 	{
-		sprite.setColor(sf::Color::Red);
+		setColor(sf::Color::Red);
 		attack->SetAttacked(false);
 	}
 	else
 	{
-		sprite.setColor(sf::Color::White);
+		setColor(sf::Color::White);
 	}
 }
 
@@ -89,7 +89,7 @@ void Enemy::SetAttacked()
 {
 	isDamageDisplay = true;
 	attackedTimer = 0;
-	sprite.setColor(sf::Color::Red);
+	setColor(sf::Color::Red);
 }
 
 void Enemy::DisplayDamage(const sf::Int64 time)
@@ -100,7 +100,7 @@ void Enemy::DisplayDamage(const sf::Int64 time)
 		if (attackedTimer > 300)
 		{
 			isDamageDisplay = false;
-			sprite.setColor(sf::Color::White);
+			setColor(sf::Color::White);
 			attackedTimer = 0;
 		}
 	}
@@ -160,13 +160,13 @@ void Enemy::CheckCollision(Map & map, float dx_, float dy_)
 				{
 					Pos.x = j * WGRASS - Width + 47.99f;
 					dx = -enemy_speed;
-					sprite.setScale(1, 1);
+					setScale(1.0f, 1.0f);
 				}
 				if (dx_ < 0)
 				{
 					Pos.x = float(j * WGRASS + WGRASS);
 					dx = enemy_speed;
-					sprite.setScale(-1, 1);
+					setScale(-1.0f, 1.0f);
 				}
 			}
 		}
@@ -183,7 +183,7 @@ void Enemy::Update(Map & map, sf::Int64 time)
 		}*/
 		CheckCollision(map, dx, 0);
 		Pos.x += dx * time;
-		sprite.setPosition(Pos.x + W / 2, Pos.y + H / 2);
+		setPosition(Pos.x + W / 2, Pos.y + H / 2);
 		if (Heatpoints <= 0.0f)
 			Alive = false;
 	}
