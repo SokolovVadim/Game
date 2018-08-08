@@ -1,45 +1,10 @@
-#pragma once
-
-
-//#include <SFML/Graphics.hpp>
-//#include <SFML/Audio.hpp>
-//#include <SFML/Graphics/Sprite.hpp>
-//#include <SFML/Window.hpp>
-//#include "string"
-//#include <iostream>
-//#include <fstream>
-//#include "Engine.h"
-
-
-//int HEROX = 64;
-
-//#include "Mission.h"
-
-class Attacked
-{
-private:
-
-	const float DISTANCE = HEROX; // (enemy + hero)/2
-
-	bool	isAttacked;
-	bool	isNear;
-
-	bool	IsNear					(const sf::Vector2f & plPos, const sf::Vector2f & enPos);
-
-public:
-	Attacked();
-	~Attacked();
-	bool		IsAttacked				(const sf::Vector2f & plPos, const sf::Vector2f & enPos);
-	const bool	getAttackedValue		() const;
-	void		SetAttacked				(const bool isAtt);
-
-};
+#include "Attacked.h"
 
 
 Attacked::Attacked() :
 	isAttacked(false),
 	isNear(false)
-{}
+{} 
 
 Attacked::~Attacked()
 {
@@ -78,6 +43,3 @@ bool Attacked::IsAttacked(const sf::Vector2f & plPos, const sf::Vector2f & enPos
 	else
 		return false;
 }
-
-
-

@@ -3,17 +3,17 @@
 class PoolEnemies
 {
 public:
-	explicit PoolEnemies	(const size_t size, const std::string file, std::string name_,
+	explicit PoolEnemies(const size_t size, const std::string file, std::string name_,
 		float x, float y, float w, float h);
-	~PoolEnemies			();
-	void Init				(const std::string file, std::string name_, float x, float y, float w, float h);
-	void Create				(Enemy* enemy, const std::string file, std::string name_,
+	~PoolEnemies();
+	void Init(const std::string file, std::string name_, float x, float y, float w, float h);
+	void Create(Enemy* enemy, const std::string file, std::string name_,
 		float x, float y, float w, float h);
-	const size_t GetSize	();
-	void DrawPool			(sf::RenderWindow & window, const sf::Int64 time);
-	void PrintPosition		();
-	void Update				(Map & map, sf::Int64 time);
-	void isAttacked			(const Player & Hero);
+	const size_t GetSize();
+	void DrawPool(sf::RenderWindow & window, const sf::Int64 time);
+	void PrintPosition();
+	void Update(Map & map, sf::Int64 time);
+	void isAttacked(const Player & Hero);
 
 private:
 	static const size_t		MAX_PULL_SIZE = 200;
@@ -23,9 +23,9 @@ private:
 };
 
 PoolEnemies::PoolEnemies(const size_t size, const std::string file, std::string name_,
-	float x, float y, float w, float h):
-	size_			(size),
-	first_enemy		(nullptr)
+	float x, float y, float w, float h) :
+	size_(size),
+	first_enemy(nullptr)
 {
 	if (size_ > MAX_PULL_SIZE)
 		size_ = MAX_PULL_SIZE;
@@ -38,7 +38,7 @@ PoolEnemies::PoolEnemies(const size_t size, const std::string file, std::string 
 		if ((RandX > W - 100) || (RandX < 100) || (RandY > H - 100) || (RandY < 100))
 		{
 			RandX = W / 2;
-			RandY = H / 2; 
+			RandY = H / 2;
 		}
 		fout << "RandX = " << RandX << ", Rand Y = " << RandY << std::endl;
 		m_enemies[i] = new Enemy(file, name_, RandX, RandY, w, h);
@@ -50,7 +50,7 @@ void PoolEnemies::Update(Map & map, sf::Int64 time)
 {
 	for (int i(0); i < size_; i++)
 	{
-		if(m_enemies[i]->isAlive())
+		if (m_enemies[i]->isAlive())
 			m_enemies[i]->Update(map, time);
 	}
 }
@@ -72,7 +72,7 @@ void PoolEnemies::DrawPool(sf::RenderWindow & window, const sf::Int64 time)
 		if ((m_enemies[i]->isAlive()) && (m_enemies[i]->getHP() > 0.0f))
 		{
 			m_enemies[i]->DisplayDamage(time);
-			window.draw(m_enemies[i]->sprite);
+			window.draw(m_enemies[i]->getSprite());
 		}
 		else
 		{
@@ -110,7 +110,7 @@ PoolEnemies::~PoolEnemies()
 void PoolEnemies::Init(const std::string file, std::string name_, float x, float y, float w, float h)
 {
 	first_enemy = m_enemies[0];
-	
+
 	for (int i(0); i < size_ - 1; i++)
 	{
 		m_enemies[i]->SetNext(m_enemies[i + 1]);

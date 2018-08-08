@@ -1,12 +1,127 @@
-#include <string>
-//#include <iostream>
 #include "PoolEnemies.h"
-#include "Enemy.h"
-PoolEnemies::PoolEnemies(size_t size, const std::string file, std::string name_, float x, float y, float w, float h)
+
+PoolEnemies::PoolEnemies(const size_t size, const std::string file, std::string name_,
+	float x, float y, float w, float h) :
+	size_(size),
+	first_enemy(nullptr)
 {
-	m_enemies = new Enemy*[size];
-	for (int i(0); i < size; i++)
+	if (size_ > MAX_PULL_SIZE)
+		size_ = MAX_PULL_SIZE;
+	m_enemies = new Enemy*[size_];
+	float RandX(0.0f), RandY(0.0f);
+	for (int i(0); i < size_; i++)
 	{
-		m_enemies[i] = new Enemy(file, name_, x, y, w, h);
+		RandX = float(100 + rand() % (W - 200));
+		RandY = float(100 + rand() % (H - 200));
+		if ((RandX > W - 100) || (RandX < 100) || (RandY > H - 100) || (RandY < 100))
+		{
+			RandX = W / 2;
+			RandY = H / 2;
+		}
+		fout << "RandX = " << RandX << ", Rand Y = " << RandY << std::endl;
+		m_enemies[i] = new Enemy(file, name_, RandX, RandY, w, h);
+	}
+	Init(file, name_, x, y, w, h);
+}
+
+void PoolEnemies::Update(Map & map, sf::Int64 time)
+{
+	for (int i(0); i < size_; i++)
+	{
+		if (m_enemies[i]->isAlive())
+			m_enemies[i]->Update(map, time);
 	}
 }
+
+void PoolEnemies::PrintPosition()
+{
+	for (int i(0); i < size_; i++)
+	{
+		if (m_enemies[i]->isAlive()) {
+			std::cout << "pos [" << i << "] = ( " << m_enemies[i]->Pos.x << ", " << m_enemies[i]->Pos.y << " )" << std::endl;
+		}
+	}
+}
+
+void PoolEnemies::DrawPool(sf::RenderWindow & window, const sf::Int64 time)
+{
+	for (int i(0); i < size_; i++)
+	{
+		if ((m_enemies[i]->isAlive()) && (m_enemies[i]->getHP() > 0.0f))
+		{
+			m_enemies[i]->DisplayDamage(time);
+			window.draw(m_enemies[i]->getSprite());
+		}
+		else
+		{
+			fout << "m_enemies[i] = nullptr" << std::endl;
+		}
+	}
+}
+
+const size_t PoolEnemies::GetSize()
+{
+	return size_;
+}
+
+void PoolEnemies::Create(Enemy* enemy, const std::string file, std::string name_, float x, float y, float w, float h)
+{
+	Enemy * cur_enemy = new Enemy(file, name_, x, y, w, h);
+	enemy->SetNext(cur_enemy);
+	cur_enemy->SetNext(nullptr);
+	first_enemy = cur_enemy;
+	size_++;
+}
+
+PoolEnemies::~PoolEnemies()
+{
+	fout << "Pool start destructing" << std::endl;
+	for (int i(0); i < size_; i++)
+	{
+		if (m_enemies[i]->isAlive())
+			delete m_enemies[i];
+	}
+	delete[] m_enemies;
+	size_ = 0;
+}
+
+void PoolEnemies::Init(const std::string file, std::string name_, float x, float y, float w, float h)
+{
+	first_enemy = m_enemies[0];
+
+	for (int i(0); i < size_ - 1; i++)
+	{
+		m_enemies[i]->SetNext(m_enemies[i + 1]);
+	}
+
+	m_enemies[size_ - 1]->SetNext(nullptr);
+}
+
+
+void PoolEnemies::isAttacked(/*Attacked & attack,*/ const Player & Hero)
+{
+	for (int i(0); i < size_; ++i)
+	{
+		if (m_enemies[i]->isAlive()) {
+			if ((m_enemies[i]->IsAttacked(Hero.GetPos())) && (Hero.GetHit()) && (Hero.GetTimer()))
+			{
+				m_enemies[i]->SetAttacked();
+				m_enemies[i]->ReduceHP();
+				//m_enemies[i]->illustrateDamage();
+			}
+			//m_enemies[i]->DisplayDamage(time);
+		}
+	}
+}
+
+
+//class PoolEnemies
+//{
+//public:
+//	explicit PoolEnemies(const std::string file, std::string name_, float x, float y, float w, float h) :
+//		m_enemies(10, Enemy(file, name_, x, y, w, h))
+//	{};
+//
+//private:
+//	std::vector<Enemy> m_enemies;
+//};

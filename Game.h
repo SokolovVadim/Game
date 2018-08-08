@@ -3,6 +3,7 @@
 #include <cmath>
 #include <iostream>
 #include <fstream>
+
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include <SFML/Graphics/Sprite.hpp>
@@ -17,13 +18,11 @@
 #include <Mmsystem.h>
 #pragma comment(lib, "winmm.lib")
 
-
-
 std::ofstream fout("LOG.txt");
 
 enum MAP {
 	HEIGHT = 21,
-	WIDTH  = 90,
+	WIDTH = 90,
 	WGRASS = 48,
 	HGRASS = 64
 };
@@ -34,16 +33,18 @@ enum SCREEN {
 };
 
 enum ENGINE {
-	HEALTH   =	 100,
-	BSPEED   =	 0,
-	XPOS     =	 WGRASS + 1,
-	YPOS     =	 HGRASS + 1,
-	SETDIR   =	 10,
-	HEROX    =	 64,
-	HEROY    =	 64,
-	SETBEGIN =	 200,
-	MAXSCORE =   3
+	HEALTH = 100,
+	BSPEED = 0,
+	XPOS = WGRASS + 1,
+	YPOS = HGRASS + 1,
+	SETDIR = 10,
+	HEROX = 64,
+	HEROY = 64,
+	SETBEGIN = 200,
+	MAXSCORE = 3
 };
+
+
 
 
 
@@ -59,7 +60,9 @@ enum ENGINE {
 #include "Enemy.h"
 #include "Platform.h"
 #include "PoolEnemies.h"
-//#include "PoolEnemies.cpp"
+#include "Bullet.h"
+
+
 
 #define asserted || fout << "WARNING! ASSERT WAS CALLED ON LINE %d\n" << __LINE__;
 

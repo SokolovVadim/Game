@@ -1,41 +1,10 @@
-#pragma once
 
-class Enemy : public Entity
-{
-public:
-	Enemy(const std::string file, std::string name_,
-		float x, float y, float w, float h);
-	~Enemy();
-	void						CheckCollision(Map & map, float dx_, float dy_);
-	void						Update(Map & map, sf::Int64 time);
-	void						SetNext(Enemy * next_en);
-	void						ReduceHP();
-	void						Destruct();
-	void						illustrateDamage();
-	void						SetAttacked();
-	void						DisplayDamage(const sf::Int64 time);
-	const bool					isAlive() const;
-	const sf::Vector2f &    	getCoord();
-	Enemy *						GetNext();
-	bool						IsAttacked(const sf::Vector2f & plPos);
-	const float					getHP()const;
+#include "Enemy.h"
 
-private:
 
-	enum ENEMY
-	{
-		W = 64,
-		H = 66,
-		LEFT = 0,       ///////////////////////////!!!!!!!!!!!!!!!!!!!!!!!! 
-		TOP = 5 * H,
-		DAMAGE = 60             // from hero on enemy
-	};
-	const float			enemy_speed = 0.1f;
-	bool				isDamageDisplay;
-	int					attackedTimer;
-	Enemy*				enemy_next;
-	Attacked * attack;
-};
+
+
+
 
 Enemy::Enemy(const std::string file, std::string name_, float x, float y, float w, float h) :
 	Entity(file, name_, x, y, w, h),

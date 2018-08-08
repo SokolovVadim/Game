@@ -1,24 +1,6 @@
-#pragma once
-
+#include "Bullet.h"
 
 namespace bulletStuff {
-
-
-
-	class Bullet : public Entity
-	{
-	public:
-
-		Bullet(const std::string file, const std::string name_, float x, float y, float w, float h, int dir);
-
-		void Update(const float time);
-
-	private:
-
-		int direction;
-		const float bulletSpeed = 0.9f;
-	};
-
 
 	Bullet::Bullet(const std::string file, const std::string name_, float x, float y, float w, float h, int dir) :
 		Entity(file, name_, x, y, w, h),
@@ -57,9 +39,5 @@ namespace bulletStuff {
 		}
 		};
 	}
-
-	/*class EnemyBullet :public Bullet
-	{
-	};*/
 
 }

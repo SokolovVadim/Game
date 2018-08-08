@@ -1,37 +1,4 @@
-#pragma once
-
-
-
-class DragAndDrop
-{
-private:
-	float			tempX;
-	float			tempY;
-	float			distance;
-	bool			isMove;
-
-	float			Dx;
-	float			Dy;
-	float			DeltaX;
-	float			DeltaY;
-	float			Rotation;
-
-	sf::Vector2i	PixPos;
-	sf::Vector2f	WindPos;
-public:
-	DragAndDrop(sf::RenderWindow & window);
-	void MoveMouse(sf::RenderWindow & window);
-	void MainEffect(sf::Event & event, Player & Hero);
-	void Action(Player & Hero);
-	void SetVectors(sf::RenderWindow & window);
-	void Select(sf::RenderWindow & window, sf::Event & event, Player & Hero);
-	void Rpg(sf::Event & event, Player & Hero);
-	void MoveSprite(Player & Hero, sf::Int64 & time);
-	void DropColor(Player & Hero, sf::Event & event);
-	void Rotate(Player & Hero);
-};
-
-
+#include "DragAndDrop.h"
 DragAndDrop::DragAndDrop(sf::RenderWindow & window) :
 	tempX(0.0f),
 	tempY(0.0f),
@@ -51,7 +18,7 @@ void DragAndDrop::Rotate(Player & Hero)
 {
 	DeltaX = WindPos.x - Hero.GetCoordX();
 	DeltaY = WindPos.y - Hero.GetCoordY();
-	Rotation = (atan2(DeltaX, DeltaY)) * 180.0f / float(M_PI);
+	Rotation = (atan2(DeltaX, DeltaY)) * 180.0f / float(3.14/*M_PI*/);
 	Hero.setRotate(Rotation);
 }
 

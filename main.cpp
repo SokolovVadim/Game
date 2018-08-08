@@ -1,5 +1,6 @@
 ﻿#include "Game.h"
 
+
 void PlayKotik()
 {
 	PlaySoundA("Music/laba.wav",	NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
@@ -76,7 +77,7 @@ void Process (sf::RenderWindow & window, Map & map, MyView & View, Player & Hero
 
 		ActionSwitch		(Hero, CurFrame, time, window, View, enemy_pool, isHit, event);
 
- 		View.ScrollMouse	(window, time, Hero);
+ 		View.ScrollMouse	(window, time, Hero.GetAlive());
 
 		map.GenerateInTime	(timer, time, 15000, ' ', 'H', 1);
 		map.GenerateInTime	(timer, time, 15000, ' ', 'M', 1);
