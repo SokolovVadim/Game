@@ -1,19 +1,10 @@
 #pragma once
 
 
-//#include <SFML/Graphics.hpp>
-//#include <SFML/Audio.hpp>
-//#include <SFML/Graphics/Sprite.hpp>
-//#include <SFML/Window.hpp>
-//#include "string"
-//#include <iostream>
-//#include <fstream>
-//#include "Engine.h"
+#include "Components.h"
 
 
-//int HEROX = 64;
-
-//#include "Mission.h"
+#include "Constants.h"
 
 class Attacked
 {
@@ -36,48 +27,48 @@ public:
 };
 
 
-Attacked::Attacked() :
-	isAttacked(false),
-	isNear(false)
-{}
-
-Attacked::~Attacked()
-{
-	std::cout << "Attacked class has destructed!" << std::endl;
-}
-
-
-const bool Attacked::getAttackedValue() const
-{
-	return isAttacked;
-}
-
-void Attacked::SetAttacked(const bool isAtt)
-{
-	isAttacked = isAtt;
-}
-
-bool Attacked::IsNear(const sf::Vector2f & plPos, const sf::Vector2f & enPos)
-{
-	if (pow(plPos.x - enPos.x, 2) + pow(plPos.y - enPos.y, 2) < pow(DISTANCE, 2))
-	{
-		isNear = true;
-		return true;
-	}
-	else
-		return false;
-}
-
-bool Attacked::IsAttacked(const sf::Vector2f & plPos, const sf::Vector2f & enPos)
-{
-	if (IsNear(plPos, enPos))
-	{
-		isAttacked = true;
-		return true;
-	}
-	else
-		return false;
-}
+//Attacked::Attacked() :
+//	isAttacked(false),
+//	isNear(false)
+//{}
+//
+//Attacked::~Attacked()
+//{
+//	std::cout << "Attacked class has destructed!" << std::endl;
+//}
+//
+//
+//const bool Attacked::getAttackedValue() const
+//{
+//	return isAttacked;
+//}
+//
+//void Attacked::SetAttacked(const bool isAtt)
+//{
+//	isAttacked = isAtt;
+//}
+//
+//bool Attacked::IsNear(const sf::Vector2f & plPos, const sf::Vector2f & enPos)
+//{
+//	if (pow(plPos.x - enPos.x, 2) + pow(plPos.y - enPos.y, 2) < pow(DISTANCE, 2))
+//	{
+//		isNear = true;
+//		return true;
+//	}
+//	else
+//		return false;
+//}
+//
+//bool Attacked::IsAttacked(const sf::Vector2f & plPos, const sf::Vector2f & enPos)
+//{
+//	if (IsNear(plPos, enPos))
+//	{
+//		isAttacked = true;
+//		return true;
+//	}
+//	else
+//		return false;
+//}
 
 
 
