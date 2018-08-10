@@ -38,6 +38,28 @@ namespace bulletStuff {
 			dx = 0; dy = 0;
 		}
 		};
+
+		Pos.x += dx * time;
+		Pos.y += dy * time;
+
+		if (Pos.x <= 10) ///     CONSTANTS SHOULD BE ADDED IN COMPONENTS
+			Pos.x = 10;
+		if (Pos.y <= 10) //    REPEATABLE CODE!!!!!!!!!!!!!!!!!!!!!!
+			Pos.y = 10;
+
+		
+
+
+		// Add cicle to find all hitted enemies
+		// Add interraction with map
+
+
+		// decide to use special manager class or functions in the Bullet namespace
+
+
+
+		setPosition(Pos.x, Pos.y);
+
 	}
 
 }
