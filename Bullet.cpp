@@ -2,17 +2,20 @@
 
 namespace bulletStuff {
 
-	Bullet::Bullet(const std::string file, const std::string name_, float x, float y, float w, float h, int dir) :
+	Bullet::Bullet(const std::string file, const std::string name_, const float speed, float x, float y, float w, float h, int dir) :
 		Entity(file, name_, x, y, w, h),
-		direction(dir)
+		_direction(dir),
+		_distanceToEnemy(0, 0)
 	{
-		Speed = bulletSpeed;
+		_bulletSpeed = (speed);
+		Speed = _bulletSpeed;
 	}
 
 
-	void Bullet::Update(const float time)
+
+	void Bullet::Update(const float time, PoolEnemies & pool)
 	{
-		switch (direction)
+		switch (_direction)
 		{
 		case 0: {
 			dx = -Speed, dy = 0;
@@ -42,12 +45,10 @@ namespace bulletStuff {
 		Pos.x += dx * time;
 		Pos.y += dy * time;
 
-		if (Pos.x <= 10) ///     CONSTANTS SHOULD BE ADDED IN COMPONENTS
-			Pos.x = 10;
-		if (Pos.y <= 10) //    REPEATABLE CODE!!!!!!!!!!!!!!!!!!!!!!
-			Pos.y = 10;
+		wallsCollision(Pos);		
 
-		
+
+		entitiesCollision(pool);
 
 
 		// Add cicle to find all hitted enemies
@@ -59,6 +60,24 @@ namespace bulletStuff {
 
 
 		setPosition(Pos.x, Pos.y);
+
+	}
+
+	void Bullet::entitiesCollision(PoolEnemies & pool)
+	{
+		//pool.isAttackedE(Pos);
+	}
+
+
+	void wallsCollision(sf::Vector2f & pos)
+	{
+		if (&pos != nullptr)
+		{
+			if (pos.x <= BORDER_LENGTH) ///     CONSTANTS SHOULD BE ADDED IN COMPONENTS
+				pos.x = BORDER_LENGTH;
+			if (pos.y <= BORDER_LENGTH) //    REPEATABLE CODE!!!!!!!!!!!!!!!!!!!!!!
+				pos.y = BORDER_LENGTH;
+		}
 
 	}
 
