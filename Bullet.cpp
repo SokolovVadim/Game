@@ -1,6 +1,6 @@
 #include "Bullet.h"
 
-namespace bulletStuff {
+namespace bs {
 
 	Bullet::Bullet(const std::string file, const std::string name_, const float speed, float x, float y, float w, float h, int dir) :
 		Entity(file, name_, x, y, w, h),
@@ -13,7 +13,7 @@ namespace bulletStuff {
 
 
 
-	void Bullet::Update(const float time, PoolEnemies & pool)
+	void Bullet::Update(const float time/*, PoolEnemies & pool*/)
 	{
 		switch (_direction)
 		{
@@ -48,7 +48,7 @@ namespace bulletStuff {
 		wallsCollision(Pos);		
 
 
-		entitiesCollision(pool);
+		//entitiesCollision(pool);
 
 
 		// Add cicle to find all hitted enemies
@@ -63,10 +63,7 @@ namespace bulletStuff {
 
 	}
 
-	void Bullet::entitiesCollision(PoolEnemies & pool)
-	{
-		//pool.isAttackedE(Pos);
-	}
+
 
 
 	void wallsCollision(sf::Vector2f & pos)

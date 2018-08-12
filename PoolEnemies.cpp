@@ -1,5 +1,4 @@
 #include "PoolEnemies.h"
-//#include "Player.h"
 
 PoolEnemies::PoolEnemies(const size_t size, const std::string file, std::string name_,
 	float x, float y, float w, float h) :
@@ -99,21 +98,45 @@ void PoolEnemies::Init(const std::string file, std::string name_, float x, float
 }
 
 
-void PoolEnemies::isAttacked(/*Attacked & attack,*/ const Player & Hero)
+void PoolEnemies::isAttackedP(const Player & Hero/*, const int damage*/)
 {
 	for (int i(0); i < size_; ++i)
 	{
 		if (m_enemies[i]->isAlive()) {
-			if ((m_enemies[i]->IsAttacked(Hero.GetPos())) && (Hero.GetHit()) && (Hero.GetTimer()))
-			{
-				m_enemies[i]->SetAttacked();
-				m_enemies[i]->ReduceHP();
-				//m_enemies[i]->illustrateDamage();
-			}
-			//m_enemies[i]->DisplayDamage(time);
+			playerCollision(Hero, i);
 		}
 	}
 }
+
+
+void PoolEnemies::playerCollision(const Player & Hero, const int pos)
+{
+	if ((m_enemies[pos]->IsAttacked(Hero.GetPos())) && (Hero.GetHit()) && (Hero.GetTimer()))
+	{
+		m_enemies[pos]->SetAttacked();
+		m_enemies[pos]->ReduceHP(/*damage*/);
+
+	}
+}
+
+void PoolEnemies::bulletCollision(const bs::Bullet & bullet, const int pos)
+{
+	if ((m_enemies[pos]->isAlive()))
+	{
+		m_enemies[pos]->SetAttacked();
+		m_enemies[pos]->ReduceHP();
+	}
+}
+
+
+const sf::Vector2i PoolEnemies::getSizeEnemies() const
+{
+	if (m_enemies[0] != nullptr)
+		return m_enemies[0]->getSize();
+	else
+		return sf::Vector2i(0, 0);
+}
+
 
 
 //class PoolEnemies

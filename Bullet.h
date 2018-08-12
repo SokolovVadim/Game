@@ -1,11 +1,11 @@
 #pragma once
 
 #include "Entity.h"
-#include "PoolEnemies.h"
+//#include "PoolEnemies.h"
 
 
-
-namespace bulletStuff {
+// bs <=> bulletStuff
+namespace bs {
 
 
 	enum COMPONENTS
@@ -23,8 +23,8 @@ namespace bulletStuff {
 		Bullet	(const std::string file, const std::string name_,
 			const float speed, float x, float y, float w, float h, int dir);
 
-		void Update					(const float time, PoolEnemies & pool);
-		void entitiesCollision		(PoolEnemies & pool);
+		void Update					(const float time/*, PoolEnemies & pool*/);
+	
 
 	private:
 		int _direction;
