@@ -20,6 +20,8 @@ namespace bs {
 	{
 	public:
 
+		Bullet();
+
 		Bullet	(const std::string file, const std::string name_,
 			const float speed, float x, float y, float w, float h, int dir);
 

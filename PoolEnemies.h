@@ -21,7 +21,7 @@ public:
 	void DrawPool(sf::RenderWindow & window, const sf::Int64 time);
 	void PrintPosition();
 	void Update(Map & map, sf::Int64 time);
-	void isAttackedP(const Player & Hero/*, const int damage*/);
+	void isAttacked(const Player & Hero/*, const int damage*/);
 	const sf::Vector2i getSizeEnemies() const;
 
 
@@ -32,5 +32,5 @@ private:
 	Enemy *					first_enemy;
 
 	void playerCollision(const Player & Hero, const int pos);
-	void bulletCollision(const bs::Bullet & bullet, const int pos);
+	void bulletCollision(/*const*/ bs::Bullet & bullet, const int pos);
 };

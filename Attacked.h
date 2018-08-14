@@ -15,12 +15,14 @@ private:
 	bool	isAttacked;
 	bool	isNear;
 
-	bool	IsNear					(const sf::Vector2f & plPos, const sf::Vector2f & enPos);
+	bool	IsNear					(const sf::Vector2f & plPos,
+		const sf::Vector2f & enPos, const float distance);
 
 public:
 	Attacked();
 	~Attacked();
-	bool		IsAttacked				(const sf::Vector2f & plPos, const sf::Vector2f & enPos);
+	bool		IsAttacked				(const sf::Vector2f & plPos,
+		const sf::Vector2f & enPos, const float distance);
 	const bool	getAttackedValue		() const;
 	void		SetAttacked				(const bool isAtt);
 

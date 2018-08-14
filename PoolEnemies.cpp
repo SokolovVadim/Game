@@ -98,7 +98,7 @@ void PoolEnemies::Init(const std::string file, std::string name_, float x, float
 }
 
 
-void PoolEnemies::isAttackedP(const Player & Hero/*, const int damage*/)
+void PoolEnemies::isAttacked(const Player & Hero/*, const int damage*/)
 {
 	for (int i(0); i < size_; ++i)
 	{
@@ -111,7 +111,7 @@ void PoolEnemies::isAttackedP(const Player & Hero/*, const int damage*/)
 
 void PoolEnemies::playerCollision(const Player & Hero, const int pos)
 {
-	if ((m_enemies[pos]->IsAttacked(Hero.GetPos())) && (Hero.GetHit()) && (Hero.GetTimer()))
+	if (((m_enemies[pos]->IsAttacked(Hero.GetPos(), Hero.Height)) && (Hero.GetHit()) && (Hero.GetTimer())))     ////////////////   !!!!!!!!!!!!!!!!!!!!
 	{
 		m_enemies[pos]->SetAttacked();
 		m_enemies[pos]->ReduceHP(/*damage*/);
@@ -119,9 +119,10 @@ void PoolEnemies::playerCollision(const Player & Hero, const int pos)
 	}
 }
 
-void PoolEnemies::bulletCollision(const bs::Bullet & bullet, const int pos)
+void PoolEnemies::bulletCollision(/*const*/ bs::Bullet & bullet, const int pos)
 {
-	if ((m_enemies[pos]->isAlive()))
+	//sf::Vector2f temp = bullet.getPosition();
+	if ((m_enemies[pos]->isAlive()) && (m_enemies[pos]->IsAttacked(bullet.getPosition(), bullet.Height)))
 	{
 		m_enemies[pos]->SetAttacked();
 		m_enemies[pos]->ReduceHP();

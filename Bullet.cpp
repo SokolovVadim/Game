@@ -2,6 +2,13 @@
 
 namespace bs {
 
+
+	Bullet::Bullet():
+		Entity()
+	{
+
+	}
+
 	Bullet::Bullet(const std::string file, const std::string name_, const float speed, float x, float y, float w, float h, int dir) :
 		Entity(file, name_, x, y, w, h),
 		_direction(dir),
