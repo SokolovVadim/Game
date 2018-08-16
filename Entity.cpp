@@ -51,6 +51,11 @@ Entity::~Entity()
 	std::cout << "Entity has destructed" << std::endl;
 }
 
+const bool Entity::isAlive() const
+{
+	return Alive;
+}
+
 void Entity::setRotate(const float value)
 {
 	sprite.setRotation(value);

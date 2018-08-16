@@ -51,6 +51,7 @@ public:
 	const sf::Vector2f	getPosition		();
 	const sf::Sprite	getSprite		() const;
 	const bool			getGlobalBounds	(const sf::Vector2f & vec) const;
+	const bool			isAlive			() const;
 
 private:
 	sf::Sprite		sprite;

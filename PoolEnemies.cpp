@@ -103,31 +103,31 @@ void PoolEnemies::isAttacked(const Player & Hero/*, const int damage*/)
 	for (int i(0); i < size_; ++i)
 	{
 		if (m_enemies[i]->isAlive()) {
-			playerCollision(Hero, i);
+			m_enemies[i]->playerCollision(Hero);
 		}
 	}
 }
 
 
-void PoolEnemies::playerCollision(const Player & Hero, const int pos)
-{
-	if (((m_enemies[pos]->IsAttacked(Hero.GetPos(), Hero.Height)) && (Hero.GetHit()) && (Hero.GetTimer())))     ////////////////   !!!!!!!!!!!!!!!!!!!!
-	{
-		m_enemies[pos]->SetAttacked();
-		m_enemies[pos]->ReduceHP(/*damage*/);
+//void PoolEnemies::playerCollision(const Player & Hero, const int pos)
+//{
+//	if (((m_enemies[pos]->IsAttacked(Hero.GetPos(), Hero.Height)) && (Hero.GetHit()) && (Hero.GetTimer())))     ////////////////   !!!!!!!!!!!!!!!!!!!!
+//	{
+//		m_enemies[pos]->SetAttacked();
+//		m_enemies[pos]->ReduceHP(/*damage*/);
+//
+//	}
+//}
 
-	}
-}
-
-void PoolEnemies::bulletCollision(/*const*/ bs::Bullet & bullet, const int pos)
-{
-	//sf::Vector2f temp = bullet.getPosition();
-	if ((m_enemies[pos]->isAlive()) && (m_enemies[pos]->IsAttacked(bullet.getPosition(), bullet.Height)))
-	{
-		m_enemies[pos]->SetAttacked();
-		m_enemies[pos]->ReduceHP();
-	}
-}
+//void PoolEnemies::bulletCollision(/*const*/ bs::Bullet & bullet, const int pos)
+//{
+//	//sf::Vector2f temp = bullet.getPosition();
+//	if ((m_enemies[pos]->isAlive()) && (m_enemies[pos]->IsAttacked(bullet.getPosition(), bullet.Height)))
+//	{
+//		m_enemies[pos]->SetAttacked();
+//		m_enemies[pos]->ReduceHP();
+//	}
+//}
 
 
 const sf::Vector2i PoolEnemies::getSizeEnemies() const

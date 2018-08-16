@@ -25,6 +25,17 @@ Enemy::~Enemy()
 	fout << "Enemy has destructed!" << std::endl;
 }
 
+void Enemy::playerCollision(const Player & Hero)
+{
+	if (((IsAttacked(Hero.GetPos(), Hero.Height)) && (Hero.GetHit()) && (Hero.GetTimer())))     ////////////////   !!!!!!!!!!!!!!!!!!!!
+	{
+		SetAttacked();
+		ReduceHP(/*damage*/);
+
+	}
+}
+
+
 void Enemy::illustrateDamage()
 {
 	if (!attack->getAttackedValue())
@@ -36,11 +47,6 @@ void Enemy::illustrateDamage()
 	{
 		setColor(sf::Color::White);
 	}
-}
-
-const bool Enemy::isAlive() const
-{
-	return Alive;
 }
 
 const float Enemy::getHP()const
@@ -75,10 +81,10 @@ void Enemy::DisplayDamage(const sf::Int64 time)
 	}
 }
 
-void Enemy::ReduceHP()
+void Enemy::ReduceHP(/*const int damage*/)
 {
+	//Heatpoints -= damage;
 	Heatpoints -= DAMAGE;
-	//attack->SetAttacked(false);
 
 	fout << "DAMAGED!" << std::endl;
 
@@ -89,9 +95,9 @@ void Enemy::ReduceHP()
 	}
 }
 
-bool Enemy::IsAttacked(const sf::Vector2f & plPos)
+bool Enemy::IsAttacked(const sf::Vector2f & plPos, const float distance)
 {
-	return attack->IsAttacked(plPos, Pos);
+	return attack->IsAttacked(plPos, Pos, distance);
 }
 
 const sf::Vector2f & Enemy::getCoord()
@@ -156,4 +162,9 @@ void Enemy::Update(Map & map, sf::Int64 time)
 		if (Heatpoints <= 0.0f)
 			Alive = false;
 	}
+}
+
+const sf::Vector2i	Enemy::getSize() const
+{
+	return sf::Vector2i(W, H);
 }

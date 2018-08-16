@@ -3,6 +3,7 @@
 #include "Entity.h"
 #include "Map.h"
 #include "Attacked.h"
+#include "Player.h"
 
 class Enemy : public Entity
 {
@@ -10,19 +11,20 @@ public:
 	Enemy(const std::string file, std::string name_,
 		float x, float y, float w, float h);
 	~Enemy();
-	void						CheckCollision(Map & map, float dx_, float dy_);
-	void						Update(Map & map, sf::Int64 time);
-	void						SetNext(Enemy * next_en);
-	void						ReduceHP();
-	void						Destruct();
-	void						illustrateDamage();
-	void						SetAttacked();
-	void						DisplayDamage(const sf::Int64 time);
-	const bool					isAlive() const;
-	const sf::Vector2f &    	getCoord();
-	Enemy *						GetNext();
-	bool						IsAttacked(const sf::Vector2f & plPos);
-	const float					getHP()const;
+	void						CheckCollision		(Map & map, float dx_, float dy_);
+	void						Update				(Map & map, sf::Int64 time);
+	void						SetNext				(Enemy * next_en);
+	void						ReduceHP			(/*const int damage*/);
+	void						Destruct			();
+	void						illustrateDamage	();
+	void						SetAttacked			();
+	void						DisplayDamage		(const sf::Int64 time);
+	void playerCollision(const Player & Hero);
+	const sf::Vector2f &    	getCoord			();
+	const sf::Vector2i			getSize				() const;
+	Enemy *						GetNext				();
+	bool						IsAttacked			(const sf::Vector2f & plPos, const float distance);
+	const float					getHP				()const;
 
 private:
 
@@ -32,7 +34,7 @@ private:
 		H = 66,
 		LEFT = 0,       ///////////////////////////!!!!!!!!!!!!!!!!!!!!!!!! 
 		TOP = 5 * H,
-		DAMAGE = 60             // from hero on enemy
+		DAMAGE = 30             // from hero on enemy
 	};
 	const float			enemy_speed = 0.1f;
 	bool				isDamageDisplay;
@@ -40,155 +42,3 @@ private:
 	Enemy*				enemy_next;
 	Attacked * attack;
 };
-
-//Enemy::Enemy(const std::string file, std::string name_, float x, float y, float w, float h) :
-//	Entity(file, name_, x, y, w, h),
-//	isDamageDisplay(false),
-//	attackedTimer(0),
-//	enemy_next(nullptr),
-//	attack(new Attacked)
-//{
-//	setOrigin(w / 2, h / 2);
-//	if (name_ == "Archer1") {
-//		dx = -enemy_speed;
-//		setTextureRect(sf::IntRect(LEFT, TOP, W, H));
-//	}
-//}
-//
-//Enemy::~Enemy()
-//{
-//	fout << "Enemy has destructed!" << std::endl;
-//}
-//
-//void Enemy::illustrateDamage()
-//{
-//	if (!attack->getAttackedValue())
-//	{
-//		setColor(sf::Color::Red);
-//		attack->SetAttacked(false);
-//	}
-//	else
-//	{
-//		setColor(sf::Color::White);
-//	}
-//}
-//
-//const bool Enemy::isAlive() const
-//{
-//	return Alive;
-//}
-//
-//const float Enemy::getHP()const
-//{
-//	return Heatpoints;
-//}
-//
-//void Enemy::Destruct()
-//{
-//	if (Alive == false)
-//		this->~Enemy();
-//}
-//
-//void Enemy::SetAttacked()
-//{
-//	isDamageDisplay = true;
-//	attackedTimer = 0;
-//	setColor(sf::Color::Red);
-//}
-//
-//void Enemy::DisplayDamage(const sf::Int64 time)
-//{
-//	if (isDamageDisplay) {
-//		attackedTimer += int(time);
-//		std::cout << "AttackedTimer = " << attackedTimer << std::endl;
-//		if (attackedTimer > 300)
-//		{
-//			isDamageDisplay = false;
-//			setColor(sf::Color::White);
-//			attackedTimer = 0;
-//		}
-//	}
-//}
-//
-//void Enemy::ReduceHP()
-//{
-//	Heatpoints -= DAMAGE;
-//	//attack->SetAttacked(false);
-//
-//	fout << "DAMAGED!" << std::endl;
-//
-//	if (Heatpoints <= 0)
-//	{
-//		Alive = false;
-//		Destruct();
-//	}
-//}
-//
-//bool Enemy::IsAttacked(const sf::Vector2f & plPos)
-//{
-//	return attack->IsAttacked(plPos, Pos);
-//}
-//
-//const sf::Vector2f & Enemy::getCoord()
-//{
-//	return Pos;
-//}
-//
-//void Enemy::SetNext(Enemy * next_en)
-//{
-//	enemy_next = next_en;
-//}
-//
-//Enemy * Enemy::GetNext()
-//{
-//	return enemy_next;
-//}
-//
-//void Enemy::CheckCollision(Map & map, float dx_, float dy_)
-//{
-//	for (int i(int(Pos.y / HGRASS)); i < int(Pos.y + Height + 48) / HGRASS; i++)
-//		for (int j(int(Pos.x / WGRASS)); j < (int(Pos.x + Width) / WGRASS); j++)
-//		{
-//			char sym = map.GetElemMap(i, j);
-//			if ((sym == '0') || (sym == 'B') || (sym == 'T'))
-//			{
-//				if (dy_ > 0)
-//				{
-//					Pos.y = i * HGRASS - Height + 15.9999f;
-//				}
-//				if (dy_ < 0)
-//				{
-//					Pos.y = i * HGRASS + Height / 2 + 18;
-//				}
-//				if (dx_ > 0)
-//				{
-//					Pos.x = j * WGRASS - Width + 47.99f;
-//					dx = -enemy_speed;
-//					setScale(1.0f, 1.0f);
-//				}
-//				if (dx_ < 0)
-//				{
-//					Pos.x = float(j * WGRASS + WGRASS);
-//					dx = enemy_speed;
-//					setScale(-1.0f, 1.0f);
-//				}
-//			}
-//		}
-//}
-//void Enemy::Update(Map & map, sf::Int64 time)
-//{
-//	if (Name == "Archer1")
-//	{
-//		Timer += time;
-//		/*if (Timer >= 3000.0f)
-//		{
-//		dx *= -1;
-//		Timer = 0;
-//		}*/
-//		CheckCollision(map, dx, 0);
-//		Pos.x += dx * time;
-//		setPosition(Pos.x + W / 2, Pos.y + H / 2);
-//		if (Heatpoints <= 0.0f)
-//			Alive = false;
-//	}
-//}

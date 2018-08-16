@@ -27,8 +27,8 @@ namespace bs {
 		PoolBullets					(std::size_t size);
 		~PoolBullets				();
 		void playerCollision		(const Player & hero);
-		bool isAttacked				(const sf::Vector2f & playerPos, const sf::Vector2f & bulletPos,
-									 const float distance);
+		/*bool isAttacked				(const sf::Vector2f & playerPos, const sf::Vector2f & bulletPos,
+									 const float distance);*/
 
 	private:
 		std::list<Bullet>			listOfBullets;

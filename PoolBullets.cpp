@@ -39,18 +39,28 @@ namespace bs {
 
 	//-----------------------------------------------------------------------
 
+	// START FROM THIS AND FINISHED!!! TODAY!!!! YES, TODAY!!!
+
+
 	void PoolBullets::playerCollision(const Player & hero)
 	{
-		for (int i(0); i < size_; ++i)
+		std::list<Bullet>::iterator it = listOfBullets.begin();
+		std::list<Bullet>::iterator listEnd = listOfBullets.end();
+		while (it != listEnd)
 		{
-			//if(listOfBullets.back().)
+			std::cout << "Bullet: " << (*it).Name << std::endl;
+			if ((*it).isAlive())
+			{
+				//it->
+			}
 		}
+		
 	}
 
 
 	//-----------------------------------------------------------------------
 
-	bool PoolBullets::isAttacked(const sf::Vector2f & playerPos, const sf::Vector2f & bulletPos,
+	/*bool PoolBullets::isAttacked(const sf::Vector2f & playerPos, const sf::Vector2f & bulletPos,
 		const float distance)
 	{
 		if (pow(playerPos.x - bulletPos.x, 2) + pow(playerPos.y - bulletPos.y, 2) <= pow(distance, 2))
@@ -59,7 +69,7 @@ namespace bs {
 		}
 		else
 			return false;
-	}
+	}*/
 
 
 

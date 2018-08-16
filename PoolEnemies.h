@@ -4,7 +4,7 @@
 #include "Enemy.h"
 #include "Map.h"
 #include "Player.h"
-#include "Bullet.h"
+#include "PoolBullets.h"
 
 
 
@@ -31,6 +31,6 @@ private:
 	Enemy **				m_enemies;
 	Enemy *					first_enemy;
 
-	void playerCollision(const Player & Hero, const int pos);
-	void bulletCollision(/*const*/ bs::Bullet & bullet, const int pos);
+	//void playerCollision(const Player & Hero, const int pos);
+	//void bulletCollision(/*const*/ bs::Bullet & bullet, const int pos);
 };
