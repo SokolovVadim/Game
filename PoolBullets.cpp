@@ -41,6 +41,12 @@ namespace bs {
 
 	// START FROM THIS AND FINISHED!!! TODAY!!!! YES, TODAY!!!
 
+	void PoolBullets::addBullet(Bullet & bullet)
+	{
+		listOfBullets.push_back(bullet);
+	}
+
+	//-----------------------------------------------------------------------
 
 	void PoolBullets::playerCollision(const Player & hero)
 	{
