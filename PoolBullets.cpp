@@ -71,7 +71,26 @@ namespace bs {
 			return false;
 	}*/
 
+	//-----------------------------------------------------------------------
+
+	void PoolBullets::enemyCollision(Enemy * enemy)
+	{
+		std::list<Bullet>::iterator it = listOfBullets.begin();
+		std::list<Bullet>::iterator listEnd = listOfBullets.end();
+		while (it != listEnd)
+		{
+			if ((enemy->isAlive()) && (enemy->IsAttacked(it->getPosition(), it->Height)))
+			{
+				enemy->SetAttacked();
+				enemy->ReduceHP();
+			}
+			it++;
+		}
+	}
+
+
 
 
 	//-----------------------------------------------------------------------
+
 }

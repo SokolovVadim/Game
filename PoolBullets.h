@@ -1,6 +1,7 @@
 #pragma once
 #include "Bullet.h"
-#include "Player.h"
+//#include "Player.h"
+#include "Enemy.h"
 #include <list>
 
 
@@ -24,11 +25,12 @@ namespace bs {
 	public:
 
 		PoolBullets					();
-		PoolBullets					(std::size_t size);
+		explicit PoolBullets		(std::size_t size);   // attention!!!
 		~PoolBullets				();
 		void playerCollision		(const Player & hero);
 		/*bool isAttacked				(const sf::Vector2f & playerPos, const sf::Vector2f & bulletPos,
 									 const float distance);*/
+		void enemyCollision(Enemy * enemy);
 
 	private:
 		std::list<Bullet>			listOfBullets;

@@ -32,5 +32,5 @@ private:
 	Enemy *					first_enemy;
 
 	//void playerCollision(const Player & Hero, const int pos);
-	//void bulletCollision(/*const*/ bs::Bullet & bullet, const int pos);
+	void bulletCollision(bs::PoolBullets & bPool);
 };
