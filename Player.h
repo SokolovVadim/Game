@@ -18,11 +18,13 @@ private:
 	float			Power;
 	float			Air;
 	float			HitTimer;
+	float			BulletTimer;
 
 	bool			IsSelect;
 	bool			IsPurple;
 	bool			IsOnFire;
 	bool			IsHit;
+	bool			IsBulletAttacked;
 
 	enum STATUS
 	{
@@ -31,6 +33,11 @@ private:
 		UP,
 		DOWN,
 		SHIFT
+	};
+
+	enum DAMAGE
+	{
+		BULLET_DAMAGE = 10
 	};
 
 
@@ -46,7 +53,8 @@ public:
 	bool			GetSelect();
 	bool			GetMove();
 	bool			GetHit()const;
-	bool GetTimer() const;
+	bool			isBulletAttack(const sf::Vector2f & bullPos, const float distance);
+	bool			GetTimer() const;
 	float			GetCoordX() const;
 	float			GetCoordY() const;
 	float			GetSpeed() const;
@@ -69,6 +77,8 @@ public:
 	void			SetRed();
 	void			SetHit();
 	void			Hit(sf::Int64 & time, int Y);
+	void			setBulletAttacked();
+	void			underFire(const sf::Int64 & time);
 	unsigned int	GetScore();
 	int				GetDir() const;
 

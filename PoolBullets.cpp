@@ -39,8 +39,6 @@ namespace bs {
 
 	//-----------------------------------------------------------------------
 
-	// START FROM THIS AND FINISHED!!! TODAY!!!! YES, TODAY!!!
-
 	void PoolBullets::addBullet(Bullet & bullet)
 	{
 		listOfBullets.push_back(bullet);
@@ -48,16 +46,16 @@ namespace bs {
 
 	//-----------------------------------------------------------------------
 
-	void PoolBullets::playerCollision(const Player & hero)
+	void PoolBullets::playerCollision(Player & hero)  // bullets kill player
 	{
 		std::list<Bullet>::iterator it = listOfBullets.begin();
 		std::list<Bullet>::iterator listEnd = listOfBullets.end();
 		while (it != listEnd)
 		{
 			std::cout << "Bullet: " << (*it).Name << std::endl;
-			if ((*it).isAlive())
+			if (((*it).isAlive()) && (hero.isBulletAttack((*it).getPosition(), HEROX))) //!!!
 			{
-				//it->
+				hero.setBulletAttacked();
 			}
 		}
 		
@@ -79,7 +77,7 @@ namespace bs {
 
 	//-----------------------------------------------------------------------
 
-	void PoolBullets::enemyCollision(Enemy * enemy)
+	void PoolBullets::enemyCollision(Enemy * enemy)   // bullets kill enemies
 	{
 		std::list<Bullet>::iterator it = listOfBullets.begin();
 		std::list<Bullet>::iterator listEnd = listOfBullets.end();

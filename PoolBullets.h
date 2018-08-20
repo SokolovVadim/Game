@@ -27,7 +27,7 @@ namespace bs {
 		PoolBullets					();
 		explicit PoolBullets		(std::size_t size);   // attention!!!
 		~PoolBullets				();
-		void playerCollision		(const Player & hero);
+		void playerCollision		( Player & hero);
 		/*bool isAttacked				(const sf::Vector2f & playerPos, const sf::Vector2f & bulletPos,
 									 const float distance);*/
 		void enemyCollision(Enemy * enemy);

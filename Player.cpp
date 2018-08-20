@@ -1,18 +1,20 @@
 #include "Player.h"
 
 Player::Player(const std::string file, const std::string name, float x, float y, float w, float h) :
-	Entity(file, name, x, y, w, h),
-	Dir(SETDIR),
-	PurpleTimer(0),
-	FireTimer(0),
-	HitTimer(0.f),
-	Score(0),
-	Power(10),
-	IsSelect(false),
-	IsPurple(false),
-	IsOnFire(false),
-	IsHit(false),
-	Air(10)
+	Entity				(file, name, x, y, w, h),
+	Dir					(SETDIR),
+	PurpleTimer			(0),
+	FireTimer			(0),
+	HitTimer			(0.f),
+	BulletTimer			(0.0f),
+	Score				(0),
+	Power				(10),
+	IsSelect			(false),
+	IsPurple			(false),
+	IsOnFire			(false),
+	IsHit				(false),
+	IsBulletAttacked	(false),
+	Air					(10)   /// aaaawful constant!!!!!!
 {
 	Image.loadFromFile("Images/" + File);
 	Texture.loadFromImage(Image);
@@ -21,6 +23,37 @@ Player::Player(const std::string file, const std::string name, float x, float y,
 	setPosition(XPOS, YPOS);
 
 	fout << "Player constructor was called!" << std::endl;
+}
+
+void Player::underFire(const sf::Int64 & time)
+{
+	if (IsBulletAttacked) {
+		Heatpoints -= BULLET_DAMAGE;
+		if (BulletTimer > 3000)
+		{
+			IsBulletAttacked = false;
+			setColor(sf::Color::White);
+			BulletTimer = 0;
+		}
+	}
+}
+
+void Player::setBulletAttacked()
+{
+	IsBulletAttacked = true;
+	BulletTimer = 0.0f;
+	setColor(sf::Color::Red);
+}
+
+
+bool Player::isBulletAttack(const sf::Vector2f & bullPos, const float distance)
+{
+	if (pow(Pos.x - bullPos.x, 2) + pow(Pos.y - bullPos.y, 2) < pow(distance, 2))
+	{
+		return true;
+	}
+	else
+		return false;
 }
 
 bool Player::GetTimer() const
@@ -204,6 +237,7 @@ Player::~Player()
 {
 	fout << "Finished HP = " << Heatpoints << std::endl;
 	fout << "Player Destructor was called!" << std::endl;
+
 }
 
 void Player::InterractMap(sf::Int64 time, Map & map)
