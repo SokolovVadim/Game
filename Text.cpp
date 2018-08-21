@@ -72,7 +72,7 @@ AllText::AllText() :
 	time_(font, sf::Text(), sf::Color::Red, sf::Text::Bold, std::string("Time: "), 24u),
 	go_t(font, sf::Text(), sf::Color::Red, sf::Text::Bold, std::string("Game over"), 128u),
 	task_t(font, sf::Text(), sf::Color::Black, sf::Text::Bold, std::string("Task: "), 16u),
-	lazer_t(font, sf::Text(), sf::Color::Red, sf::Text::Bold, std::string("         You have took"
+	lazer_t(font, sf::Text(), sf::Color::Red, sf::Text::Bold, std::string("         You have taken"
 		" all rubins\n             for lazer of justice!\nPress SPACE to go to the next level!\n"
 		"	P.S. don't eat a lot of mushrooms"), 32u)
 {

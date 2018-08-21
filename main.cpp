@@ -3,9 +3,15 @@
 
 void PlayKotik()
 {
+
 	PlaySoundA("Music/laba.wav",	NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
 	PlaySoundA("Music/vapa.wav",	NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
-	PlaySoundA("Music/hentai.wav",	NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
+	PlaySoundA("Music/japan.wav",	NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
+}
+
+void playDebug()
+{
+	PlaySoundA("Music/rain.wav", NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
 }
 
 bool	IsWalk				();
@@ -32,6 +38,7 @@ void Process (sf::RenderWindow & window, Map & map, MyView & View, Player & Hero
 
 
 	PoolEnemies enemy_pool	(20, "Enemy.png", "Archer1", W/2 + 200, H - 200, 64, 66);
+	bs::PoolBullets bullet_pool;
 
 	Mission mission			("Kumach.png", "Intro.png");
 
@@ -330,6 +337,8 @@ int main()
 
 	//PlayKotik();
 
+	
+
 	FirstLevel(/*window*/);
 	//switch (LEVEL)
 	//{
@@ -340,6 +349,7 @@ int main()
 	//	SecondLevel(window);
 	//	break;
 	//}
+
 
 	return 0;
 }

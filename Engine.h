@@ -35,7 +35,7 @@ std::ofstream fout("LOG.txt");
 #include "Enemy.h"
 #include "Platform.h"
 #include "PoolEnemies.h"
-#include "Bullet.h"
+#include "PoolBullets.h"
 
 
 

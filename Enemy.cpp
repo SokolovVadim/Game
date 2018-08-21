@@ -1,17 +1,26 @@
 
 #include "Enemy.h"
 
+//-----------------------------------------------------------------------
 
+Enemy::Enemy() :
+	Entity				("Enemy.png", "Enemy", 0.0f, 0.0f, 0.0f, 0.0f),
+	bulletTimer			(0.0f),
+	isDamageDisplay		(false),
+	attackedTimer		(0),
+	enemy_next			(nullptr),
+	attack				(new Attacked)
+{}
 
-
-
+//-----------------------------------------------------------------------
 
 Enemy::Enemy(const std::string file, std::string name_, float x, float y, float w, float h) :
-	Entity(file, name_, x, y, w, h),
-	isDamageDisplay(false),
-	attackedTimer(0),
-	enemy_next(nullptr),
-	attack(new Attacked)
+	Entity				(file, name_, x, y, w, h),
+	bulletTimer			(0.0f),
+	isDamageDisplay		(false),
+	attackedTimer		(0),
+	enemy_next			(nullptr),
+	attack				(new Attacked)
 {
 	setOrigin(w / 2, h / 2);
 	if (name_ == "Archer1") {
@@ -20,10 +29,28 @@ Enemy::Enemy(const std::string file, std::string name_, float x, float y, float 
 	}
 }
 
+//-----------------------------------------------------------------------
+
 Enemy::~Enemy()
 {
 	fout << "Enemy has destructed!" << std::endl;
 }
+
+//-----------------------------------------------------------------------
+
+void Enemy::addBullet(const sf::Int64 & time)
+{
+	bulletTimer = 0.0f;
+}
+
+//-----------------------------------------------------------------------
+
+const float Enemy::createBulletTimeValue()
+{
+	return float(BULLET_TIMER_DENOMINATOR + rand() % BULLET_TIMER_DENOMINATOR);
+}
+
+//-----------------------------------------------------------------------
 
 void Enemy::playerCollision(const Player & Hero)
 {
@@ -35,6 +62,7 @@ void Enemy::playerCollision(const Player & Hero)
 	}
 }
 
+//-----------------------------------------------------------------------
 
 void Enemy::illustrateDamage()
 {
@@ -49,10 +77,14 @@ void Enemy::illustrateDamage()
 	}
 }
 
+//-----------------------------------------------------------------------
+
 const float Enemy::getHP()const
 {
 	return Heatpoints;
 }
+
+//-----------------------------------------------------------------------
 
 void Enemy::Destruct()
 {
@@ -60,12 +92,16 @@ void Enemy::Destruct()
 		this->~Enemy();
 }
 
+//-----------------------------------------------------------------------
+
 void Enemy::SetAttacked()
 {
 	isDamageDisplay = true;
 	attackedTimer = 0;
 	setColor(sf::Color::Red);
 }
+
+//-----------------------------------------------------------------------
 
 void Enemy::DisplayDamage(const sf::Int64 time)
 {
@@ -81,6 +117,8 @@ void Enemy::DisplayDamage(const sf::Int64 time)
 	}
 }
 
+//-----------------------------------------------------------------------
+
 void Enemy::ReduceHP(/*const int damage*/)
 {
 	//Heatpoints -= damage;
@@ -95,25 +133,35 @@ void Enemy::ReduceHP(/*const int damage*/)
 	}
 }
 
+//-----------------------------------------------------------------------
+
 bool Enemy::IsAttacked(const sf::Vector2f & plPos, const float distance)
 {
 	return attack->IsAttacked(plPos, Pos, distance);
 }
+
+//-----------------------------------------------------------------------
 
 const sf::Vector2f & Enemy::getCoord()
 {
 	return Pos;
 }
 
+//-----------------------------------------------------------------------
+
 void Enemy::SetNext(Enemy * next_en)
 {
 	enemy_next = next_en;
 }
 
+//-----------------------------------------------------------------------
+
 Enemy * Enemy::GetNext()
 {
 	return enemy_next;
 }
+
+//-----------------------------------------------------------------------
 
 void Enemy::CheckCollision(Map & map, float dx_, float dy_)
 {
@@ -146,6 +194,9 @@ void Enemy::CheckCollision(Map & map, float dx_, float dy_)
 			}
 		}
 }
+
+//-----------------------------------------------------------------------
+
 void Enemy::Update(Map & map, sf::Int64 time)
 {
 	if (Name == "Archer1")
@@ -164,7 +215,11 @@ void Enemy::Update(Map & map, sf::Int64 time)
 	}
 }
 
+//-----------------------------------------------------------------------
+
 const sf::Vector2i	Enemy::getSize() const
 {
 	return sf::Vector2i(W, H);
 }
+
+//-------------------------------END-ENEMY.CPP---------------------------

@@ -1,4 +1,7 @@
 #pragma once
+
+#ifndef POOL_BULLETS_H
+#define POOL_BULLETS_H
 #include "Bullet.h"
 //#include "Player.h"
 #include "Enemy.h"
@@ -38,3 +41,5 @@ namespace bs {
 		std::size_t					size_;
 	};
 }
+
+#endif POOL_BULLETS_H
