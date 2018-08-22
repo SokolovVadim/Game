@@ -39,9 +39,10 @@ namespace bs {
 
 	//-----------------------------------------------------------------------
 
-	void PoolBullets::addBullet(Bullet & bullet)
-	{
-		listOfBullets.push_back(bullet);
+	void PoolBullets::addBullet(const sf::Vector2f & enPos) // add new param(dir)
+	{                                                       // write a Bullet::Bullet(Pos, dir);
+		Bullet _bullet;
+		listOfBullets.push_back(_bullet);
 	}
 
 	//-----------------------------------------------------------------------

@@ -34,7 +34,7 @@ namespace bs {
 		/*bool isAttacked				(const sf::Vector2f & playerPos, const sf::Vector2f & bulletPos,
 									 const float distance);*/
 		void enemyCollision(Enemy * enemy);
-		void addBullet(Bullet & bullet);
+		void addBullet(const sf::Vector2f & enPos);
 
 	private:
 		std::list<Bullet>			listOfBullets;

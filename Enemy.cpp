@@ -38,7 +38,7 @@ Enemy::~Enemy()
 
 //-----------------------------------------------------------------------
 
-void Enemy::addBullet(const sf::Int64 & time)
+void Enemy::addBullet(const sf::Int64 & time) // !!!
 {
 	bulletTimer = 0.0f;
 }
@@ -213,6 +213,8 @@ void Enemy::Update(Map & map, sf::Int64 time)
 		if (Heatpoints <= 0.0f)
 			Alive = false;
 	}
+
+	// addBullet()
 }
 
 //-----------------------------------------------------------------------

@@ -24,6 +24,17 @@ PoolEnemies::PoolEnemies(const size_t size, const std::string file, std::string 
 	Init(file, name_, x, y, w, h);
 }
 
+void PoolEnemies::addBullet(bs::PoolBullets & poolBullets)
+{
+	for (int i(0); i < this->size_; ++i)
+	{
+		if (m_enemies[i]->isAlive())
+		{
+			poolBullets.addBullet(m_enemies[i]->getPosition());
+		}
+	}
+}
+
 void PoolEnemies::Update(Map & map, sf::Int64 time)
 {
 	for (int i(0); i < size_; i++)

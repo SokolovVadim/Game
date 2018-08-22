@@ -11,18 +11,28 @@
 class PoolEnemies
 {
 public:
-	explicit PoolEnemies(const size_t size, const std::string file, std::string name_,
-		float x, float y, float w, float h);
-	~PoolEnemies();
-	void Init(const std::string file, std::string name_, float x, float y, float w, float h);
-	void Create(Enemy* enemy, const std::string file, std::string name_,
-		float x, float y, float w, float h);
-	const size_t GetSize();
-	void DrawPool(sf::RenderWindow & window, const sf::Int64 time);
-	void PrintPosition();
-	void Update(Map & map, sf::Int64 time);
-	void isAttacked(const Player & Hero/*, const int damage*/);
-	const sf::Vector2i getSizeEnemies() const;
+	explicit PoolEnemies				(	const size_t size,
+											const std::string file,
+											std::string name_,
+											float x, float y,
+											float w, float h);
+	~PoolEnemies						();
+	void				Init			(	const std::string file,
+											std::string name_,
+											float x, float y,
+											float w, float h);
+	void				Create			(	Enemy* enemy,
+											const std::string file,
+											std::string name_,
+											float x, float y,
+											float w, float h);
+	const size_t		GetSize			();
+	void				DrawPool		(sf::RenderWindow & window, const sf::Int64 time);
+	void				PrintPosition	();
+	void				Update			(Map & map, sf::Int64 time);
+	void				isAttacked		(const Player & Hero/*, const int damage*/);
+	void				addBullet		(bs::PoolBullets & poolBullets);
+	const sf::Vector2i	getSizeEnemies	() const;
 
 
 private:
@@ -32,5 +42,5 @@ private:
 	Enemy *					first_enemy;
 
 	//void playerCollision(const Player & Hero, const int pos);
-	void bulletCollision(bs::PoolBullets & bPool);
+	void					bulletCollision		(bs::PoolBullets & bPool);
 };

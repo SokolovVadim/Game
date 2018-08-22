@@ -1,4 +1,8 @@
 #pragma once
+#ifndef ENEMY_H
+#define ENEMY_H
+
+
 
 #include "Entity.h"
 #include "Map.h"
@@ -50,3 +54,5 @@ private:
 	Enemy*				enemy_next;
 	Attacked * attack;
 };
+
+#endif // !ENEMY_H
