@@ -28,7 +28,7 @@ private:
 
 	enum STATUS
 	{
-		LEFT,
+		LEFT = 0,
 		RIGHT,
 		UP,
 		DOWN,

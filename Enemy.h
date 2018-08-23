@@ -28,6 +28,7 @@ public:
 	void						DisplayDamage			(const sf::Int64 time);
 	void						playerCollision			(const Player & Hero);
 	void						addBullet				(const sf::Int64 & time);
+	void						generateDir				(const sf::Int64 & time);
 	const sf::Vector2f &    	getCoord				();
 	const sf::Vector2i			getSize					() const;
 	Enemy *						GetNext					();
@@ -38,6 +39,8 @@ private:
 
 	const float					createBulletTimeValue	();
 
+	int direction;
+
 	enum ENEMY
 	{
 		W = 64,
@@ -47,8 +50,19 @@ private:
 		DAMAGE = 30,             // from hero on enemy
 		BULLET_TIMER_DENOMINATOR = 5
 	};
+
+	enum STATUS
+	{
+		LEFT_DIR,
+		RIGHT_DIR,
+		UP_DIR,
+		DOWN_DIR,
+		SHIFT
+	};
+
 	const float			enemy_speed = 0.1f;
 	float				bulletTimer;
+	float				dirTimer;
 	bool				isDamageDisplay;
 	int					attackedTimer;
 	Enemy*				enemy_next;

@@ -5,7 +5,9 @@
 
 Enemy::Enemy() :
 	Entity				("Enemy.png", "Enemy", 0.0f, 0.0f, 0.0f, 0.0f),
+	direction			(0u),
 	bulletTimer			(0.0f),
+	dirTimer			(0.0f),
 	isDamageDisplay		(false),
 	attackedTimer		(0),
 	enemy_next			(nullptr),
@@ -16,7 +18,9 @@ Enemy::Enemy() :
 
 Enemy::Enemy(const std::string file, std::string name_, float x, float y, float w, float h) :
 	Entity				(file, name_, x, y, w, h),
+	direction			(0u),
 	bulletTimer			(0.0f),
+	dirTimer			(0.0f),
 	isDamageDisplay		(false),
 	attackedTimer		(0),
 	enemy_next			(nullptr),
@@ -24,16 +28,30 @@ Enemy::Enemy(const std::string file, std::string name_, float x, float y, float 
 {
 	setOrigin(w / 2, h / 2);
 	if (name_ == "Archer1") {
-		dx = -enemy_speed;
+		dy = enemy_speed;
 		setTextureRect(sf::IntRect(LEFT, TOP, W, H));
 	}
 }
+
+
 
 //-----------------------------------------------------------------------
 
 Enemy::~Enemy()
 {
 	fout << "Enemy has destructed!" << std::endl;
+}
+
+//-----------------------------------------------------------------------
+
+void Enemy::generateDir(const sf::Int64 & time)
+{
+	dirTimer += 0.01f * time;
+	if (dirTimer >= 20.0f)
+	{
+		direction = abs(int(rand())%4);
+		dirTimer = 0.0f;
+	}
 }
 
 //-----------------------------------------------------------------------
@@ -174,22 +192,29 @@ void Enemy::CheckCollision(Map & map, float dx_, float dy_)
 				if (dy_ > 0)
 				{
 					Pos.y = i * HGRASS - Height + 15.9999f;
+					dy = -enemy_speed;
+					setScale(1.0f, 1.0f);
+					direction = UP_DIR;
 				}
 				if (dy_ < 0)
 				{
-					Pos.y = i * HGRASS + Height / 2 + 18;
+					Pos.y = i * HGRASS + Height / 2 + 35;
+					dy = enemy_speed;
+					direction = DOWN_DIR;
 				}
 				if (dx_ > 0)
 				{
 					Pos.x = j * WGRASS - Width + 47.99f;
 					dx = -enemy_speed;
 					setScale(1.0f, 1.0f);
+					direction = LEFT_DIR;
 				}
 				if (dx_ < 0)
 				{
 					Pos.x = float(j * WGRASS + WGRASS);
 					dx = enemy_speed;
 					setScale(-1.0f, 1.0f);
+					direction = RIGHT_DIR;
 				}
 			}
 		}
@@ -201,14 +226,49 @@ void Enemy::Update(Map & map, sf::Int64 time)
 {
 	if (Name == "Archer1")
 	{
+		this->generateDir(time);
+		switch (direction)
+		{
+		case LEFT_DIR:
+		{
+			dx = -enemy_speed;
+			dy = 0.0f;
+			break;
+		}
+		case RIGHT_DIR:
+		{
+			dx = enemy_speed;
+			dy = 0.0f;
+			break;
+		}
+		case UP_DIR:
+		{
+			dx = 0.0f;
+			dy = -enemy_speed;
+			break;
+		}
+		case DOWN_DIR:
+		{
+			dx = 0.0f;
+			dy = enemy_speed;
+			break;
+		}
+		default:
+			dx = 0.0f;
+			dy = 0.0f;
+			break;
+		}
+
+
 		Timer += time;
 		/*if (Timer >= 3000.0f)
 		{
 		dx *= -1;
 		Timer = 0;
 		}*/
-		CheckCollision(map, dx, 0);
+		CheckCollision(map, dx, dy);
 		Pos.x += dx * time;
+		Pos.y += dy * time; //
 		setPosition(Pos.x + W / 2, Pos.y + H / 2);
 		if (Heatpoints <= 0.0f)
 			Alive = false;
