@@ -44,6 +44,42 @@ Enemy::~Enemy()
 
 //-----------------------------------------------------------------------
 
+float distance(const sf::Vector2f & vec1, const sf::Vector2f & vec2)
+{
+	return (sqrt(pow(vec1.x - vec2.x, 2) + pow(vec1.y - vec2.y, 2)));
+}
+
+//-----------------------------------------------------------------------
+
+void Enemy::followPlayer(const sf::Vector2f & plPos)
+{
+	
+	if (distance(Pos, plPos) <= 200.f) {
+		if (Pos.x - plPos.x > 10.0f)  // constant!!!
+		{
+			direction = LEFT_DIR;
+			dx = -enemy_speed;
+		}
+		if (plPos.x - Pos.x > 10.0f)
+		{
+			direction = RIGHT_DIR;
+			dx = enemy_speed;
+		}
+		if (Pos.y - plPos.y > 10.0f)
+		{
+			direction = UP_DIR;
+			dy = enemy_speed;
+		}
+		if (plPos.y - Pos.y > 10.0f)
+		{
+			direction = DOWN_DIR;
+			dy = -enemy_speed;
+		}
+	}
+}
+
+//-----------------------------------------------------------------------
+
 void Enemy::generateDir(const sf::Int64 & time)
 {
 	dirTimer += 0.01f * time;
@@ -226,30 +262,30 @@ void Enemy::Update(Map & map, sf::Int64 time)
 {
 	if (Name == "Archer1")
 	{
-		this->generateDir(time);
+		//this->generateDir(time);
 		switch (direction)
 		{
 		case LEFT_DIR:
 		{
 			dx = -enemy_speed;
-			dy = 0.0f;
+			//dy = 0.0f;
 			break;
 		}
 		case RIGHT_DIR:
 		{
 			dx = enemy_speed;
-			dy = 0.0f;
+			//dy = 0.0f;
 			break;
 		}
 		case UP_DIR:
 		{
-			dx = 0.0f;
+			//dx = 0.0f;
 			dy = -enemy_speed;
 			break;
 		}
 		case DOWN_DIR:
 		{
-			dx = 0.0f;
+			//dx = 0.0f;
 			dy = enemy_speed;
 			break;
 		}

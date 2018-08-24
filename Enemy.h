@@ -29,6 +29,7 @@ public:
 	void						playerCollision			(const Player & Hero);
 	void						addBullet				(const sf::Int64 & time);
 	void						generateDir				(const sf::Int64 & time);
+	void						followPlayer			(const sf::Vector2f & plPos);
 	const sf::Vector2f &    	getCoord				();
 	const sf::Vector2i			getSize					() const;
 	Enemy *						GetNext					();
