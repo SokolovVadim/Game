@@ -16,7 +16,7 @@ class Enemy : public Entity
 public:
 	explicit Enemy();
 	Enemy(const std::string file, std::string name_,
-		float x, float y, float w, float h);
+		float x, float y, float w, float h, float startTimer);
 	~Enemy();
 	void						CheckCollision			(Map & map, float dx_, float dy_);
 	void						Update					(Map & map, sf::Int64 time);
@@ -39,6 +39,7 @@ public:
 private:
 
 	const float					createBulletTimeValue	();
+	void						checkPos				();
 
 	int direction;
 

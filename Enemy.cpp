@@ -16,11 +16,12 @@ Enemy::Enemy() :
 
 //-----------------------------------------------------------------------
 
-Enemy::Enemy(const std::string file, std::string name_, float x, float y, float w, float h) :
+Enemy::Enemy(const std::string file, std::string name_,
+	float x, float y, float w, float h, float startTimer) :
 	Entity				(file, name_, x, y, w, h),
 	direction			(0u),
 	bulletTimer			(0.0f),
-	dirTimer			(0.0f),
+	dirTimer			(startTimer),
 	isDamageDisplay		(false),
 	attackedTimer		(0),
 	enemy_next			(nullptr),
@@ -41,6 +42,34 @@ Enemy::~Enemy()
 {
 	fout << "Enemy has destructed!" << std::endl;
 }
+
+//-----------------------------------------------------------------------
+
+#ifndef WS
+#define WS SCREEN::W
+#ifndef HS
+#define HS SCREEN::H
+
+void Enemy::checkPos()
+{
+	if (this->isAlive())
+	{
+		//SCREEN::W;
+		if ((this->Pos.x <= WGRASS / 2) || (this->Pos.x >= WS - WGRASS / 2) ||
+			(this->Pos.y <= HGRASS / 2) || (this->Pos.y >= WS - HGRASS / 2))
+		{
+			this->setPosition(WGRASS + 100 + ENEMY::W/2, HGRASS + 100 + ENEMY::H/2);
+			std::cout << "!!!!!!!! checkPos !!!!!!!!!" << std::endl;
+			Pos.x = WGRASS + 100;
+			Pos.y = HGRASS + 100;
+		}
+	}
+}
+
+#endif WS
+#undef WS
+#endif HS
+#undef HS
 
 //-----------------------------------------------------------------------
 
@@ -262,30 +291,30 @@ void Enemy::Update(Map & map, sf::Int64 time)
 {
 	if (Name == "Archer1")
 	{
-		//this->generateDir(time);
+		this->generateDir(time);
 		switch (direction)
 		{
 		case LEFT_DIR:
 		{
 			dx = -enemy_speed;
-			//dy = 0.0f;
+			dy = 0.0f;
 			break;
 		}
 		case RIGHT_DIR:
 		{
 			dx = enemy_speed;
-			//dy = 0.0f;
+			dy = 0.0f;
 			break;
 		}
 		case UP_DIR:
 		{
-			//dx = 0.0f;
+			dx = 0.0f;
 			dy = -enemy_speed;
 			break;
 		}
 		case DOWN_DIR:
 		{
-			//dx = 0.0f;
+			dx = 0.0f;
 			dy = enemy_speed;
 			break;
 		}
@@ -294,6 +323,8 @@ void Enemy::Update(Map & map, sf::Int64 time)
 			dy = 0.0f;
 			break;
 		}
+
+		this->checkPos();
 
 
 		Timer += time;

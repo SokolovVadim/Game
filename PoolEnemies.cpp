@@ -19,7 +19,7 @@ PoolEnemies::PoolEnemies(const size_t size, const std::string file, std::string 
 			RandY = H / 2;
 		}
 		fout << "RandX = " << RandX << ", Rand Y = " << RandY << std::endl;
-		m_enemies[i] = new Enemy(file, name_, RandX, RandY, w, h);
+		m_enemies[i] = new Enemy(file, name_, RandX, RandY, w, h, i/2.0f);
 	}
 	Init(file, name_, x, y, w, h);
 }
@@ -35,12 +35,15 @@ void PoolEnemies::addBullet(bs::PoolBullets & poolBullets)
 	}
 }
 
-void PoolEnemies::Update(Map & map, sf::Int64 time)
+void PoolEnemies::Update(Map & map, sf::Int64 time, const Player & Hero)
 {
 	for (int i(0); i < size_; i++)
 	{
 		if (m_enemies[i]->isAlive())
+		{
 			m_enemies[i]->Update(map, time);
+			m_enemies[i]->followPlayer(Hero.GetPos());
+		}
 	}
 }
 
@@ -77,7 +80,7 @@ const size_t PoolEnemies::GetSize()
 
 void PoolEnemies::Create(Enemy* enemy, const std::string file, std::string name_, float x, float y, float w, float h)
 {
-	Enemy * cur_enemy = new Enemy(file, name_, x, y, w, h);
+	Enemy * cur_enemy = new Enemy(file, name_, x, y, w, h, 0.0f);
 	enemy->SetNext(cur_enemy);
 	cur_enemy->SetNext(nullptr);
 	first_enemy = cur_enemy;
