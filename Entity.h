@@ -47,7 +47,7 @@ public:
 	void				setTextureRect	(const sf::IntRect & rect);
 	void				setTexture		(sf::Texture & texture);
 	void				setScale		(const float factorX, const float factorY);
-	void				virtual draw			(sf::RenderWindow & window);
+	void virtual		draw			(sf::RenderWindow & window);
 	const sf::Vector2f	getPosition		();
 	const sf::Sprite	getSprite		() const;
 	const bool			getGlobalBounds	(const sf::Vector2f & vec) const;

@@ -112,7 +112,7 @@ void Enemy::followPlayer(const sf::Vector2f & plPos)
 void Enemy::generateDir(const sf::Int64 & time)
 {
 	dirTimer += 0.01f * time;
-	if (dirTimer >= 20.0f)
+	if (dirTimer >= 10.0f)
 	{
 		direction = abs(int(rand())%4);
 		dirTimer = 0.0f;

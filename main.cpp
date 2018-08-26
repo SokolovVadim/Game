@@ -38,7 +38,7 @@ void Process (sf::RenderWindow & window, Map & map, MyView & View, Player & Hero
 
 
 	PoolEnemies enemy_pool	(20, "Enemy.png", "Archer1", W/2 + 200, H - 200, 64, 66);
-	bs::PoolBullets bullet_pool;
+	bs::PoolBullets bullet_pool;						// creating a pool
 
 	Mission mission			("Kumach.png", "Intro.png");
 
@@ -98,7 +98,7 @@ void Process (sf::RenderWindow & window, Map & map, MyView & View, Player & Hero
 		Hit					(Hero, time, window, View);
 		list.front			().Update		 (map, time);
 		list.back			().Update		 (map, time);
-		enemy_pool.Update	(map, time);
+		enemy_pool.Update	(map, time, Hero);
 		//enemy_pool.PrintPosition();
 		View.ScrollMap		(time);
 		window.setView		(View.view);
@@ -315,8 +315,8 @@ void FirstLevel(/*sf::RenderWindow & window*/)
 
 
 
-	Enemy Archer1("Enemy.png", "Archer1", W / 2 + 280, H - 160, 64, 66);
-	Enemy Archer2("Enemy.png", "Archer1", W / 2 + 180, H - 160, 64, 66);
+	Enemy Archer1("Enemy.png", "Archer1", W / 2 + 280, H - 160, 64, 66, 0.0f);
+	Enemy Archer2("Enemy.png", "Archer1", W / 2 + 180, H - 160, 64, 66, 0.0f);
 
 	std::list<Enemy> enemies;
 	enemies.push_back(Archer1);
