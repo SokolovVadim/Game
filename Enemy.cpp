@@ -43,6 +43,12 @@ Enemy::~Enemy()
 	attack->~Attacked();
 	fout << "Enemy has destructed!" << std::endl;
 }
+//-----------------------------------------------------------------------
+
+const int Enemy::getDir() const
+{
+	return direction;
+}
 
 //-----------------------------------------------------------------------
 
