@@ -98,7 +98,10 @@ void Process (sf::RenderWindow & window, Map & map, MyView & View, Player & Hero
 		Hit					(Hero, time, window, View);
 		list.front			().Update		 (map, time);
 		list.back			().Update		 (map, time);
+
+		bullet_pool.Update	(time);
 		enemy_pool.Update	(map, time, Hero);
+
 		//enemy_pool.PrintPosition();
 		View.ScrollMap		(time);
 		window.setView		(View.view);

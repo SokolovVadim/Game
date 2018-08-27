@@ -39,9 +39,22 @@ namespace bs {
 
 	//-----------------------------------------------------------------------
 
-	void PoolBullets::addBullet(const sf::Vector2f & enPos) // add new param(dir)
-	{                                                       // write a Bullet::Bullet(Pos, dir);
-		Bullet _bullet;
+	void PoolBullets::Update(const float time)
+	{
+		std::list<Bullet>::iterator it = listOfBullets.begin();
+		std::list<Bullet>::iterator listEnd = listOfBullets.end();
+		while (it != listEnd)
+		{
+			if(it->isAlive())
+				it->Update(time);
+		}
+	}
+
+	//-----------------------------------------------------------------------
+
+	void PoolBullets::addBullet(const sf::Vector2f & enPos, const std::string file, const std::string name_, const float speed, const int dir) // add new param(dir)
+	{                                                       
+		Bullet _bullet(file, name_, speed, enPos.x, enPos.y, 64, 66, dir);
 		listOfBullets.push_back(_bullet);
 	}
 
@@ -57,6 +70,7 @@ namespace bs {
 			if (((*it).isAlive()) && (hero.isBulletAttack((*it).getPosition(), HEROX))) //!!!
 			{
 				hero.setBulletAttacked();
+				it->Alive = false;
 			}
 		}
 		
@@ -88,6 +102,7 @@ namespace bs {
 			{
 				enemy->SetAttacked();
 				enemy->ReduceHP();
+				it->Alive = false;
 			}
 			it++;
 		}

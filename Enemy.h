@@ -34,6 +34,7 @@ public:
 	const sf::Vector2i			getSize					() const;
 	Enemy *						GetNext					();
 	bool						IsAttacked				(const sf::Vector2f & plPos, const float distance);
+	bool isTimeBullet(const sf::Int64 time);
 	const float					getHP					() const;
 
 private:

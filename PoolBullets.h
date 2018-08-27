@@ -33,8 +33,9 @@ namespace bs {
 		void playerCollision		( Player & hero);
 		/*bool isAttacked				(const sf::Vector2f & playerPos, const sf::Vector2f & bulletPos,
 									 const float distance);*/
-		void enemyCollision(Enemy * enemy);
-		void addBullet(const sf::Vector2f & enPos);
+		void enemyCollision			(Enemy * enemy);
+		void addBullet				(const sf::Vector2f & enPos, const std::string file, const std::string name_, const float speed, const int dir);
+		void Update					(const float time);
 
 	private:
 		std::list<Bullet>			listOfBullets;

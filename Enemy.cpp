@@ -40,23 +40,40 @@ Enemy::Enemy(const std::string file, std::string name_,
 
 Enemy::~Enemy()
 {
+	attack->~Attacked();
 	fout << "Enemy has destructed!" << std::endl;
 }
 
 //-----------------------------------------------------------------------
 
-#ifndef WS
-#define WS SCREEN::W
-#ifndef HS
-#define HS SCREEN::H
+bool Enemy::isTimeBullet(const sf::Int64 time)
+{
+	if (bulletTimer >= 100.0f)
+	{
+		bulletTimer = 0.0f;
+		return true;
+	}
+	else
+	{
+		bulletTimer += time * 0.012f;
+		return false;
+	}
+}
+
+//-----------------------------------------------------------------------
+
+//#ifndef WS
+//#define WS SCREEN::W
+//#ifndef HS
+//#define HS SCREEN::H
 
 void Enemy::checkPos()
 {
 	if (this->isAlive())
 	{
 		//SCREEN::W;
-		if ((this->Pos.x <= WGRASS / 2) || (this->Pos.x >= WS - WGRASS / 2) ||
-			(this->Pos.y <= HGRASS / 2) || (this->Pos.y >= WS - HGRASS / 2))
+		if ((this->Pos.x <= WGRASS / 2) || (this->Pos.x >= SCREEN::W - WGRASS / 2) ||
+			(this->Pos.y <= HGRASS / 2) || (this->Pos.y >= SCREEN::H - HGRASS / 2))
 		{
 			this->setPosition(WGRASS + 100 + ENEMY::W/2, HGRASS + 100 + ENEMY::H/2);
 			std::cout << "!!!!!!!! checkPos !!!!!!!!!" << std::endl;
@@ -66,10 +83,10 @@ void Enemy::checkPos()
 	}
 }
 
-#endif WS
-#undef WS
-#endif HS
-#undef HS
+//#endif WS
+//#undef WS
+//#endif HS
+//#undef HS
 
 //-----------------------------------------------------------------------
 
