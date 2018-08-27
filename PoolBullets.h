@@ -36,6 +36,7 @@ namespace bs {
 		void enemyCollision			(Enemy * enemy);
 		void addBullet				(const sf::Vector2f & enPos, const std::string file, const std::string name_, const float speed, const int dir);
 		void Update					(const float time);
+		std::size_t getSize();
 
 	private:
 		std::list<Bullet>			listOfBullets;

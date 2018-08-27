@@ -39,6 +39,13 @@ namespace bs {
 
 	//-----------------------------------------------------------------------
 
+	std::size_t PoolBullets::getSize()
+	{
+		return listOfBullets.size();
+	}
+
+	//-----------------------------------------------------------------------
+
 	void PoolBullets::Update(const float time)
 	{
 		std::list<Bullet>::iterator it = listOfBullets.begin();
@@ -47,6 +54,7 @@ namespace bs {
 		{
 			if(it->isAlive())
 				it->Update(time);
+			it++;
 		}
 	}
 
@@ -54,8 +62,9 @@ namespace bs {
 
 	void PoolBullets::addBullet(const sf::Vector2f & enPos, const std::string file, const std::string name_, const float speed, const int dir) // add new param(dir)
 	{                                                       
-		Bullet _bullet(file, name_, speed, enPos.x, enPos.y, 64, 66, dir);
-		listOfBullets.push_back(_bullet);
+		//Bullet _bullet(file, name_, speed, enPos.x, enPos.y, 64, 66, dir);
+		listOfBullets.push_back(*(new Bullet(file, name_, speed, enPos.x, enPos.y, 64, 66, dir)));
+		size_++;
 	}
 
 	//-----------------------------------------------------------------------

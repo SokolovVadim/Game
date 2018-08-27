@@ -32,7 +32,7 @@ public:
 	void				Update			(Map & map, sf::Int64 time, const Player & Hero);
 	void				isAttacked		(const Player & Hero/*, const int damage*/);
 	void				addBullet		(bs::PoolBullets & poolBullets, const std::string file,
-		const std::string name_, const float speed, const int dir, const sf::Int64 time);
+		const std::string name_, const float speed, const sf::Int64 time);
 	const sf::Vector2i	getSizeEnemies	() const;
 
 

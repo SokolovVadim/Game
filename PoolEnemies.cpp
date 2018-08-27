@@ -24,13 +24,14 @@ PoolEnemies::PoolEnemies(const size_t size, const std::string file, std::string 
 	Init(file, name_, x, y, w, h);
 }
 
-void PoolEnemies::addBullet(bs::PoolBullets & poolBullets, const std::string file, const std::string name_, const float speed, const int dir, const sf::Int64 time)
+void PoolEnemies::addBullet(bs::PoolBullets & poolBullets, const std::string file,
+	const std::string name_, const float speed, const sf::Int64 time)
 {
 	for (int i(0); i < this->size_; ++i)
 	{
 		if ((m_enemies[i]->isAlive()) && (m_enemies[i]->isTimeBullet(time)))
 		{
-			poolBullets.addBullet(m_enemies[i]->getPosition(), file, name_, speed, dir);
+			poolBullets.addBullet(m_enemies[i]->getPosition(), file, name_, speed, m_enemies[i]->getDir());
 		}
 	}
 }

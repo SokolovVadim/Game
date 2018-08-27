@@ -99,6 +99,11 @@ void Process (sf::RenderWindow & window, Map & map, MyView & View, Player & Hero
 		list.front			().Update		 (map, time);
 		list.back			().Update		 (map, time);
 
+
+		enemy_pool.addBullet(bullet_pool, "bullet1.png", "Bullet1", 0.2f, time);
+
+
+
 		bullet_pool.Update	(time);
 		enemy_pool.Update	(map, time, Hero);
 
@@ -118,6 +123,7 @@ void Process (sf::RenderWindow & window, Map & map, MyView & View, Player & Hero
 		fulltxt.DrawIntro	(View, window, mission, Hero);
 
 		enemy_pool.DrawPool(window, time);
+		bullet_pool.drawPool(window, time);
 
 		// draw func
 
