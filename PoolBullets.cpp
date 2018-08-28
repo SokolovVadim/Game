@@ -39,6 +39,21 @@ namespace bs {
 
 	//-----------------------------------------------------------------------
 
+	void PoolBullets::draw(sf::RenderWindow & window)
+	{
+		std::list<Bullet>::iterator it = listOfBullets.begin();
+		std::list<Bullet>::iterator listEnd = listOfBullets.end();
+		//std::size_t size(0lu);
+		while ((it != listEnd) /*&& (size < size_)*/)
+		{
+			if (it->isAlive())
+				window.draw(it->getSprite());
+			it++;
+		}
+	}
+
+	//-----------------------------------------------------------------------
+
 	std::size_t PoolBullets::getSize()
 	{
 		return listOfBullets.size();
@@ -46,11 +61,12 @@ namespace bs {
 
 	//-----------------------------------------------------------------------
 
-	void PoolBullets::Update(const float time)
+	void PoolBullets::Update(const sf::Int64 time)
 	{
 		std::list<Bullet>::iterator it = listOfBullets.begin();
 		std::list<Bullet>::iterator listEnd = listOfBullets.end();
-		while (it != listEnd)
+		//std::size_t size(0lu);
+		while ((it != listEnd)/* && (size < size_)*/)
 		{
 			if(it->isAlive())
 				it->Update(time);
@@ -75,12 +91,13 @@ namespace bs {
 		std::list<Bullet>::iterator listEnd = listOfBullets.end();
 		while (it != listEnd)
 		{
-			std::cout << "Bullet: " << (*it).Name << std::endl;
-			if (((*it).isAlive()) && (hero.isBulletAttack((*it).getPosition(), HEROX))) //!!!
+			//std::cout << "Bullet: " << it->Name << std::endl;
+			if ((it->isAlive()) && (hero.isBulletAttack(it->getPosition(), HEROX))) //!!!
 			{
 				hero.setBulletAttacked();
-				it->Alive = false;
+				it->setAlive(false);
 			}
+			it++;
 		}
 		
 	}

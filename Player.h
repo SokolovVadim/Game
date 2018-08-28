@@ -25,6 +25,7 @@ private:
 	bool			IsOnFire;
 	bool			IsHit;
 	bool			IsBulletAttacked;
+	bool			isDamagedByBullet;
 
 	enum STATUS
 	{

@@ -14,6 +14,7 @@ Player::Player(const std::string file, const std::string name, float x, float y,
 	IsOnFire			(false),
 	IsHit				(false),
 	IsBulletAttacked	(false),
+	isDamagedByBullet	(false),
 	Air					(10)   /// aaaawful constant!!!!!!
 {
 	Image.loadFromFile("Images/" + File);
@@ -28,19 +29,28 @@ Player::Player(const std::string file, const std::string name, float x, float y,
 void Player::underFire(const sf::Int64 & time)
 {
 	if (IsBulletAttacked) {
-		Heatpoints -= BULLET_DAMAGE;
-		if (BulletTimer > 3000)
+		if (BulletTimer > 10)
 		{
 			IsBulletAttacked = false;
 			setColor(sf::Color::White);
 			BulletTimer = 0;
 		}
+		else
+		{
+			BulletTimer += time*0.012f;
+		}
+	}
+	if (isDamagedByBullet)
+	{
+		Heatpoints -= BULLET_DAMAGE;
+		isDamagedByBullet = false;
 	}
 }
 
 void Player::setBulletAttacked()
 {
 	IsBulletAttacked = true;
+	isDamagedByBullet = true;
 	BulletTimer = 0.0f;
 	setColor(sf::Color::Red);
 }

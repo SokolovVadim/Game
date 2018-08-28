@@ -20,7 +20,7 @@ namespace bs {
 
 
 
-	void Bullet::Update(const float time/*, PoolEnemies & pool*/)
+	void Bullet::Update(const sf::Int64 time/*, PoolEnemies & pool*/)
 	{
 		switch (_direction)
 		{
@@ -52,7 +52,10 @@ namespace bs {
 		Pos.x += dx * time;
 		Pos.y += dy * time;
 
-		wallsCollision(Pos);		
+		if (wallsCollision(Pos))
+		{
+			this->setAlive(false);
+		}
 
 
 		//entitiesCollision(pool);
@@ -66,23 +69,35 @@ namespace bs {
 
 
 
-		setPosition(Pos.x, Pos.y);
+		this->setPosition(Pos.x, Pos.y);
 
 	}
 
-
-
-
-	void wallsCollision(sf::Vector2f & pos)
+	void Bullet::setAlive(const bool alive_status)
 	{
+		this->Alive = alive_status;
+		if (!this->Alive)
+			this->Heatpoints = 0.0f;
+	}
+
+
+	bool wallsCollision(sf::Vector2f & pos)
+	{
+		bool isCollide(false);
 		if (&pos != nullptr)
 		{
-			if (pos.x <= BORDER_LENGTH) ///     CONSTANTS SHOULD BE ADDED IN COMPONENTS
-				pos.x = BORDER_LENGTH;
-			if (pos.y <= BORDER_LENGTH) //    REPEATABLE CODE!!!!!!!!!!!!!!!!!!!!!!
-				pos.y = BORDER_LENGTH;
+			if (pos.x <= BORDER_LENGTH_X)
+			{
+				pos.x = BORDER_LENGTH_X;
+				isCollide = true;
+			}
+			if (pos.y <= BORDER_LENGTH_Y) //    REPEATABLE CODE!!!!!!!!!!!!!!!!!!!!!!
+			{
+				pos.y = BORDER_LENGTH_Y;
+				isCollide = true;
+			}
 		}
-
+		return isCollide;
 	}
 
 }

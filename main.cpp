@@ -104,8 +104,10 @@ void Process (sf::RenderWindow & window, Map & map, MyView & View, Player & Hero
 
 
 
-		bullet_pool.Update	(time);
-		enemy_pool.Update	(map, time, Hero);
+		bullet_pool.Update				(time);
+		enemy_pool.Update				(map, time, Hero);
+		bullet_pool.playerCollision		(Hero);
+		Hero.underFire					(time);
 
 		//enemy_pool.PrintPosition();
 		View.ScrollMap		(time);
@@ -122,8 +124,8 @@ void Process (sf::RenderWindow & window, Map & map, MyView & View, Player & Hero
 
 		fulltxt.DrawIntro	(View, window, mission, Hero);
 
-		enemy_pool.DrawPool(window, time);
-		bullet_pool.drawPool(window, time);
+		enemy_pool.DrawPool	(window, time);
+		bullet_pool.draw	(window);
 
 		// draw func
 
