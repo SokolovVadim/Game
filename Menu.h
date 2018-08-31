@@ -5,6 +5,7 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include <stdarg.h>
+#include <iostream>
 
 //-----------------------------------------------------------------------
 /// \brief Menu class to choose the game mode or settings
@@ -38,8 +39,11 @@ namespace menu {
 		enum BANNER
 		{
 			_PLAY = 0,
-			_EXIT = 1
+			_SETTINGS = 1,
+			_EXIT = 2
 		};
+
+
 	public:
 		Menu();
 		Menu(std::size_t size, ...);
@@ -50,9 +54,13 @@ namespace menu {
 		void			setColor(const sf::Color color);*/
 		void			setMenuNum(int number);
 		void			setMenuStatus(const bool status);
+		void			setPosition(std::size_t size, ...);
+		void			setColor( ... );
+		void			draw(sf::RenderWindow & window);
 
 		const bool isDrawable() const;
 		const BANNER getStatus() const;
+		MenuSet & getSet(const std::size_t num);
 
 		//void			loadTextures		();
 		//void			loadSprites			();
@@ -63,15 +71,9 @@ namespace menu {
 		std::size_t				_numbSets;
 		std::vector<MenuSet>	_setsVec;
 
-		/*std::string				_file;
-		sf::Texture				_texture;
-		sf::Sprite				_sprite;*/
-
-		//sf::RenderWindow	_window;
-
 		bool _isShow;
-
 		BANNER _bannerNumber;
+
 	};
 
 	void showMenu(sf::RenderWindow & window, const std::string & file);

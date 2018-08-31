@@ -20,9 +20,28 @@ namespace menu {
 	MenuSet::~MenuSet()
 	{}
 
+	void MenuSet::setPosition(const sf::Vector2f & pos)
+	{
+		_sprite.setPosition(pos);
+	}
+
+	void MenuSet::draw(sf::RenderWindow & window)
+	{
+		window.draw(_sprite);
+	}
+
+	void MenuSet::setColor(const sf::Color color)
+	{
+		_sprite.setColor(color);
+	}
+
+	//-----------------------------------------------------------------------------------
+
+	// write setPos & setColor with variable args, draw func without var. args
+
 	Menu::Menu() :
 		_numbSets				(0ul),
-		_setsVec				(_numbSets),
+		//_setsVec				(_numbSets),
 		_isShow					(true),
 		_bannerNumber			(BANNER::_PLAY)
 	{
@@ -31,7 +50,7 @@ namespace menu {
 
 	Menu::Menu(std::size_t size, ...) :
 		_numbSets				(size),
-		_setsVec				(_numbSets),
+		//_setsVec				(_numbSets),
 		_isShow					(true),
 		_bannerNumber			(BANNER::_PLAY)
 	{
@@ -41,7 +60,8 @@ namespace menu {
 
 		while (size--)
 		{
-			_setsVec.push_back(*(new MenuSet(va_arg(args, const std::string))));
+			_setsVec.push_back(*(new MenuSet(va_arg(args, char*))));
+			//std::cout << va_arg(args, char*) << std::endl;
 		}
 
 		va_end(args);
@@ -53,15 +73,59 @@ namespace menu {
 	Menu::~Menu()
 	{}
 
-	void MenuSet::setPosition(const sf::Vector2f & pos)
+	void Menu::setPosition(std::size_t size, ... )
 	{
-		_sprite.setPosition(pos);
+		va_list args;
+
+		/*std::size_t */size =						_setsVec.size();
+		std::vector<MenuSet>::iterator it =		_setsVec.begin();
+		std::vector<MenuSet>::iterator vecEnd = _setsVec.end();
+
+		va_start(args, size);
+
+		//std::cout << (va_arg(args, int)) << std::endl;
+
+		while ((it != vecEnd) && (size--))
+		{
+			//sf::Vector2f cur_vec = sf::Vector2f(va_arg(args, const sf::Vector2f));
+			it->setPosition((va_arg(args, const sf::Vector2f )));  // no refs!!!
+			//std::cout << (va_arg(args, float)) << std::endl;
+			it++;
+		}
+
+		va_end(args);
 	}
 
-	void MenuSet::draw(sf::RenderWindow & window)
+	void Menu::setColor(...)
 	{
-		window.draw			(_sprite);
-		window.display		();
+		va_list args;
+
+		std::size_t size = _setsVec.size();
+		std::vector<MenuSet>::iterator it = _setsVec.begin();
+		std::vector<MenuSet>::iterator vecEnd = _setsVec.end();
+
+		va_start(args, size);
+		while ((it != vecEnd) && (size--))
+		{
+			it->setColor(va_arg(args, const sf::Color));
+			it++;
+		}
+
+		va_end(args);
+	}
+
+	void Menu::draw(sf::RenderWindow & window)
+	{
+		std::vector<MenuSet>::iterator it = _setsVec.begin();
+		std::vector<MenuSet>::iterator vecEnd = _setsVec.end();
+
+		while (it != vecEnd)
+		{
+			it->draw(window);
+			it++;
+		}
+		window.display();
+		//std::cout << _setsVec.size() << std::endl;
 	}
 
 	const bool Menu::isDrawable() const
@@ -69,19 +133,25 @@ namespace menu {
 		return _isShow;
 	}
 
-	void MenuSet::setColor(const sf::Color color)
-	{
-		_sprite.setColor(color);
-	}
-
 	void Menu::setMenuNum(int number)
 	{
 		switch (number)
 		{
 		case BANNER::_PLAY:
+		{
 			_bannerNumber = _PLAY;
+			break;
+		}
+		case BANNER::_SETTINGS:
+		{
+			_bannerNumber = _SETTINGS;
+			break;
+		}
 		case BANNER::_EXIT:
+		{
 			_bannerNumber = _EXIT;
+			break;
+		}
 		default:
 		{
 			_bannerNumber = _EXIT;
@@ -99,51 +169,90 @@ namespace menu {
 		return _bannerNumber;
 	}
 
+	MenuSet & Menu::getSet(const std::size_t num)
+	{
+		return _setsVec[num];
+	}
+
+
+	//-----------------------------------------------------------------------------------
+
 	void showMenu(sf::RenderWindow & window, const std::string & file)
 	{
-		Menu menu(2, "Menu1.jpg", "play.png");
-		//menu.setPosition(sf::Vector2f(0.f, 0.f)); // it is not so bad
+		const std::size_t numbPict = 4;
+		const float centreX = (1600 - 640) / 2.f;
+		const float centreY = (900 - (numbPict - 1)*120) / 2.f;
+		Menu menu(numbPict, "Menu1.jpg", "play.png", "settings.png", "exit.png");
+
+		//sf::Vector2f pos_1 = new sf::Vector2f;
+
+		menu.setPosition(numbPict, sf::Vector2f(0.f, 0.f), sf::Vector2f(centreX, centreY),
+			sf::Vector2f(centreX, centreY + 120), sf::Vector2f(centreX, centreY + 240)); // it is not so bad
 													  // but it should be corrected
 		while (menu.isDrawable())
 		{
-			//menu.setColor				(sf::Color::White);
+			//menu.setColor				(sf::Color::White, sf::Color::White);
 			menu.setMenuNum				(0);
-			window.clear(sf::Color(10, 10, 10, 10));
+			
+			//window.clear(sf::Color(100, 0, 10, 10));
+			//window.clear(sf::Color(175, 140, 90, 0));
 
-			//if (sf::IntRect(100, 100, 100, 100).contains(sf::Mouse::getPosition(window))) // play
-			//{
-			//	menu.setColor					(sf::Color::Blue);
-			//	menu.setMenuNum					(0);
-			//}
-			//if (sf::IntRect(100, 200, 100, 100).contains(sf::Mouse::getPosition(window))) // exit
-			//{
-			//	menu.setColor					(sf::Color::Blue);
-			//	menu.setMenuNum					(1);
-			//}
-			//if (sf::IntRect(100, 300, 100, 100).contains(sf::Mouse::getPosition(window))) // smth new (sttngs?)
-			//{
-			//	menu.setColor					(sf::Color::Blue);
-			//	menu.setMenuNum					(2);
-			//}
+			if (sf::IntRect(int(centreX), int(centreY), 640, 120).contains(sf::Mouse::getPosition(window))) // play
+			{
+				menu.getSet(1).setColor(sf::Color::Red);
+				menu.setMenuNum						(0);
+			}
+			else
+			{
+				menu.getSet(1).setColor(sf::Color::White);
+			}
+			if (sf::IntRect(int(centreX), int(centreY) + 120, 640, 120).contains(sf::Mouse::getPosition(window))) // exit
+			{
+				menu.getSet(2).setColor(sf::Color::Red);
+				menu.setMenuNum(1);
+			}
+			else
+			{
+				menu.getSet(2).setColor(sf::Color::White);
+			}
+			if (sf::IntRect(int(centreX), int(centreY) + 240, 640, 120).contains(sf::Mouse::getPosition(window))) // play
+			{
+				menu.getSet(3).setColor(sf::Color::Red);
+				menu.setMenuNum(2);
+			}
+			else
+			{
+				menu.getSet(3).setColor(sf::Color::White);
+			}
+			
 
-			//if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) // play
-			//{
-			//	int status = menu.getStatus();
+			if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) // play
+			{
+				int status = menu.getStatus(); // menu num
 
-			//	switch (status)
-			//	{
-			//	case 0:
-			//		menu.setMenuStatus(false);
-			//	case 1:
-			//	{
-			//		window.close();
-			//		menu.setMenuStatus(false);
-			//	}
-			//	}
+				switch (status)
+				{
+				case 0: // play
+				{
+					menu.setMenuStatus(false);
+					break;
+				}
+				case 1: // settings
+				{
+					/*window.close();
+					menu.setMenuStatus(false);*/
+					break;
+				}
+				case 2: // exit
+				{
+					window.close();
+					menu.setMenuStatus(false);
+					break;
+				}
+				}
+			}
 
-			//}
-
-			//menu.draw(window);
+			menu.draw(window);
 		}
 	}
 
