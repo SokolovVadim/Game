@@ -6,7 +6,7 @@ void PlayKotik()
 
 	PlaySoundA("Music/laba.wav",	NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
 	PlaySoundA("Music/vapa.wav",	NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
-	PlaySoundA("Music/japan.wav",	NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
+	//PlaySoundA("Music/japan.wav",	NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
 }
 
 void playDebug()
@@ -19,7 +19,8 @@ void	ChooseAction		(Player & Hero, int dir, double & CurFrame, sf::Int64 time, i
 void	Process				(sf::RenderWindow & window, Map & map, MyView & View, Player & Hero, std::list<Enemy> & list);
 void	ActionSwitch		(Player & Hero, double & CurFrame, sf::Int64 & time,
 							sf::RenderWindow & window, MyView & View,
-							PoolEnemies & poolEn, bool & isHit, sf::Event & event);
+							PoolEnemies & poolEn, bool & isHit, sf::Event & event,
+							bool isCreatePools, const bool isFoundAll);
 void	Hit					(Player & Hero, sf::Int64 & time,
 							sf::RenderWindow & window, MyView & View);
 void	SetCam				(sf::Event & event, sf::RenderWindow & window, bool & IsFullscreen);
@@ -29,15 +30,20 @@ void Process (sf::RenderWindow & window, Map & map, MyView & View, Player & Hero
 {
 	bool			IsFullscreen		(true);
 	bool			isHit				(false);
+	bool			isCreatePools		(false);
+	bool			isFoundAll			(false);
+
 	double			CurFrame			(0.0);
 	sf::Clock		clock;
 	sf::Clock		game_time_clock;
 	int				game_time			(0);
 	sf::Int64		timer				(0); 
 
+	
+	menu::showMenu(window, "Menu1.jpg");
 
 
-	PoolEnemies enemy_pool	(20, "Enemy.png", "Archer1", W/2 + 200, H - 200, 64, 66);
+	PoolEnemies enemy_pool	(30, "Enemy.png", "Archer1", W/2 + 200, H - 200, 64, 66);
 	bs::PoolBullets bullet_pool;						// creating a pool
 
 	Mission mission			("Kumach.png", "Intro.png");
@@ -74,6 +80,13 @@ void Process (sf::RenderWindow & window, Map & map, MyView & View, Player & Hero
 			dnd.Select			(window, event, Hero);
 			dnd.Rpg				(event, Hero);
 			
+			if ((isFoundAll))
+			{
+				if((event.type == event.KeyPressed) && (event.key.code == sf::Keyboard::Space))
+				{
+					isCreatePools = true;
+				}
+			}
 			//dnd.MoveMouse(window);
 		}
 		dnd.MoveSprite		(Hero, time);
@@ -82,7 +95,7 @@ void Process (sf::RenderWindow & window, Map & map, MyView & View, Player & Hero
 		//dnd.DropColor(Hero, event);
 		dnd.Action			(Hero);
 
-		ActionSwitch		(Hero, CurFrame, time, window, View, enemy_pool, isHit, event);
+		ActionSwitch		(Hero, CurFrame, time, window, View, enemy_pool, isHit, event, isCreatePools, isFoundAll);
 
  		View.ScrollMouse	(window, time, Hero.GetAlive());
 
@@ -100,16 +113,19 @@ void Process (sf::RenderWindow & window, Map & map, MyView & View, Player & Hero
 		list.back			().Update		 (map, time);
 
 
-		enemy_pool.addBullet(bullet_pool, "bullet1.png", "Bullet1", 0.2f, time);
+		if (isCreatePools) {
+			enemy_pool.addBullet(bullet_pool, "bullet1.png", "Bullet1", 0.2f, time);
 
 
 
-		bullet_pool.Update				(time);
-		enemy_pool.Update				(map, time, Hero);
-		bullet_pool.playerCollision		(Hero);
-		Hero.underFire					(time);
+			bullet_pool.Update			(time);
+			enemy_pool.Update			(map, time, Hero);
+			bullet_pool.playerCollision	(Hero);
+			Hero.underFire				(time);
+			enemy_pool.bulletCollision	(bullet_pool);
+		}
 
-		//enemy_pool.PrintPosition();
+
 		View.ScrollMap		(time);
 		window.setView		(View.view);
 		window.clear		(sf::Color(175, 140, 90, 0));
@@ -117,15 +133,21 @@ void Process (sf::RenderWindow & window, Map & map, MyView & View, Player & Hero
 		map.DrawMap			(window);
 
 		fulltxt.DrawAll		(View, window, Hero, time, game_time);
-		fulltxt.DrawTXT		(View, window, Hero); 
-		fulltxt.DrawLazer	(View, window, Hero);
+		fulltxt.DrawTXT		(View, window, Hero, game_time); 
 
-		fulltxt.DrawSprite	(View, window, mission);  ////!!!!!!!!!!
+		if (!isCreatePools)
+		{
+			fulltxt.DrawLazer(View, window, Hero, isFoundAll);
+		}
+
+		fulltxt.DrawSprite	(View, window, mission);  
 
 		fulltxt.DrawIntro	(View, window, mission, Hero);
 
-		enemy_pool.DrawPool	(window, time);
-		bullet_pool.draw	(window);
+		if (isCreatePools) { 
+			enemy_pool.DrawPool(window, time);
+			bullet_pool.draw(window);
+		}
 
 		// draw func
 
@@ -139,6 +161,10 @@ void Process (sf::RenderWindow & window, Map & map, MyView & View, Player & Hero
 		window.display	();
 	}
 }
+
+
+//if (isF && isSpace)
+//isCr = true;
 
 void SetCam(sf::Event & event, sf::RenderWindow & window, bool & IsFullscreen)
 {
@@ -202,7 +228,7 @@ bool IsWalk()
 }
 
 void ActionSwitch(Player & Hero, double & CurFrame, sf::Int64 & time, sf::RenderWindow & window,
-	MyView & View, PoolEnemies & poolEn, bool & isHit, sf::Event & event)
+	MyView & View, PoolEnemies & poolEn, bool & isHit, sf::Event & event, bool isCreatePools, const bool isFoundAll)
 {
 	if (Hero.GetAlive()) {
 		
@@ -231,8 +257,8 @@ void ActionSwitch(Player & Hero, double & CurFrame, sf::Int64 & time, sf::Render
 						isHit = true;
 						Hero.SetHit();
 
-
-						poolEn.isAttacked(Hero);
+						if(isCreatePools)
+							poolEn.isAttacked(Hero);
 					}
 
 				}

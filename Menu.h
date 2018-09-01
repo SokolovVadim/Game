@@ -3,7 +3,7 @@
 #define MENU_H
 
 #include <SFML/Graphics.hpp>
-#include <SFML/Audio.hpp>
+//#include <SFML/Audio.hpp>
 #include <stdarg.h>
 #include <iostream>
 

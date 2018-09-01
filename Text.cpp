@@ -74,16 +74,20 @@ AllText::AllText() :
 	task_t(font, sf::Text(), sf::Color::Black, sf::Text::Bold, std::string("Task: "), 16u),
 	lazer_t(font, sf::Text(), sf::Color::Red, sf::Text::Bold, std::string("         You have taken"
 		" all rubins\n             for lazer of justice!\nPress SPACE to go to the next level!\n"
-		"	P.S. don't eat a lot of mushrooms"), 32u)
+		"	P.S. don't eat a lot of mushrooms"), 32u),
+	final_score_t(font, sf::Text(), sf::Color::Black, sf::Text::Bold, std::string("YOUR SCORE: "), 32u)
 {
 	if (!font.loadFromFile("Text/ARIAL.TTF"))		// check how it works (reference in init. list)
 		fout << "Text has not loaded!" << std::endl;
 }
 
-void AllText::DrawLazer(MyView & View, sf::RenderWindow & window, Player & Hero)
+void AllText::DrawLazer(MyView & View, sf::RenderWindow & window, Player & Hero, bool & isFoundAll)
 {
 	if ((Hero.GetScore() >= 3) && (Hero.GetAlive()))
+	{
 		lazer_t.Draw(View, window, -210, -100);
+		isFoundAll = true;
+	}
 }
 
 Text & AllText::GetText()
@@ -109,12 +113,22 @@ void AllText::DrawAll(MyView & View, sf::RenderWindow & window, Player & Hero, s
 	time_.Draw(View, window, -TEXTX, -TEXTY + 120);
 }
 
-void AllText::DrawTXT(MyView & View, sf::RenderWindow & window, Player & Hero)
+void AllText::DrawFinalScore(MyView & View, sf::RenderWindow & window, Player & Hero, int & time)
+{
+	final_score_t.PushStr	(time);
+	final_score_t.Draw		(View, window, 100, 100); //!!!
+}
+
+void AllText::DrawTXT(MyView & View, sf::RenderWindow & window, Player & Hero, int & time)
 {
 	if ((View.view.getCenter().x >= W - SETCAMX / 2) && (!Hero.GetAlive()))
 	{
 		//           COnstants below!
 		go_t.Draw(View, window, -310, -100);
+		
+		final_score_t.PushStr(time);
+		//final_score_t.PushStr("\npress enter to exit");
+		final_score_t.Draw(View, window, -100, 100); //!!!
 	}
 }
 
@@ -158,7 +172,6 @@ void AllText::React(sf::Event & event, sf::RenderWindow & window, Mission & miss
 	}
 }
 
-
 void AllText::SetIntro(Mission & mission, Player & Hero, MyView & View, sf::RenderWindow & window)
 {
 	if (Hero.GetCoordX() < 100.0f)
@@ -166,7 +179,6 @@ void AllText::SetIntro(Mission & mission, Player & Hero, MyView & View, sf::Rend
 		mission.SetIntro(View.view.getCenter().x - 100, View.view.getCenter().y - 80);
 	}
 }
-
 
 void AllText::DrawIntro(MyView & View, sf::RenderWindow & window, Mission & mission, Player & Hero)
 {

@@ -257,13 +257,3 @@ namespace menu {
 	}
 
 }
-//void Menu::loadTextures()
-//{
-//	_texture.loadFromFile(_file);
-//}
-
-//void Menu::loadSprites() :
-//	_sprite(_texture)
-//{
-//	;
-//}
