@@ -113,22 +113,23 @@ void AllText::DrawAll(MyView & View, sf::RenderWindow & window, Player & Hero, s
 	time_.Draw(View, window, -TEXTX, -TEXTY + 120);
 }
 
-void AllText::DrawFinalScore(MyView & View, sf::RenderWindow & window, Player & Hero, int & time)
+void AllText::drawFinalScore(MyView & View, sf::RenderWindow & window, Player & Hero, int & time)
 {
 	final_score_t.PushStr	(time);
-	final_score_t.Draw		(View, window, 100, 100); //!!!
+	final_score_t.Draw		(View, window, -100, 100); //!!!
 }
 
-void AllText::DrawTXT(MyView & View, sf::RenderWindow & window, Player & Hero, int & time)
+void AllText::DrawTXT(MyView & View, sf::RenderWindow & window, Player & Hero, int & time, const bool poolAlive)
 {
-	if ((View.view.getCenter().x >= W - SETCAMX / 2) && (!Hero.GetAlive()))
+	if ((View.view.getCenter().x >= W - SETCAMX / 2) && (!Hero.GetAlive()) && (poolAlive))
 	{
 		//           COnstants below!
-		go_t.Draw(View, window, -310, -100);
-		
-		final_score_t.PushStr(time);
-		//final_score_t.PushStr("\npress enter to exit");
-		final_score_t.Draw(View, window, -100, 100); //!!!
+
+		go_t.Draw			(View, window, -310, -100);
+		drawFinalScore		(View, window, Hero, time);
+
+		//final_score_t.PushStr(time);
+		//final_score_t.Draw(View, window, -100, 100); //!!!
 	}
 }
 

@@ -53,12 +53,12 @@ public:
 	void DrawAll(MyView & View, sf::RenderWindow & window, Player & Hero, sf::Int64 & time, int & game_time);
 	void PrintAll();
 	void DrawSprite(MyView & View, sf::RenderWindow & window, Mission & mission);
-	void DrawTXT(MyView & View, sf::RenderWindow & window, Player & Hero, int & time);
+	void DrawTXT(MyView & View, sf::RenderWindow & window, Player & Hero, int & time, const bool poolAlive);
 	void React(sf::Event & event, sf::RenderWindow & window, Mission & mission, MyView & View, Player & Hero);
 	void SetIntro(Mission & mission, Player & Hero, MyView & View, sf::RenderWindow & window);
 	void DrawIntro(MyView & View, sf::RenderWindow & window, Mission & mission, Player & Hero);
 	void DrawLazer(MyView & View, sf::RenderWindow & window, Player & Hero, bool & isFoundAll);
-	void DrawFinalScore(MyView & View, sf::RenderWindow & window, Player & Hero, int & time);
+	void drawFinalScore(MyView & View, sf::RenderWindow & window, Player & Hero, int & time);
 	Text & GetText();
 };
 
