@@ -59,7 +59,7 @@ void Process (sf::RenderWindow & window, Map & map, MyView & View, Player & Hero
 
 	while (window.isOpen())
 	{
-		
+		bool poolAlive = enemy_pool.isPoolAlive();
 		dnd.SetVectors(window);
 		sf::Int64 time = clock.getElapsedTime().asMicroseconds();
 
@@ -115,9 +115,6 @@ void Process (sf::RenderWindow & window, Map & map, MyView & View, Player & Hero
 
 		if (isCreatePools) {
 			enemy_pool.addBullet(bullet_pool, "bullet1.png", "Bullet1", 0.2f, time);
-
-
-
 			bullet_pool.Update			(time);
 			enemy_pool.Update			(map, time, Hero);
 			bullet_pool.playerCollision	(Hero);
@@ -133,20 +130,25 @@ void Process (sf::RenderWindow & window, Map & map, MyView & View, Player & Hero
 		map.DrawMap			(window);
 
 		fulltxt.DrawAll		(View, window, Hero, time, game_time);
-		fulltxt.DrawTXT		(View, window, Hero, game_time); 
+		fulltxt.DrawTXT		(View, window, Hero, game_time, poolAlive);
 
 		if (!isCreatePools)
 		{
 			fulltxt.DrawLazer(View, window, Hero, isFoundAll);
 		}
 
-		fulltxt.DrawSprite	(View, window, mission);  
+		fulltxt.DrawSprite	(View, window, mission);
 
 		fulltxt.DrawIntro	(View, window, mission, Hero);
 
-		if (isCreatePools) { 
+		if (isCreatePools) {
 			enemy_pool.DrawPool(window, time);
 			bullet_pool.draw(window);
+			if (!poolAlive)
+			{
+				static int ctime = game_time;
+				fulltxt.drawFinalScore(View, window, Hero, ctime);
+			}
 		}
 
 		// draw func
