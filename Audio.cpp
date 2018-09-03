@@ -31,6 +31,13 @@ namespace au {
 			//itSB++;
 		}
 
+		size = size_;
+
+		while (size--)
+		{
+			v_bools_.push_back(false);
+		}
+
 	}
 
 	//-------------------------------------------------------------------------
@@ -61,9 +68,42 @@ namespace au {
 
 	//-------------------------------------------------------------------------
 
+	void Audio::setPlay(const int number, const bool isPlay)
+	{
+		v_bools_[number] = isPlay;
+	}
+
+	//-------------------------------------------------------------------------
+
+	const bool Audio::isPlay(const int number) const
+	{
+		return v_bools_[number];
+	}
+
+	//-------------------------------------------------------------------------
+
+	bool Audio::isPlay()
+	{
+		for (int i(0); i < this->size_; ++i)
+		{
+			if (v_sounds_[i].getStatus() == sf::Sound::Playing)
+				return true;
+		}
+		return false;
+	}
+
+	//-------------------------------------------------------------------------
+
 	void Audio::playSound(int number)
 	{
-		v_sounds_[number].play();
+		//v_sounds_[number].play();
+		if(v_sounds_[number].getStatus() != sf::Sound::Playing)
+		{
+			v_sounds_[number].play();
+		}
+		//v_sounds_[number].setLoop(true);
+		
+		//v_sounds_[number].setMinDistance(1000);
 	}
 
 	//-------------------------------------------------------------------------

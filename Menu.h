@@ -6,6 +6,7 @@
 //#include <SFML/Audio.hpp>
 #include <stdarg.h>
 #include <iostream>
+#include "Audio.h"
 
 //-----------------------------------------------------------------------
 /// \brief Menu class to choose the game mode or settings
@@ -52,7 +53,7 @@ namespace menu {
 		/*void			setPosition	(const sf::Vector2f & pos);
 		void			draw(sf::RenderWindow & window);
 		void			setColor(const sf::Color color);*/
-		void			setMenuNum(int number);
+		void			setMenuNum(int number, au::Audio & audio);
 		void			setMenuStatus(const bool status);
 		void			setPosition(std::size_t size, ...);
 		void			setColor( ... );
@@ -76,7 +77,7 @@ namespace menu {
 
 	};
 
-	void showMenu(sf::RenderWindow & window, const std::string & file);
+	void showMenu(sf::RenderWindow & window, const std::string & file, au::Audio & audio);
 
 }
 

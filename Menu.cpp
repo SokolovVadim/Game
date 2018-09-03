@@ -133,7 +133,7 @@ namespace menu {
 		return _isShow;
 	}
 
-	void Menu::setMenuNum(int number)
+	void Menu::setMenuNum(int number, au::Audio & audio)
 	{
 		switch (number)
 		{
@@ -157,6 +157,9 @@ namespace menu {
 			_bannerNumber = _EXIT;
 		}
 		}
+
+		/*if(number != 0)*/
+		//audio.playSound(2);
 	}
 
 	void Menu::setMenuStatus(const bool status)
@@ -177,8 +180,9 @@ namespace menu {
 
 	//-----------------------------------------------------------------------------------
 
-	void showMenu(sf::RenderWindow & window, const std::string & file)
+	void showMenu(sf::RenderWindow & window, const std::string & file, au::Audio & audio)
 	{
+		bool isPlay = false;
 		const std::size_t numbPict = 4;
 		const float centreX = (1600 - 640) / 2.f;
 		const float centreY = (900 - (numbPict - 1)*120) / 2.f;
@@ -192,42 +196,63 @@ namespace menu {
 		while (menu.isDrawable())
 		{
 			//menu.setColor				(sf::Color::White, sf::Color::White);
-			menu.setMenuNum				(0);
+			menu.setMenuNum				(1, audio);
 			
 			//window.clear(sf::Color(100, 0, 10, 10));
 			//window.clear(sf::Color(175, 140, 90, 0));
 
 			if (sf::IntRect(int(centreX), int(centreY), 640, 120).contains(sf::Mouse::getPosition(window))) // play
 			{
-				menu.getSet(1).setColor(sf::Color::Red);
-				menu.setMenuNum						(0);
+				if (!audio.isPlay(0))
+				{
+					audio.setPlay(0, true);
+					audio.playSound(2);
+				}
+				menu.getSet(1).setColor				(sf::Color::Red);
+				menu.setMenuNum						(0, audio);
 			}
 			else
 			{
+				audio.setPlay(0, false);
 				menu.getSet(1).setColor(sf::Color::White);
 			}
 			if (sf::IntRect(int(centreX), int(centreY) + 120, 640, 120).contains(sf::Mouse::getPosition(window))) // exit
 			{
+				if (!audio.isPlay(1))
+				{
+					audio.setPlay(1, true);
+					audio.playSound(2);
+				}
+				
 				menu.getSet(2).setColor(sf::Color::Red);
-				menu.setMenuNum(1);
+				menu.setMenuNum(1, audio);
 			}
 			else
 			{
+				audio.setPlay(1, false);
 				menu.getSet(2).setColor(sf::Color::White);
 			}
 			if (sf::IntRect(int(centreX), int(centreY) + 240, 640, 120).contains(sf::Mouse::getPosition(window))) // play
 			{
+				if (!audio.isPlay(2))
+				{
+					audio.setPlay(2, true);
+					audio.playSound(2);
+				}
+				
 				menu.getSet(3).setColor(sf::Color::Red);
-				menu.setMenuNum(2);
+				menu.setMenuNum(2, audio);
 			}
 			else
 			{
+				audio.setPlay(2, false);
 				menu.getSet(3).setColor(sf::Color::White);
 			}
 			
 
 			if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) // play
 			{
+				audio.playSound(3);
 				int status = menu.getStatus(); // menu num
 
 				switch (status)
