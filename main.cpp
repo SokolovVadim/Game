@@ -20,7 +20,7 @@ void	Process				(sf::RenderWindow & window, Map & map, MyView & View, Player & H
 void	ActionSwitch		(Player & Hero, double & CurFrame, sf::Int64 & time,
 							sf::RenderWindow & window, MyView & View,
 							PoolEnemies & poolEn, bool & isHit, sf::Event & event,
-							bool isCreatePools, const bool isFoundAll);
+							bool isCreatePools, const bool isFoundAll, au::Audio & audio);
 void	Hit					(Player & Hero, sf::Int64 & time,
 							sf::RenderWindow & window, MyView & View);
 void	SetCam				(sf::Event & event, sf::RenderWindow & window, bool & IsFullscreen);
@@ -38,6 +38,22 @@ void Process (sf::RenderWindow & window, Map & map, MyView & View, Player & Hero
 	sf::Clock		game_time_clock;
 	int				game_time			(0);
 	sf::Int64		timer				(0); 
+
+	au::Audio audio				(1);
+	std::vector<std::string>	strLoads{ "gun.wav" };
+	audio.loadSounds			(strLoads);
+	//audio.playSound				(0);
+
+	/*sf::SoundBuffer buffer;
+	if (!buffer.loadFromFile("Music/gun.wav"))
+	{
+		std::cout << "Audio error!!!" << std::endl;
+	}
+
+	sf::Sound sound;
+
+	sound.setBuffer(buffer);
+	sound.play();*/
 
 	
 	menu::showMenu(window, "Menu1.jpg");
@@ -95,7 +111,8 @@ void Process (sf::RenderWindow & window, Map & map, MyView & View, Player & Hero
 		//dnd.DropColor(Hero, event);
 		dnd.Action			(Hero);
 
-		ActionSwitch		(Hero, CurFrame, time, window, View, enemy_pool, isHit, event, isCreatePools, isFoundAll);
+		ActionSwitch		(Hero, CurFrame, time, window, View, enemy_pool, isHit,
+							 event, isCreatePools, isFoundAll, audio);
 
  		View.ScrollMouse	(window, time, Hero.GetAlive());
 
@@ -114,7 +131,7 @@ void Process (sf::RenderWindow & window, Map & map, MyView & View, Player & Hero
 
 
 		if (isCreatePools) {
-			enemy_pool.addBullet(bullet_pool, "bullet1.png", "Bullet1", 0.2f, time);
+			enemy_pool.addBullet(bullet_pool, "bullet1.png", "Bullet1", 0.2f, time, audio);
 			bullet_pool.Update			(time);
 			enemy_pool.Update			(map, time, Hero);
 			bullet_pool.playerCollision	(Hero);
@@ -230,7 +247,8 @@ bool IsWalk()
 }
 
 void ActionSwitch(Player & Hero, double & CurFrame, sf::Int64 & time, sf::RenderWindow & window,
-	MyView & View, PoolEnemies & poolEn, bool & isHit, sf::Event & event, bool isCreatePools, const bool isFoundAll)
+	MyView & View, PoolEnemies & poolEn, bool & isHit, sf::Event & event,
+	bool isCreatePools, const bool isFoundAll, au::Audio & audio)
 {
 	if (Hero.GetAlive()) {
 		
@@ -258,6 +276,7 @@ void ActionSwitch(Player & Hero, double & CurFrame, sf::Int64 & time, sf::Render
 						std::cout << "Hitted!" << std::endl;
 						isHit = true;
 						Hero.SetHit();
+						//audio.playSound(0);
 
 						if(isCreatePools)
 							poolEn.isAttacked(Hero);

@@ -3,6 +3,7 @@
 PoolEnemies::PoolEnemies(const size_t size, const std::string file, std::string name_,
 	float x, float y, float w, float h) :
 	size_(size),
+	PoolAlive_(true),
 	first_enemy(nullptr)
 {
 	if (size_ > MAX_PULL_SIZE)
@@ -24,14 +25,26 @@ PoolEnemies::PoolEnemies(const size_t size, const std::string file, std::string 
 	Init(file, name_, x, y, w, h);
 }
 
+const bool PoolEnemies::isPoolAlive() const
+{
+	for (int i(0); i < this->size_; ++i)
+	{
+		if ((m_enemies[i]->isAlive()))
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
 void PoolEnemies::addBullet(bs::PoolBullets & poolBullets, const std::string file,
-	const std::string name_, const float speed, const sf::Int64 time)
+	const std::string name_, const float speed, const sf::Int64 time, au::Audio & audio)
 {
 	for (int i(0); i < this->size_; ++i)
 	{
 		if ((m_enemies[i]->isAlive()) && (m_enemies[i]->isTimeBullet(time)))
 		{
-			poolBullets.addBullet(m_enemies[i]->getPosition(), file, name_, speed, m_enemies[i]->getDir());
+			poolBullets.addBullet(m_enemies[i]->getPosition(), file, name_, speed, m_enemies[i]->getDir(), i);
 		}
 	}
 }
@@ -123,28 +136,14 @@ void PoolEnemies::isAttacked(const Player & Hero/*, const int damage*/)
 	}
 }
 
-
-//void PoolEnemies::playerCollision(const Player & Hero, const int pos)
-//{
-//	if (((m_enemies[pos]->IsAttacked(Hero.GetPos(), Hero.Height)) && (Hero.GetHit()) && (Hero.GetTimer())))     ////////////////   !!!!!!!!!!!!!!!!!!!!
-//	{
-//		m_enemies[pos]->SetAttacked();
-//		m_enemies[pos]->ReduceHP(/*damage*/);
-//
-//	}
-//}
-
 void PoolEnemies::bulletCollision(bs::PoolBullets & bPool)
 {
 	for (int i(0); i < size_; i++) 
 	{
 		if(m_enemies[i]->isAlive())
-			bPool.enemyCollision(m_enemies[i]);
-		//if ((m_enemies[i]->isAlive()) && (m_enemies[i]->IsAttacked(bullet.getPosition(), bullet.Height)))
-		//{
-		//	m_enemies[i]->SetAttacked();
-		//	m_enemies[i]->ReduceHP();
-		//}
+			bPool.enemyCollision(m_enemies[i], i); // every enemy has special number in Pool. To avoid
+		                                           // collision with it's own bullet there is a verification
+												   // number of enemy with bullet parent ID
 	}
 }
 
