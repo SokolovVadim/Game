@@ -12,4 +12,4 @@ Based on SFML Graphics library https://www.sfml-dev.org/
 + Sounds
 + Moving animation
 
-![alt text](https://github.com/SokolovVadim/Game/blob/master/Images/Enemy.png)
+![alt text](https://github.com/SokolovVadim/Game/blob/master/Images/Screen1.png)
