@@ -1,6 +1,7 @@
 # Game
 My own game Engine and 2d game
-Based on SFML Graphics library https://www.sfml-dev.org/
+Based on SFML Graphics library https://www.sfml-dev.org/  
+Supported on Windows X
 # About game
 + STL
 + Templates
