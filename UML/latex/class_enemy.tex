@@ -1,0 +1,92 @@
+\hypertarget{class_enemy}{}\section{Enemy Class Reference}
+\label{class_enemy}\index{Enemy@{Enemy}}
+
+
+Inheritance diagram for Enemy\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=127pt]{class_enemy__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for Enemy\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=127pt]{class_enemy__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_enemy_a7b9b492eeac5b510228c2c0d8757706f}\label{class_enemy_a7b9b492eeac5b510228c2c0d8757706f}} 
+{\bfseries Enemy} (const std\+::string file, std\+::string name\+\_\+, float x, float y, float w, float h, float start\+Timer)
+\item 
+\mbox{\Hypertarget{class_enemy_abe881a77eff5534c8bb024c168ca38d6}\label{class_enemy_abe881a77eff5534c8bb024c168ca38d6}} 
+void {\bfseries Check\+Collision} (\hyperlink{class_map}{Map} \&map, float dx\+\_\+, float dy\+\_\+)
+\item 
+\mbox{\Hypertarget{class_enemy_a66d6e2b40b06aae79cd3fea45d5f48f9}\label{class_enemy_a66d6e2b40b06aae79cd3fea45d5f48f9}} 
+void {\bfseries Update} (\hyperlink{class_map}{Map} \&map, sf\+::\+Int64 time)
+\item 
+\mbox{\Hypertarget{class_enemy_a73dcc317c01af52b3c97aa083d65de47}\label{class_enemy_a73dcc317c01af52b3c97aa083d65de47}} 
+void {\bfseries Set\+Next} (\hyperlink{class_enemy}{Enemy} $\ast$next\+\_\+en)
+\item 
+\mbox{\Hypertarget{class_enemy_a3cf51ab0fd168ec3dc8bbeaebcb96928}\label{class_enemy_a3cf51ab0fd168ec3dc8bbeaebcb96928}} 
+void {\bfseries Reduce\+HP} ()
+\item 
+\mbox{\Hypertarget{class_enemy_a17c7a835e1ef65b5e181b53aa93c07e3}\label{class_enemy_a17c7a835e1ef65b5e181b53aa93c07e3}} 
+void {\bfseries Destruct} ()
+\item 
+\mbox{\Hypertarget{class_enemy_a3fb49a47746dc5396f0bc0b3081bf79f}\label{class_enemy_a3fb49a47746dc5396f0bc0b3081bf79f}} 
+void {\bfseries illustrate\+Damage} ()
+\item 
+\mbox{\Hypertarget{class_enemy_a03fcd0d6de2ef83669f381701f86d788}\label{class_enemy_a03fcd0d6de2ef83669f381701f86d788}} 
+void {\bfseries Set\+Attacked} ()
+\item 
+\mbox{\Hypertarget{class_enemy_a4bd03366a45b265d91bb167007a38132}\label{class_enemy_a4bd03366a45b265d91bb167007a38132}} 
+void {\bfseries Display\+Damage} (const sf\+::\+Int64 time)
+\item 
+\mbox{\Hypertarget{class_enemy_a6562574a2090a4e63322dd94485603d5}\label{class_enemy_a6562574a2090a4e63322dd94485603d5}} 
+void {\bfseries player\+Collision} (const \hyperlink{class_player}{Player} \&Hero)
+\item 
+\mbox{\Hypertarget{class_enemy_a92203a84314188cd99c95390e0c78df4}\label{class_enemy_a92203a84314188cd99c95390e0c78df4}} 
+void {\bfseries add\+Bullet} (const sf\+::\+Int64 \&time)
+\item 
+\mbox{\Hypertarget{class_enemy_a1bcb2bfb62fa715feee98525fd541eaa}\label{class_enemy_a1bcb2bfb62fa715feee98525fd541eaa}} 
+void {\bfseries generate\+Dir} (const sf\+::\+Int64 \&time)
+\item 
+\mbox{\Hypertarget{class_enemy_a261b7c164def36e1badf7ad6f5081856}\label{class_enemy_a261b7c164def36e1badf7ad6f5081856}} 
+void {\bfseries follow\+Player} (const sf\+::\+Vector2f \&pl\+Pos)
+\item 
+\mbox{\Hypertarget{class_enemy_a8487c5726369ecf9d54d5da7320e7d53}\label{class_enemy_a8487c5726369ecf9d54d5da7320e7d53}} 
+const sf\+::\+Vector2f \& {\bfseries get\+Coord} ()
+\item 
+\mbox{\Hypertarget{class_enemy_ac58ecd2844e84278305739188abb0ed5}\label{class_enemy_ac58ecd2844e84278305739188abb0ed5}} 
+const sf\+::\+Vector2i {\bfseries get\+Size} () const
+\item 
+\mbox{\Hypertarget{class_enemy_a8404c22e8b03b56be9ad61738f6524e0}\label{class_enemy_a8404c22e8b03b56be9ad61738f6524e0}} 
+\hyperlink{class_enemy}{Enemy} $\ast$ {\bfseries Get\+Next} ()
+\item 
+\mbox{\Hypertarget{class_enemy_ab94c4bf66e1ec983e6d1fad9daf94c04}\label{class_enemy_ab94c4bf66e1ec983e6d1fad9daf94c04}} 
+bool {\bfseries Is\+Attacked} (const sf\+::\+Vector2f \&pl\+Pos, const float distance)
+\item 
+\mbox{\Hypertarget{class_enemy_aa0e5bf304aede0e04c5b3ff7c4c4008b}\label{class_enemy_aa0e5bf304aede0e04c5b3ff7c4c4008b}} 
+bool {\bfseries is\+Time\+Bullet} (const sf\+::\+Int64 time)
+\item 
+\mbox{\Hypertarget{class_enemy_afefdcb8e4d8947dd4da80d2ceebb1219}\label{class_enemy_afefdcb8e4d8947dd4da80d2ceebb1219}} 
+const float {\bfseries get\+HP} () const
+\item 
+\mbox{\Hypertarget{class_enemy_a2e588a943b52172b117d768b1311681b}\label{class_enemy_a2e588a943b52172b117d768b1311681b}} 
+const int {\bfseries get\+Dir} () const
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+Enemy.\+h\item 
+Enemy.\+cpp\end{DoxyCompactItemize}

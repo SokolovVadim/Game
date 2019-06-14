@@ -1,0 +1,47 @@
+\hypertarget{class_pool_enemies}{}\section{Pool\+Enemies Class Reference}
+\label{class_pool_enemies}\index{Pool\+Enemies@{Pool\+Enemies}}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_pool_enemies_a3dc2f638ddfe5961f9d19690ce8ffc42}\label{class_pool_enemies_a3dc2f638ddfe5961f9d19690ce8ffc42}} 
+{\bfseries Pool\+Enemies} (const size\+\_\+t size, const std\+::string file, std\+::string name\+\_\+, float x, float y, float w, float h)
+\item 
+\mbox{\Hypertarget{class_pool_enemies_a230f6d6152342974d814da58009826ea}\label{class_pool_enemies_a230f6d6152342974d814da58009826ea}} 
+void {\bfseries Init} (const std\+::string file, std\+::string name\+\_\+, float x, float y, float w, float h)
+\item 
+\mbox{\Hypertarget{class_pool_enemies_abd7f45866a211be06d9ff07f00a453d4}\label{class_pool_enemies_abd7f45866a211be06d9ff07f00a453d4}} 
+void {\bfseries Create} (\hyperlink{class_enemy}{Enemy} $\ast$enemy, const std\+::string file, std\+::string name\+\_\+, float x, float y, float w, float h)
+\item 
+\mbox{\Hypertarget{class_pool_enemies_aa4d6670db20d28b1425573a69dce6cd3}\label{class_pool_enemies_aa4d6670db20d28b1425573a69dce6cd3}} 
+const size\+\_\+t {\bfseries Get\+Size} ()
+\item 
+\mbox{\Hypertarget{class_pool_enemies_ac00ab90555d06ab26e07f6679043b759}\label{class_pool_enemies_ac00ab90555d06ab26e07f6679043b759}} 
+void {\bfseries Draw\+Pool} (sf\+::\+Render\+Window \&window, const sf\+::\+Int64 time)
+\item 
+\mbox{\Hypertarget{class_pool_enemies_a96a7fe66f07aed92fae70b53015f3a2f}\label{class_pool_enemies_a96a7fe66f07aed92fae70b53015f3a2f}} 
+void {\bfseries Print\+Position} ()
+\item 
+\mbox{\Hypertarget{class_pool_enemies_ac23a8dd2bc0dfa85317e44ec6a1680a9}\label{class_pool_enemies_ac23a8dd2bc0dfa85317e44ec6a1680a9}} 
+void {\bfseries Update} (\hyperlink{class_map}{Map} \&map, sf\+::\+Int64 time, const \hyperlink{class_player}{Player} \&Hero)
+\item 
+\mbox{\Hypertarget{class_pool_enemies_a6c34f306bef5f07396d6b2a0afc33540}\label{class_pool_enemies_a6c34f306bef5f07396d6b2a0afc33540}} 
+void {\bfseries is\+Attacked} (const \hyperlink{class_player}{Player} \&Hero)
+\item 
+\mbox{\Hypertarget{class_pool_enemies_a82638c91745fa4d84425261547543e7e}\label{class_pool_enemies_a82638c91745fa4d84425261547543e7e}} 
+void {\bfseries add\+Bullet} (\hyperlink{classbs_1_1_pool_bullets}{bs\+::\+Pool\+Bullets} \&pool\+Bullets, const std\+::string file, const std\+::string name\+\_\+, const float speed, const sf\+::\+Int64 time, \hyperlink{classau_1_1_audio}{au\+::\+Audio} \&audio)
+\item 
+\mbox{\Hypertarget{class_pool_enemies_ae15fce84d594589152deaabf8dc166bf}\label{class_pool_enemies_ae15fce84d594589152deaabf8dc166bf}} 
+void {\bfseries bullet\+Collision} (\hyperlink{classbs_1_1_pool_bullets}{bs\+::\+Pool\+Bullets} \&b\+Pool)
+\item 
+\mbox{\Hypertarget{class_pool_enemies_ad5312d398eaa044a92cc5fe52ac34d42}\label{class_pool_enemies_ad5312d398eaa044a92cc5fe52ac34d42}} 
+const sf\+::\+Vector2i {\bfseries get\+Size\+Enemies} () const
+\item 
+\mbox{\Hypertarget{class_pool_enemies_ab35e745455dd4778ae8b121af7c522e1}\label{class_pool_enemies_ab35e745455dd4778ae8b121af7c522e1}} 
+const bool {\bfseries is\+Pool\+Alive} () const
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+Pool\+Enemies.\+h\item 
+Pool\+Enemies.\+cpp\end{DoxyCompactItemize}

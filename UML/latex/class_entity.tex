@@ -1,0 +1,108 @@
+\hypertarget{class_entity}{}\section{Entity Class Reference}
+\label{class_entity}\index{Entity@{Entity}}
+
+
+Inheritance diagram for Entity\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=266pt]{class_entity__inherit__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_entity_adeafb102a65222ffe3f3764c80fb40be}\label{class_entity_adeafb102a65222ffe3f3764c80fb40be}} 
+{\bfseries Entity} (const std\+::string file, const std\+::string name\+\_\+, float x, float y, float w, float h)
+\item 
+\mbox{\Hypertarget{class_entity_a621c677db785136913ee34889f2f535b}\label{class_entity_a621c677db785136913ee34889f2f535b}} 
+void {\bfseries set\+Rotate} (const float value)
+\item 
+\mbox{\Hypertarget{class_entity_ac5987db2dd874b3df2428196513766e4}\label{class_entity_ac5987db2dd874b3df2428196513766e4}} 
+void {\bfseries set\+Color} (const sf\+::\+Color \&color)
+\item 
+\mbox{\Hypertarget{class_entity_ad42cfa8f3263d6fadd2b6546c4ac5459}\label{class_entity_ad42cfa8f3263d6fadd2b6546c4ac5459}} 
+void {\bfseries set\+Origin} (const float x, const float y)
+\item 
+\mbox{\Hypertarget{class_entity_ab634ca7ef80f912d4da76f341e28b241}\label{class_entity_ab634ca7ef80f912d4da76f341e28b241}} 
+void {\bfseries set\+Position} (const float x, const float y)
+\item 
+\mbox{\Hypertarget{class_entity_af879ce682a20c6c2d270ffd841cf7c26}\label{class_entity_af879ce682a20c6c2d270ffd841cf7c26}} 
+void {\bfseries set\+Texture\+Rect} (const sf\+::\+Int\+Rect \&rect)
+\item 
+\mbox{\Hypertarget{class_entity_a0e2e68071fbe4490a619b4985e643d3b}\label{class_entity_a0e2e68071fbe4490a619b4985e643d3b}} 
+void {\bfseries set\+Texture} (sf\+::\+Texture \&texture)
+\item 
+\mbox{\Hypertarget{class_entity_afd6064663f62605b34859eb9adc6b460}\label{class_entity_afd6064663f62605b34859eb9adc6b460}} 
+void {\bfseries set\+Scale} (const float factorX, const float factorY)
+\item 
+\mbox{\Hypertarget{class_entity_a1309341dd268af435449b5031ff0a06d}\label{class_entity_a1309341dd268af435449b5031ff0a06d}} 
+virtual void {\bfseries draw} (sf\+::\+Render\+Window \&window)
+\item 
+\mbox{\Hypertarget{class_entity_ad47c4683fbc9fb11e2712c7c6b8944c7}\label{class_entity_ad47c4683fbc9fb11e2712c7c6b8944c7}} 
+const sf\+::\+Vector2f {\bfseries get\+Position} ()
+\item 
+\mbox{\Hypertarget{class_entity_a15314da91491df7bca1940a3792799b7}\label{class_entity_a15314da91491df7bca1940a3792799b7}} 
+const sf\+::\+Sprite {\bfseries get\+Sprite} () const
+\item 
+\mbox{\Hypertarget{class_entity_a1047dbb55741460c35c5f59b14420dda}\label{class_entity_a1047dbb55741460c35c5f59b14420dda}} 
+const bool {\bfseries get\+Global\+Bounds} (const sf\+::\+Vector2f \&vec) const
+\item 
+\mbox{\Hypertarget{class_entity_adb4d323c82a9d425fecb4fddcff24b79}\label{class_entity_adb4d323c82a9d425fecb4fddcff24b79}} 
+const bool {\bfseries is\+Alive} () const
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_entity_a7da0acdf92377bac590ac3fbfb6b496f}\label{class_entity_a7da0acdf92377bac590ac3fbfb6b496f}} 
+float {\bfseries Heatpoints}
+\item 
+\mbox{\Hypertarget{class_entity_a906ea40949afeba12aabef52d7b67587}\label{class_entity_a906ea40949afeba12aabef52d7b67587}} 
+sf\+::\+Vector2f {\bfseries Pos}
+\item 
+\mbox{\Hypertarget{class_entity_a8f987588c24a29e6f0d8cdc9dee1a0a7}\label{class_entity_a8f987588c24a29e6f0d8cdc9dee1a0a7}} 
+float {\bfseries Speed}
+\item 
+\mbox{\Hypertarget{class_entity_abfa9047e1fe7b824fdd837b127513c14}\label{class_entity_abfa9047e1fe7b824fdd837b127513c14}} 
+float {\bfseries Width}
+\item 
+\mbox{\Hypertarget{class_entity_a1f6e7c50981f916434f78b614d09da11}\label{class_entity_a1f6e7c50981f916434f78b614d09da11}} 
+float {\bfseries Height}
+\item 
+\mbox{\Hypertarget{class_entity_a75b5a55635eb07ca229519553137059f}\label{class_entity_a75b5a55635eb07ca229519553137059f}} 
+sf\+::\+Int64 {\bfseries Timer}
+\item 
+\mbox{\Hypertarget{class_entity_a9591c4a913f8348715e9a84d957a8b93}\label{class_entity_a9591c4a913f8348715e9a84d957a8b93}} 
+bool {\bfseries Alive}
+\item 
+\mbox{\Hypertarget{class_entity_a4eeb3d53f6e52112f99145a5cdd7d03d}\label{class_entity_a4eeb3d53f6e52112f99145a5cdd7d03d}} 
+bool {\bfseries Is\+Move}
+\item 
+\mbox{\Hypertarget{class_entity_a2f43af776613b10c5680ea852c78c931}\label{class_entity_a2f43af776613b10c5680ea852c78c931}} 
+bool {\bfseries On\+Ground}
+\item 
+\mbox{\Hypertarget{class_entity_ac6bb4eae35563add00a0512fc7856938}\label{class_entity_ac6bb4eae35563add00a0512fc7856938}} 
+sf\+::\+Image {\bfseries Image}
+\item 
+\mbox{\Hypertarget{class_entity_ad2bef26f8eef4c3c1c9f5830a1cc16d9}\label{class_entity_ad2bef26f8eef4c3c1c9f5830a1cc16d9}} 
+sf\+::\+Texture {\bfseries Texture}
+\item 
+\mbox{\Hypertarget{class_entity_ae8f30f7e882096be1fe49167a16d8611}\label{class_entity_ae8f30f7e882096be1fe49167a16d8611}} 
+std\+::string {\bfseries Name}
+\item 
+\mbox{\Hypertarget{class_entity_a45a52286e7651da8796110069dd31b4b}\label{class_entity_a45a52286e7651da8796110069dd31b4b}} 
+std\+::string {\bfseries File}
+\item 
+\mbox{\Hypertarget{class_entity_a182c63e0b0bedf2159e47b019d769ec4}\label{class_entity_a182c63e0b0bedf2159e47b019d769ec4}} 
+float {\bfseries dx}
+\item 
+\mbox{\Hypertarget{class_entity_ade4d0d757640434826ba88607f1af535}\label{class_entity_ade4d0d757640434826ba88607f1af535}} 
+float {\bfseries dy}
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+Entity.\+h\item 
+Entity.\+cpp\end{DoxyCompactItemize}

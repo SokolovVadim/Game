@@ -1,0 +1,153 @@
+\hypertarget{class_player}{}\section{Player Class Reference}
+\label{class_player}\index{Player@{Player}}
+
+
+Inheritance diagram for Player\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=124pt]{class_player__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for Player\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=124pt]{class_player__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_player_abafd446ede2e1a770374fa14bdb0a4e7}\label{class_player_abafd446ede2e1a770374fa14bdb0a4e7}} 
+{\bfseries Player} (const std\+::string file, const std\+::string name, float x, float y, float w, float h)
+\item 
+\mbox{\Hypertarget{class_player_af5852c410ca00fd6e0f1df220ebd7252}\label{class_player_af5852c410ca00fd6e0f1df220ebd7252}} 
+bool {\bfseries Update} (sf\+::\+Int64 time, \hyperlink{class_map}{Map} \&map)
+\item 
+\mbox{\Hypertarget{class_player_a9ee7c669f1a11cf8e4b05c100450e2b7}\label{class_player_a9ee7c669f1a11cf8e4b05c100450e2b7}} 
+bool {\bfseries Get\+Alive} ()
+\item 
+\mbox{\Hypertarget{class_player_ae5f85a02134fc92697c7fdba20c642f5}\label{class_player_ae5f85a02134fc92697c7fdba20c642f5}} 
+bool {\bfseries Set\+Power} (sf\+::\+Int64 time)
+\item 
+\mbox{\Hypertarget{class_player_a54a908f0d556cb9de705e6084454c15a}\label{class_player_a54a908f0d556cb9de705e6084454c15a}} 
+bool {\bfseries Get\+Select} ()
+\item 
+\mbox{\Hypertarget{class_player_a960f09a55c9150be442a9b8c151179d3}\label{class_player_a960f09a55c9150be442a9b8c151179d3}} 
+bool {\bfseries Get\+Move} ()
+\item 
+\mbox{\Hypertarget{class_player_a41f4db3d836b71b355d84a0cb4317361}\label{class_player_a41f4db3d836b71b355d84a0cb4317361}} 
+bool {\bfseries Get\+Hit} () const
+\item 
+\mbox{\Hypertarget{class_player_a741d3f60b6957c7907b7d7007be642e7}\label{class_player_a741d3f60b6957c7907b7d7007be642e7}} 
+bool {\bfseries is\+Bullet\+Attack} (const sf\+::\+Vector2f \&bull\+Pos, const float distance)
+\item 
+\mbox{\Hypertarget{class_player_af0e6ea79c8e1d2f5994f6c79f2d158bb}\label{class_player_af0e6ea79c8e1d2f5994f6c79f2d158bb}} 
+bool {\bfseries Get\+Timer} () const
+\item 
+\mbox{\Hypertarget{class_player_aa572817a620dedc98ff4634152b12b97}\label{class_player_aa572817a620dedc98ff4634152b12b97}} 
+float {\bfseries Get\+CoordX} () const
+\item 
+\mbox{\Hypertarget{class_player_afe3678c701d5ed81f0c1729a3265b6b3}\label{class_player_afe3678c701d5ed81f0c1729a3265b6b3}} 
+float {\bfseries Get\+CoordY} () const
+\item 
+\mbox{\Hypertarget{class_player_a859e61a326e4700ad455be2efa887af9}\label{class_player_a859e61a326e4700ad455be2efa887af9}} 
+float {\bfseries Get\+Speed} () const
+\item 
+\mbox{\Hypertarget{class_player_ab9b38c788867a135ba1d8fe8e54ed9c7}\label{class_player_ab9b38c788867a135ba1d8fe8e54ed9c7}} 
+float {\bfseries Get\+Power} () const
+\item 
+\mbox{\Hypertarget{class_player_a2fd2366f2ae52f3bf13f6ef3fa81e508}\label{class_player_a2fd2366f2ae52f3bf13f6ef3fa81e508}} 
+void {\bfseries Set\+Dir} (int dir)
+\item 
+\mbox{\Hypertarget{class_player_a2b84b6227dba65e2c5e9a66d0f96e759}\label{class_player_a2b84b6227dba65e2c5e9a66d0f96e759}} 
+void {\bfseries Set\+Speed} (float speed)
+\item 
+\mbox{\Hypertarget{class_player_adb838303b0c98d8f007bebb1a53e12b7}\label{class_player_adb838303b0c98d8f007bebb1a53e12b7}} 
+void {\bfseries Interract\+Map} (sf\+::\+Int64 time, \hyperlink{class_map}{Map} \&map)
+\item 
+\mbox{\Hypertarget{class_player_aea8dbe8f9812a6828c1709972c4c559b}\label{class_player_aea8dbe8f9812a6828c1709972c4c559b}} 
+void {\bfseries Set\+HP} (std\+::ostringstream \&Heat\+Points)
+\item 
+\mbox{\Hypertarget{class_player_a9fac998af5b803e87532df34766d2391}\label{class_player_a9fac998af5b803e87532df34766d2391}} 
+void {\bfseries Push\+Score} (std\+::ostringstream \&Score\+String)
+\item 
+\mbox{\Hypertarget{class_player_a62c904fc9e79a9012cfd449e201554f2}\label{class_player_a62c904fc9e79a9012cfd449e201554f2}} 
+void {\bfseries Get\+Air} (std\+::ostringstream \&Score\+Air)
+\item 
+\mbox{\Hypertarget{class_player_ad92f3ca39bcc0b8739f71659285ea5e6}\label{class_player_ad92f3ca39bcc0b8739f71659285ea5e6}} 
+void {\bfseries Push\+Power} (std\+::ostringstream \&Power\+\_\+str)
+\item 
+\mbox{\Hypertarget{class_player_a84627845c5841d3cc13f95e6972241e6}\label{class_player_a84627845c5841d3cc13f95e6972241e6}} 
+void {\bfseries Increase\+Power} (sf\+::\+Int64 time)
+\item 
+\mbox{\Hypertarget{class_player_acf68380dc8a0481fd60194252b053a3a}\label{class_player_acf68380dc8a0481fd60194252b053a3a}} 
+void {\bfseries Set\+Coord} (const float x, const float y)
+\item 
+\mbox{\Hypertarget{class_player_a265a11fc851ad9c8e4e2a80006ab80d1}\label{class_player_a265a11fc851ad9c8e4e2a80006ab80d1}} 
+void {\bfseries Set\+Select} (bool value)
+\item 
+\mbox{\Hypertarget{class_player_a4460f69d665a8e9bfd65dab4482b834a}\label{class_player_a4460f69d665a8e9bfd65dab4482b834a}} 
+void {\bfseries Set\+Move} (bool value)
+\item 
+\mbox{\Hypertarget{class_player_a711adfffe304ec88e99c94520048c1f4}\label{class_player_a711adfffe304ec88e99c94520048c1f4}} 
+void {\bfseries Inc\+Coord} (const float x, const float y)
+\item 
+\mbox{\Hypertarget{class_player_aba7c42e8bcf1e71d8e326e851537e718}\label{class_player_aba7c42e8bcf1e71d8e326e851537e718}} 
+void {\bfseries Purple\+Style} (sf\+::\+Int64 \&time)
+\item 
+\mbox{\Hypertarget{class_player_a0a2066460adf9ce32fb427aeedcd1d52}\label{class_player_a0a2066460adf9ce32fb427aeedcd1d52}} 
+void {\bfseries On\+Fire} (sf\+::\+Int64 \&time)
+\item 
+\mbox{\Hypertarget{class_player_a1014b3b4371a692f7e64072d1b3bd850}\label{class_player_a1014b3b4371a692f7e64072d1b3bd850}} 
+void {\bfseries Set\+Purple} ()
+\item 
+\mbox{\Hypertarget{class_player_a31cc502c119e0b4646de70bd95fc3710}\label{class_player_a31cc502c119e0b4646de70bd95fc3710}} 
+void {\bfseries Set\+Red} ()
+\item 
+\mbox{\Hypertarget{class_player_ab14c9bfde9a1fd899bd1304ca7c2f7e7}\label{class_player_ab14c9bfde9a1fd899bd1304ca7c2f7e7}} 
+void {\bfseries Set\+Hit} ()
+\item 
+void \hyperlink{class_player_abb881e3cbced276d41fb3d4a3ba4b329}{Hit} (sf\+::\+Int64 \&time, int Y)
+\item 
+\mbox{\Hypertarget{class_player_aa9dd6c08df215dd4503060f9414b9ae0}\label{class_player_aa9dd6c08df215dd4503060f9414b9ae0}} 
+void {\bfseries set\+Bullet\+Attacked} ()
+\item 
+\mbox{\Hypertarget{class_player_a60debcbc368b0990861bbc2f27838384}\label{class_player_a60debcbc368b0990861bbc2f27838384}} 
+void {\bfseries under\+Fire} (const sf\+::\+Int64 \&time)
+\item 
+\mbox{\Hypertarget{class_player_a169b68ee9a8e5d955675eed2711d5a9a}\label{class_player_a169b68ee9a8e5d955675eed2711d5a9a}} 
+unsigned int {\bfseries Get\+Score} ()
+\item 
+\mbox{\Hypertarget{class_player_a0abe75980955815f82d757f281eeb43f}\label{class_player_a0abe75980955815f82d757f281eeb43f}} 
+int {\bfseries Get\+Dir} () const
+\item 
+\mbox{\Hypertarget{class_player_a404208da6ae6ca92a6c66ef391fcd5cd}\label{class_player_a404208da6ae6ca92a6c66ef391fcd5cd}} 
+const sf\+::\+Vector2f \& {\bfseries Get\+Pos} () const
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_player_aa71a31c2f38eae8aa3d5c6c764e1cfd1}\label{class_player_aa71a31c2f38eae8aa3d5c6c764e1cfd1}} 
+const float {\bfseries n\+\_\+speed} = 0.\+2f
+\end{DoxyCompactItemize}
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{class_player_abb881e3cbced276d41fb3d4a3ba4b329}\label{class_player_abb881e3cbced276d41fb3d4a3ba4b329}} 
+\index{Player@{Player}!Hit@{Hit}}
+\index{Hit@{Hit}!Player@{Player}}
+\subsubsection{\texorpdfstring{Hit()}{Hit()}}
+{\footnotesize\ttfamily void Player\+::\+Hit (\begin{DoxyParamCaption}\item[{sf\+::\+Int64 \&}]{time,  }\item[{int}]{Y }\end{DoxyParamCaption})}
+
+maybe equals 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+Player.\+h\item 
+Player.\+cpp\end{DoxyCompactItemize}
